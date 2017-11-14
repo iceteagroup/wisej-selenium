@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{06796775-9711-4451-A53C-654E4AB763B6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Wisej.Web.Ext.Selenium</RootNamespace>
+    <AssemblyName>Wisej.Web.Ext.Selenium</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Wisej.Web.Ext.Selenium.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Wisej.Web.Ext.Selenium.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="WebDriver, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Wisej.SeleniumDemo\packages\Selenium.WebDriver.3.7.0\lib\net45\WebDriver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebDriver.Support, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Wisej.SeleniumDemo\packages\Selenium.Support.3.7.0\lib\net45\WebDriver.Support.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Qooxdoo.WebDriver\Browser.cs" />
+    <Compile Include="Qooxdoo.WebDriver\By.cs" />
+    <Compile Include="Qooxdoo.WebDriver\DriverServer.cs" />
+    <Compile Include="Qooxdoo.WebDriver\Log\LogEntry.cs" />
+    <Compile Include="Qooxdoo.WebDriver\QxWebDriver.cs" />
+    <Compile Include="Qooxdoo.WebDriver\Resources\JavaScript.cs" />
+    <Compile Include="Qooxdoo.WebDriver\Resources\JavaScriptRunner.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Basic\Label.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Core\Scroll\AbstractScrollArea.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Core\Scroll\ScrollPane.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Core\WidgetImpl.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Core\WidgetWithValueBase.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\DefaultWidgetFactory.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Form\BooleanForm.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Form\ComboBox.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Form\List.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Form\MenuButton.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Form\SelectBox.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Form\VirtualComboBox.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Form\VirtualSelectBox.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\IHaveValue.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\IScrollable.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\ISelectable.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\ITouchable.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\IWidget.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\IWidgetFactory.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\List\List.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Menu\Menu.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Mobile\Core\WidgetImpl.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Mobile\Form\Slider.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Mobile\ISelectable.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Mobile\List\List.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\TabView\TabView.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Table\ColumnMenu\Button.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Table\Pane\Scroller.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Table\Table.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Tree\Core\AbstractItem.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Tree\Tree.cs" />
+    <Compile Include="Qooxdoo.WebDriver\UI\Tree\VirtualTree.cs" />
+    <Compile Include="Wisej.WebDriver\UI\Button.cs" />
+    <Compile Include="Wisej.WebDriver\UI\Canvas.cs" />
+    <Compile Include="Wisej.WebDriver\UI\CheckBox.cs" />
+    <Compile Include="Wisej.WebDriver\UI\CheckedListBox.cs" />
+    <Compile Include="Wisej.WebDriver\UI\ComboBox.cs" />
+    <Compile Include="Wisej.WebDriver\UI\DataGridView.cs" />
+    <Compile Include="Wisej.WebDriver\UI\DateTimePicker.cs" />
+    <Compile Include="Wisej.WebDriver\UI\Desktop.cs" />
+    <Compile Include="Wisej.WebDriver\UI\Form.cs" />
+    <Compile Include="Wisej.WebDriver\UI\GroupBox.cs" />
+    <Compile Include="Wisej.WebDriver\UI\Label.cs" />
+    <Compile Include="Wisej.WebDriver\UI\LinkLabel.cs" />
+    <Compile Include="Wisej.WebDriver\UI\ListBox.cs" />
+    <Compile Include="Wisej.WebDriver\UI\ListView.cs" />
+    <Compile Include="Wisej.WebDriver\UI\MenuBar.cs" />
+    <Compile Include="Wisej.WebDriver\UI\MonthCalendar.cs" />
+    <Compile Include="Wisej.WebDriver\UI\Page.cs" />
+    <Compile Include="Wisej.WebDriver\UI\Panel.cs" />
+    <Compile Include="Wisej.WebDriver\UI\RadioButton.cs" />
+    <Compile Include="Wisej.WebDriver\UI\StatusBar.cs" />
+    <Compile Include="Wisej.WebDriver\UI\TabControl.cs" />
+    <Compile Include="Wisej.WebDriver\UI\TabPage.cs" />
+    <Compile Include="Wisej.WebDriver\UI\TextArea.cs" />
+    <Compile Include="Wisej.WebDriver\UI\TextBox.cs" />
+    <Compile Include="Wisej.WebDriver\UI\ToolBar.cs" />
+    <Compile Include="Wisej.WebDriver\UI\ToolBarButton.cs" />
+    <Compile Include="Wisej.WebDriver\UI\TreeNode.cs" />
+    <Compile Include="Wisej.WebDriver\UI\TreeView.cs" />
+    <Compile Include="Wisej.WebDriver\UI\WisejWidgetFactory.cs" />
+    <Compile Include="Wisej.WebDriver\WidgetExtensions.cs" />
+    <Compile Include="Wisej.WebDriver\WisejWebDriver.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JavaScript\callMethod.js" />
+    <EmbeddedResource Include="JavaScript\create_qxwebdriver.js" />
+    <EmbeddedResource Include="JavaScript\findByQxh.js" />
+    <EmbeddedResource Include="JavaScript\getAllLogEvents.js" />
+    <EmbeddedResource Include="JavaScript\getCaughtErrors.js" />
+    <EmbeddedResource Include="JavaScript\getChildControl.js" />
+    <EmbeddedResource Include="JavaScript\getChildrenElements.js" />
+    <EmbeddedResource Include="JavaScript\getClassName.js" />
+    <EmbeddedResource Include="JavaScript\getColumnCount.js" />
+    <EmbeddedResource Include="JavaScript\getContentElement.js" />
+    <EmbeddedResource Include="JavaScript\getElementFromProperty.js" />
+    <EmbeddedResource Include="JavaScript\getElementsFromProperty.js" />
+    <EmbeddedResource Include="JavaScript\getFirstVisibleTableRow.js" />
+    <EmbeddedResource Include="JavaScript\getInheritance.js" />
+    <EmbeddedResource Include="JavaScript\getInterfaces.js" />
+    <EmbeddedResource Include="JavaScript\getItemFromSelectables.js" />
+    <EmbeddedResource Include="JavaScript\getLayoutParent.js" />
+    <EmbeddedResource Include="JavaScript\getObjectHash.js" />
+    <EmbeddedResource Include="JavaScript\getPropertyValue.js" />
+    <EmbeddedResource Include="JavaScript\getPropertyValueAsJson.js" />
+    <EmbeddedResource Include="JavaScript\getRowCount.js" />
+    <EmbeddedResource Include="JavaScript\getScrollMax.js" />
+    <EmbeddedResource Include="JavaScript\getTableRowHeight.js" />
+    <EmbeddedResource Include="JavaScript\getTableScrollerMaximum.js" />
+    <EmbeddedResource Include="JavaScript\getTableSelectedRanges.js" />
+    <EmbeddedResource Include="JavaScript\getVisibleTableRowCount.js" />
+    <EmbeddedResource Include="JavaScript\getWidgetByElement.js" />
+    <EmbeddedResource Include="JavaScript\getWidgetByElement_strict.js" />
+    <EmbeddedResource Include="JavaScript\hasChildControl.js" />
+    <EmbeddedResource Include="JavaScript\isApplicationReady.js" />
+    <EmbeddedResource Include="JavaScript\isDisposed.js" />
+    <EmbeddedResource Include="JavaScript\registerGlobalErrorHandler.js" />
+    <EmbeddedResource Include="JavaScript\registerLogAppender.js" />
+    <EmbeddedResource Include="JavaScript\scrollTo.js" />
+    <EmbeddedResource Include="JavaScript\selectTableRow.js" />
+    <EmbeddedResource Include="JavaScript\setPropertyValue.js" />
+    <EmbeddedResource Include="JavaScript\setTreeNodeOpened.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
