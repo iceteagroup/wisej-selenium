@@ -9,6 +9,4 @@ The goal of this project is to provide an API that facilitates writing [WebDrive
  
  ## Project Status
 
-wisej-selenium is a work in progress.
-
-The API is subject to change without notice.
+wisej-selenium is a work in progress. The API is subject to change without notice.
