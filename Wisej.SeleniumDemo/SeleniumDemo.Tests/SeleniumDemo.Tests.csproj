@@ -43,7 +43,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
@@ -77,23 +76,16 @@
     <Compile Include="SeleniumDemoTestFirefox.cs" />
     <Compile Include="SeleniumDemoWebDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\Helpers\HelperAlertBox.cs" />
-    <Compile Include="Tests\Helpers\HelperButton.cs" />
-    <Compile Include="Tests\Helpers\HelperDebug.cs" />
-    <Compile Include="Tests\Helpers\HelperForm.cs" />
-    <Compile Include="Tests\Helpers\HelperTextBox.cs" />
-    <Compile Include="Tests\Helpers\HelperValue.cs" />
-    <Compile Include="Tests\Helpers\HelperMessageBox.cs" />
-    <Compile Include="Tests\Helpers\HelperUI.cs" />
-    <Compile Include="Tests\Helpers\HelperWidget.cs" />
-    <Compile Include="Tests\Enums\DialogResult.cs" />
-    <Compile Include="Tests\Enums\MessageBoxIcon.cs" />
     <Compile Include="Waiter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Wisej.Web.Ext.Selenium.MSTest\Wisej.Web.Ext.Selenium.MSTest.csproj">
+      <Project>{bc331c05-1f65-409b-a8c2-919f88cf5185}</Project>
+      <Name>Wisej.Web.Ext.Selenium.MSTest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Wisej.Web.Ext.Selenium\Wisej.Web.Ext.Selenium\Wisej.Web.Ext.Selenium.csproj">
       <Project>{06796775-9711-4451-a53c-654e4ab763b6}</Project>
       <Name>Wisej.Web.Ext.Selenium</Name>
