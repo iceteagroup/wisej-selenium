@@ -82,7 +82,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Wisej.Web.Ext.Selenium.MSTest\Wisej.Web.Ext.Selenium.MSTest.csproj">
+    <ProjectReference Include="..\..\Wisej.Web.Ext.Selenium\Wisej.Web.Ext.Selenium.MSTest\Wisej.Web.Ext.Selenium.MSTest.csproj">
       <Project>{bc331c05-1f65-409b-a8c2-919f88cf5185}</Project>
       <Name>Wisej.Web.Ext.Selenium.MSTest</Name>
     </ProjectReference>

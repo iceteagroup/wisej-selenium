@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumDemo.Tests", "Selen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wisej.Web.Ext.Selenium", "..\Wisej.Web.Ext.Selenium\Wisej.Web.Ext.Selenium\Wisej.Web.Ext.Selenium.csproj", "{06796775-9711-4451-A53C-654E4AB763B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wisej.Web.Ext.Selenium.MSTest", "..\Wisej.Web.Ext.Selenium.MSTest\Wisej.Web.Ext.Selenium.MSTest.csproj", "{BC331C05-1F65-409B-A8C2-919F88CF5185}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wisej.Web.Ext.Selenium.MSTest", "..\Wisej.Web.Ext.Selenium\Wisej.Web.Ext.Selenium.MSTest\Wisej.Web.Ext.Selenium.MSTest.csproj", "{BC331C05-1F65-409B-A8C2-919F88CF5185}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
