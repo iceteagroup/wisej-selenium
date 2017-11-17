@@ -94,6 +94,7 @@ namespace Wisej.Web.Ext.Selenium
         {
             return driver =>
             {
+                _allAlertBoxes = null;
                 var result = JsRunner.RunScript("getAllAlertBoxes");
 
                 try
@@ -116,6 +117,7 @@ namespace Wisej.Web.Ext.Selenium
         {
             return driver =>
             {
+                _allMessageBoxes = null;
                 var result = JsRunner.RunScript("getAllMessageBoxes");
 
                 try
