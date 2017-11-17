@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-using Qooxdoo.WebDriver.UI;
 using Wisej.Web.Ext.Selenium.Tests;
 using Wisej.Web.Ext.Selenium.UI;
 
@@ -15,22 +13,18 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W010_AskQuitNo()
         {
-            /*TestDriver.SleepDebugTest(2000);
+            TestDriver.SleepDebugTest(2000);
 
-            // get MainPage
-            Page mainPage = TestDriver.WidgetGet<Page>("Desktop.MainPage", 10);
+            // get MainPage and check it's visibble
+            Page mainPage = TestDriver.WidgetGet<Page>("MainPage", 10);
 
             // click sayGoodBye on MainPage
             mainPage.ButtonClick("sayGoodBye", 10);
 
-            var a = TestDriver.AlertBoxes;
-            var m = TestDriver.MessageBoxes;
+            //TestDriver.SleepDebugTest();
 
-            TestDriver.SleepDebugTest();
-
-            TestDriver.MessageBox.GetButton("Yes").Click();
-
-            TestDriver.MessageBoxClick(DialogResult.No);*/
+            MessageBox messageBox = TestDriver.GetMessageBoxWithTitle("Polite Question");
+            messageBox.ButtonClick(DialogResult.No);
         }
 
         [TestMethod]
@@ -58,7 +52,7 @@ namespace SeleniumDemo.Tests
             helperWindow.ButtonClick("resetData");
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void W022_HelperWindow_Minimize()
         {
             // give enough time so YOU can follow the window minimizing
@@ -86,7 +80,7 @@ namespace SeleniumDemo.Tests
             helperWindow.Restore();
             // check HelperWindow is visible
             helperWindow.AssertIsDisplayed("HelperWindow");
-        }*/
+        }
 
         [TestMethod]
         public void W030_MainPage_buttonsWindow_Click()
@@ -142,8 +136,9 @@ namespace SeleniumDemo.Tests
             // check firstName
             firstName.AssertText("Muddy");
 
-            /*// THIS DOES NOT WORK RELIABLY
-            // set focus on firstName
+            #region THIS DOES NOT WORK RELIABLY
+
+            /*// set focus on firstName
             firstName.SendKeys("");
             // clear firstName - beware Edge and Firefox are picky about actions
             Actions action = new Actions(TestDriver.WebDriver);
@@ -157,6 +152,8 @@ namespace SeleniumDemo.Tests
 
             // change firstName
             firstName.SendKeys("Murky");*/
+
+            #endregion
 
             // change firstName
             //firstName.TextBoxClear();
@@ -205,8 +202,9 @@ namespace SeleniumDemo.Tests
             // check lastName
             lastName.AssertText("WATERS");
 
-            /*// THIS DOES NOT WORK RELIABLY
-            // set focus on lastName
+            #region THIS DOES NOT WORK RELIABLY
+
+            /*// set focus on lastName
             lastName.SendKeys("");
             // clear lastName - beware Edge and Firefox are picky about actions
             Actions action = new Actions(TestDriver.WebDriver);
@@ -220,6 +218,8 @@ namespace SeleniumDemo.Tests
 
             // change lastName
             lastName.SendKeys("matters");*/
+
+            #endregion
 
             // change lastName
             //lastName.TextBoxClear();
@@ -467,12 +467,12 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W080_ButtonsWindow_supplierEditor_Click()
         {
-            /*// click supplierEditor on buttonsPanel (LayoutPanel) of ButtonsWindow
+            // click supplierEditor on buttonsPanel (LayoutPanel) of ButtonsWindow
             TestDriver.ButtonClick("ButtonsWindow.buttonsPanel.supplierEditor");
 
             TestDriver.AlertBoxClose(MessageBoxIcon.Error, "Supplier Editor must be implemented");
             TestDriver.AlertBoxClose("Supplier Editor should be implemented");
-            TestDriver.AlertBoxClose(MessageBoxIcon.Information);*/
+            TestDriver.AlertBoxClose(MessageBoxIcon.Information);
         }
 
         [TestMethod]
@@ -491,12 +491,12 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W100_AskQuitYes()
         {
-            // click sayGoodBye on MainPage
+            // click sayGoodBye on MainPage (presume MainPage exists and is visible)
             TestDriver.ButtonClick("MainPage.sayGoodBye");
 
-            TestDriver.SleepDebugTest();
+            //TestDriver.SleepDebugTest();
 
-            TestDriver.MessageBoxClick(DialogResult.Yes);
+            TestDriver.GetMessageBoxWithMessage("Do you want to say good-bye now?").ButtonClick(DialogResult.Yes);
 
             // give enough time so YOU can see the root Page before the browser shows an empty screen
             TestDriver.Sleep(Waiter.Duration * 2);

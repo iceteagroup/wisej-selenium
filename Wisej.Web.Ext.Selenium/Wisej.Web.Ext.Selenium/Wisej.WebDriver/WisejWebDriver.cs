@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using Qooxdoo.WebDriver;
 using Qooxdoo.WebDriver.UI;
 using Wisej.Web.Ext.Selenium.UI;
@@ -83,12 +84,73 @@ namespace Wisej.Web.Ext.Selenium
 
         #region Utility Methods/Properties
 
+        private IList<IWebElement> _allMessageBoxes;
+        private IList<IWebElement> _allAlertBoxes;
+
+        /// <summary>
+        /// A condition that waits until an AlertBox is available on the browser.
+        /// </summary>
+        public Func<IWebDriver, bool> GetAllAlertBoxes()
+        {
+            return driver =>
+            {
+                var result = JsRunner.RunScript("getAllAlertBoxes");
+
+                try
+                {
+                    _allAlertBoxes = (IList<IWebElement>) result;
+                }
+                catch //(InvalidCastException)
+                {
+                    return false;
+                }
+
+                return true;
+            };
+        }
+
+        /// <summary>
+        /// A condition that waits until a MessageBox is available on the browser.
+        /// </summary>
+        public Func<IWebDriver, bool> GetAllMessageBoxes()
+        {
+            return driver =>
+            {
+                var result = JsRunner.RunScript("getAllMessageBoxes");
+
+                try
+                {
+                    _allMessageBoxes = (IList<IWebElement>) result;
+                }
+                catch //(InvalidCastException)
+                {
+                    return false;
+                }
+
+                return true;
+            };
+        }
+
         /// <summary>
         /// Returns all the currently open <see cref="T:Wisej.Web.AlertBox"/> instances.
         /// </summary>
-        public AlertBox[] AlertBoxes
+        public AlertBox[] AlertBoxes(long timeoutInSeconds = 5)
         {
-            get
+            new WebDriverWait(WebDriver, TimeSpan.FromSeconds(timeoutInSeconds)).Until(GetAllAlertBoxes());
+
+            List<AlertBox> alertBoxes = new List<AlertBox>();
+
+            if (_allAlertBoxes != null && _allAlertBoxes.Count > 0)
+            {
+                foreach (var el in _allAlertBoxes)
+                {
+                    if (el != null)
+                        alertBoxes.Add(new AlertBox(el, this));
+                }
+            }
+            return alertBoxes.ToArray();
+
+            /*get
             {
                 List<AlertBox> alertBoxes = new List<AlertBox>();
                 object result = JsRunner.RunScript("getAllAlertBoxes");
@@ -102,33 +164,30 @@ namespace Wisej.Web.Ext.Selenium
                     }
                 }
                 return alertBoxes.ToArray();
-            }
+            }*/
         }
 
         /// <summary>
         /// Returns all the currently open <see cref="T:Wisej.Web.MessageBox"/> instanced.
         /// </summary>
-        public MessageBox[] MessageBoxes
+        public MessageBox[] MessageBoxes(long timeoutInSeconds = 5)
         {
-            get
+            new WebDriverWait(WebDriver, TimeSpan.FromSeconds(timeoutInSeconds)).Until(GetAllMessageBoxes());
+
+            List<MessageBox> messageBoxes = new List<MessageBox>();
+            if (_allMessageBoxes != null && _allMessageBoxes.Count > 0)
             {
-                List<MessageBox> messageBoxes = new List<MessageBox>();
-                object result = JsRunner.RunScript("getAllMessageBoxes");
-                IList<IWebElement> children = (IList<IWebElement>) result;
-                if (children != null && children.Count > 0)
+                foreach (var el in _allMessageBoxes)
                 {
-                    foreach (var el in children)
-                    {
-                        if (el != null)
-                            messageBoxes.Add(new MessageBox(el, this));
-                    }
+                    if (el != null)
+                        messageBoxes.Add(new MessageBox(el, this));
                 }
-
-                // move the topmost messagebox at position 0.
-                messageBoxes.Reverse();
-
-                return messageBoxes.ToArray();
             }
+
+            // move the topmost messagebox at position 0.
+            messageBoxes.Reverse();
+
+            return messageBoxes.ToArray();
         }
 
         /// <summary>
