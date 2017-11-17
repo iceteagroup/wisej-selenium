@@ -8,7 +8,7 @@ namespace SeleniumDemo.Tests
         /// <summary>
         /// Initializes a new instance of the <see cref="SeleniumDemoWebDriver"/> class.
         /// </summary>
-        /// <param name="browser">The <see cref="T:OpenQA.Selenium.Browser" /> of the webdriver to wrap.</param>
+        /// <param name="browser">The <see cref="OpenQA.Selenium.Browser" /> of the webdriver to wrap.</param>
         public SeleniumDemoWebDriver(Browser browser)
             : base(browser)
         {

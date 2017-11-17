@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using Qooxdoo.WebDriver.UI;
 using Wisej.Web.Ext.Selenium.Tests;
 using Wisej.Web.Ext.Selenium.UI;
 
@@ -10,26 +12,31 @@ namespace SeleniumDemo.Tests
         protected static SeleniumDemoWebDriver TestDriver;
         protected static Browser CurrentBrowser;
 
-        /*[TestMethod]
+        [TestMethod]
         public void W010_AskQuitNo()
         {
-            TestDriver.SleepDebugTest(2000);
+            /*TestDriver.SleepDebugTest(2000);
 
             // get MainPage
-            Page mainPage = TestDriver.WidgetGet<Page>("MainPage", 10);
+            Page mainPage = TestDriver.WidgetGet<Page>("Desktop.MainPage", 10);
 
             // click sayGoodBye on MainPage
             mainPage.ButtonClick("sayGoodBye", 10);
 
+            var a = TestDriver.AlertBoxes;
+            var m = TestDriver.MessageBoxes;
+
             TestDriver.SleepDebugTest();
 
-            TestDriver.MessageBoxClick(DialogResult.No);
-        }*/
+            TestDriver.MessageBox.GetButton("Yes").Click();
+
+            TestDriver.MessageBoxClick(DialogResult.No);*/
+        }
 
         [TestMethod]
         public void W020_ButtonsWindow_helper_Click()
         {
-            // get MainPage
+            // get MainPage and check it's visibble
             Page mainPage = TestDriver.WidgetGet<Page>("MainPage", 10);
 
             // click helper on ButtonsWindow
@@ -37,20 +44,15 @@ namespace SeleniumDemo.Tests
 
             TestDriver.SleepDebugTest();
 
-            // get HelperWindow exists
+            // check HelperWindow exists and is visible
             Form helperWindow = TestDriver.WidgetGet<Form>("HelperWindow", 10);
-            Assert.IsNotNull(helperWindow);
-            // check HelperWindow is visible
-            helperWindow.AssertIsDisplayed("HelperWindow");
         }
 
         [TestMethod]
         public void W021_ButtonsWindow_HelperWindow_ResetData_Click()
         {
-            // get HelperWindow exists
+            // get HelperWindow exists and is visible
             Form helperWindow = TestDriver.WidgetGet<Form>("HelperWindow", 10);
-            // check HelperWindow is visible
-            helperWindow.AssertIsDisplayed("HelperWindow");
 
             // click resetData on HelperWindow
             helperWindow.ButtonClick("resetData");
@@ -62,10 +64,8 @@ namespace SeleniumDemo.Tests
             // give enough time so YOU can follow the window minimizing
             TestDriver.Sleep(Waiter.Duration);
 
-            // get HelperWindow exists
+            // get HelperWindow exists and is visible
             Form helperWindow = TestDriver.WidgetGet<Form>("HelperWindow", 10);
-            // check HelperWindow is visible
-            helperWindow.AssertIsDisplayed("HelperWindow");
 
             helperWindow.Minimize();
             // check HelperWindow is not visible
@@ -78,8 +78,8 @@ namespace SeleniumDemo.Tests
             // give enough time so YOU can follow the minimized window restoring
             TestDriver.Sleep(Waiter.Duration);
 
-            // get HelperWindow exists
-            Form helperWindow = TestDriver.WidgetGet<Form>("HelperWindow", 10);
+            // get HelperWindow exists (doesn't check is displayed)
+            Form helperWindow = TestDriver.WidgetGet<Form>("HelperWindow", 10, false);
             // check HelperWindow is not visible
             helperWindow.AssertIsNotDisplayed("HelperWindow");
 
@@ -98,11 +98,8 @@ namespace SeleniumDemo.Tests
 
             TestDriver.SleepDebugTest();
 
-            // get ButtonsWindow
+            // get ButtonsWindow and check it's visible
             Form buttonsWindow = TestDriver.WidgetGet<Form>("ButtonsWindow", 10);
-            Assert.IsNotNull(buttonsWindow);
-            // check ButtonsWindow is visible
-            buttonsWindow.AssertIsDisplayed("ButtonsWindow");
         }
 
         [TestMethod]
@@ -111,10 +108,8 @@ namespace SeleniumDemo.Tests
             // give enough time so YOU can follow the windows closing
             TestDriver.Sleep(Waiter.Duration);
 
-            // get ButtonsWindow
+            // get ButtonsWindow and check it's visible
             Form buttonsWindow = TestDriver.WidgetGet<Form>("ButtonsWindow", 10);
-            // check ButtonsWindow is visible
-            buttonsWindow.AssertIsDisplayed("ButtonsWindow");
             // get buttonsPanel
             Panel buttonsPanel = buttonsWindow.WidgetGet<Panel>("buttonsPanel");
             // click customerEditor on buttonsPanel
@@ -122,11 +117,8 @@ namespace SeleniumDemo.Tests
 
             TestDriver.SleepDebugTest();
 
-            // get CustomerEditor exists
+            // get CustomerEditor exists and is visible
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
-            Assert.IsNotNull(customerEditor);
-            // check CustomerEditor is visible
-            customerEditor.AssertIsDisplayed("CustomerEditor");
         }
 
         [TestMethod]
@@ -134,10 +126,8 @@ namespace SeleniumDemo.Tests
         {
             TestDriver.Sleep(Waiter.Duration);
 
-            // get CustomerEditor exists
+            // get CustomerEditor exists and is visible
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
-            // check CustomerEditor is visible
-            customerEditor.AssertIsDisplayed("CustomerEditor");
 
             // get DataGridView
             DataGridView dataGridView = customerEditor.WidgetGet<DataGridView>("dataGridView");
@@ -170,14 +160,26 @@ namespace SeleniumDemo.Tests
 
             // change firstName
             //firstName.TextBoxClear();
-            // TODO: this should work
-            firstName.Value = "Murky";
+            firstName.Value = string.Empty; // TODO Value setter clears the TextBox
+            firstName.SendKeys("Harry"); // TODO changes reach the server
 
             //if (CurrentBrowser == Browser.Edge)
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // Save it
-            customerEditor.ButtonClick("saveButton");
+            customerEditor.ButtonClick("saveButton"); // TODO this triggers validation
+
+            TestDriver.Sleep(Waiter.Duration);
+
+            // TODO: this should work - changes should reach the server, but they don't
+            firstName.Value = "Murk";
+            //firstName.SendKeys("y"); // TODO uncomment this line and changes reach the server
+
+            //if (CurrentBrowser == Browser.Edge)
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            // Save it
+            customerEditor.ButtonClick("saveButton"); // TODO this triggers validation, but fullName doesn't change
 
             Label fullName = customerEditor.WidgetGet<Label>("fullName");
             var lastName = fullName.Text.Split(' ')[1];
@@ -189,10 +191,8 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W052_CustomerEditor_EditRegisterOne_lastName()
         {
-            // get CustomerEditor exists
+            // get CustomerEditor anc check it's visible
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
-            // check CustomerEditor is visible
-            customerEditor.AssertIsDisplayed("CustomerEditor");
 
             // get DataGridView
             DataGridView dataGridView = customerEditor.WidgetGet<DataGridView>("dataGridView");
@@ -223,14 +223,23 @@ namespace SeleniumDemo.Tests
 
             // change lastName
             //lastName.TextBoxClear();
-            // TODO: this should work
-            lastName.Value = "matters";
+            lastName.Value = string.Empty; // TODO Value setter clears the TextBox
+            lastName.SendKeys("potter"); // TODO changes reach the server
+
+            // Save it
+            customerEditor.ButtonClick("saveButton"); // TODO this triggers validation
+
+            TestDriver.Sleep(Waiter.Duration);
+
+            // TODO: this should work - changes should reach the server, but they don't
+            lastName.Value = "matter";
+            //lastName.SendKeys("s"); // TODO uncomment this line and changes reach the server
 
             //if (CurrentBrowser == Browser.Edge)
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // Save it
-            customerEditor.ButtonClick("saveButton");
+            customerEditor.ButtonClick("saveButton"); // TODO this triggers validation, but fullName doesn't change
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
@@ -246,10 +255,8 @@ namespace SeleniumDemo.Tests
         {
             TestDriver.Sleep(Waiter.Duration);
 
-            // get CustomerEditor exists
+            // get CustomerEditor and check it's visible
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
-            // check CustomerEditor is visible
-            customerEditor.AssertIsDisplayed("CustomerEditor");
 
             // get DataGridView
             DataGridView dataGridView = customerEditor.WidgetGet<DataGridView>("dataGridView");
@@ -263,9 +270,7 @@ namespace SeleniumDemo.Tests
             state.AssertText("Mississippi");
 
             // change state
-            // TODO: this should work
-            var a = state.GetSelectableItem(10);
-            state.SelectItem(10);
+            state.SelectItem(9);
 
             if (CurrentBrowser == Browser.Edge)
                 TestDriver.Sleep(Waiter.BrowserUpdate);
@@ -282,10 +287,8 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W056_CustomerEditor_NewRegister()
         {
-            // get CustomerEditor exists
+            // get CustomerEditor and check it's visible
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
-            // check CustomerEditor is visible
-            customerEditor.AssertIsDisplayed("CustomerEditor");
             // click newButton on CustomerEditor
             customerEditor.ButtonClick("newButton");
 
@@ -332,6 +335,10 @@ namespace SeleniumDemo.Tests
             // get a refreshed state ComboBox
             ComboBox state = customerEditor.WidgetRefresh<ComboBox>("state");
 
+            // change state
+            state.SelectItem(20);
+
+
             if (CurrentBrowser == Browser.Edge)
                 TestDriver.Sleep(Waiter.BrowserUpdate);
 
@@ -341,10 +348,8 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W05_CustomerEditor_NavigateRows()
         {
-            // get CustomerEditor exists
+            // get CustomerEditor and check it's visible
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
-            // check CustomerEditor is visible
-            customerEditor.AssertIsDisplayed("CustomerEditor");
             // get DataGridView
             DataGridView dataGridView = customerEditor.WidgetGet<DataGridView>("dataGridView");
             // check DataGridView has two rows
@@ -352,19 +357,17 @@ namespace SeleniumDemo.Tests
                 string.Format("dataGridView row count: expected 3 and actual is {0}.", dataGridView.RowCount));
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void W060_CustomerEditor_RemoveRows()
         {
-            // get CustomerEditor exists
+            // get CustomerEditor and check it's visible
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
-            // check CustomerEditor is visible
-            customerEditor.AssertIsDisplayed("CustomerEditor");
             // get DataGridView
             DataGridView dataGridView = customerEditor.WidgetGet<DataGridView>("dataGridView");
             // check DataGridView has two rows
             Assert.IsTrue(dataGridView.RowCount == 3,
                 string.Format("dataGridView row count: expected 3 and actual is {0}.", dataGridView.RowCount));
-        }*/
+        }
 
         [TestMethod]
         public void W062_CloseCustomerEditors()
@@ -372,10 +375,8 @@ namespace SeleniumDemo.Tests
             // give enough time so YOU can see the open window
             TestDriver.Sleep(Waiter.Duration);
 
-            // get CustomerEditor
+            // get CustomerEditor and check it's visible
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
-            // check CustomerEditor is visible
-            customerEditor.AssertIsDisplayed("CustomerEditor");
             // close customerEditor
             customerEditor.Close();
             // check customerEditor is closed
@@ -385,10 +386,8 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W064_ButtonsWindow_productEditor_Click()
         {
-            // get ButtonsWindow
+            // get ButtonsWindow and check it's visible
             Form buttonsWindow = TestDriver.WidgetGet<Form>("ButtonsWindow", 10);
-            // check ButtonsWindow is visible
-            buttonsWindow.AssertIsDisplayed("ButtonsWindow");
             // get buttonsPanel
             Panel buttonsPanel = buttonsWindow.WidgetGet<Panel>("buttonsPanel");
             // click productEditor on buttonsPanel
@@ -396,76 +395,59 @@ namespace SeleniumDemo.Tests
 
             TestDriver.SleepDebugTest();
 
-            // get ProductEditor exists
+            // check ProductEditor exists and is visible
             Form productEditor = TestDriver.WidgetGet<Form>("ProductEditor", 10);
-            Assert.IsNotNull(productEditor);
-            // check ProductEditor is visible
-            productEditor.AssertIsDisplayed("ProductEditor");
         }
 
         [TestMethod]
         public void W066_ProductEditor_tabControl()
         {
-            // get tabControl
+            // get tabControl and check it's visible
             TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl", 10);
-            Assert.IsNotNull(tabControl);
-            // check tabControl is visible
-            tabControl.AssertIsDisplayed("tabControl");
         }
 
         [TestMethod]
         public void W068_ProductEditor_tabControl_brands()
         {
-            // get tabControl
+            // get tabControl and check it's visible
             TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl", 10);
-            // check tabControl is visible
-            tabControl.AssertIsDisplayed("tabControl");
 
-            // select brands
-            tabControl.SelectItem("brands");
+            // select brands TabPage by label
+            tabControl.SelectItem("Brands");
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
-            TestDriver.Sleep(Waiter.BrowserUpdate);
 
-            // get brands
-            //TabPage brands = (TabPage) tabControl.Children[0];
-            // TODO: this should work
-            TabPage brands = tabControl.WidgetGet<TabPage>("brands", 10);
-            // check brands is visible
-            tabControl.AssertIsDisplayed("brands");
+            // get brands TabPage by label
+            TabPage brands = tabControl.GetTabPage("Brands");
 
-            // get brandsList
-            //ListBox brandsList = (ListBox) brands.Children[0];
-            // TODO: this should work
+            // check brands exists and is visible
+            Assert.IsNotNull(brands);
+            brands.AssertIsDisplayed("brands");
+
+            // get brandsList and check it's visible
             ListBox brandsList = brands.WidgetGet<ListBox>("brandsList", 10);
-            Assert.IsNotNull(brandsList);
-            // check brandsList is visible
-            tabControl.AssertIsDisplayed("brandsList");
         }
 
         [TestMethod]
         public void W070_ProductEditor_tabControl_models()
         {
-            // get tabControl
+            // get tabControl and check it's visible
             TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl", 10);
-            // check tabControl is visible
-            tabControl.AssertIsDisplayed("tabControl");
 
-            // select models
-            tabControl.SelectItem("models");
+            // select models TabPage by label
+            tabControl.SelectItem("Models");
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
-            // get models
-            TabPage models = tabControl.WidgetGet<TabPage>("models", 10);
-            // check models is visible
-            tabControl.AssertIsDisplayed("models");
+            // get models TabPage by label
+            TabPage models = tabControl.GetTabPage("Models");
 
-            // get modelsTree
+            // check models exists and is visible
+            Assert.IsNotNull(models);
+            models.AssertIsDisplayed("models");
+
+            // get modelsTree and check it's visible
             TreeView modelsTree = models.WidgetGet<TreeView>("modelsTree", 10);
-            Assert.IsNotNull(modelsTree);
-            // check modelsTree is visible
-            tabControl.AssertIsDisplayed("modelsTree");
         }
 
         [TestMethod]
@@ -474,26 +456,24 @@ namespace SeleniumDemo.Tests
             // give enough time so YOU can see the open window
             TestDriver.Sleep(Waiter.Duration);
 
-            // get ProductEditor
+            // get ProductEditor and check it's visible
             Form productEditor = TestDriver.WidgetGet<Form>("ProductEditor", 10);
-            // check ProductEditor is visible
-            productEditor.AssertIsDisplayed("ProductEditor");
             // close ProductEditor
             productEditor.Close();
             // check ProductEditor is closed
             productEditor.AssertIsDisposed("ProductEditor");
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void W080_ButtonsWindow_supplierEditor_Click()
         {
-            // click supplierEditor on buttonsPanel (LayoutPanel) of ButtonsWindow
+            /*// click supplierEditor on buttonsPanel (LayoutPanel) of ButtonsWindow
             TestDriver.ButtonClick("ButtonsWindow.buttonsPanel.supplierEditor");
 
             TestDriver.AlertBoxClose(MessageBoxIcon.Error, "Supplier Editor must be implemented");
             TestDriver.AlertBoxClose("Supplier Editor should be implemented");
-            TestDriver.AlertBoxClose(MessageBoxIcon.Information);
-        }*/
+            TestDriver.AlertBoxClose(MessageBoxIcon.Information);*/
+        }
 
         [TestMethod]
         public void W090_CloseButtonsWindow()

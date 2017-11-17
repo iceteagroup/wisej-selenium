@@ -56,7 +56,7 @@ namespace Qooxdoo.WebDriver.UI.Form
         /// <param name="index">The index of the item.</param>
         public virtual void SelectItem(int? index)
         {
-            Button.Click();
+            Button?.Click();
             GetSelectableItem(index).Click();
         }
 
@@ -78,7 +78,7 @@ namespace Qooxdoo.WebDriver.UI.Form
         /// <param name="regex">The regular expression to match.</param>
         public virtual void SelectItem(string regex)
         {
-            Button.Click();
+            Button?.Click();
             GetSelectableItem(regex).Click();
         }
 
@@ -90,14 +90,7 @@ namespace Qooxdoo.WebDriver.UI.Form
         /// </value>
         protected internal virtual IWidget Button
         {
-            get
-            {
-                if (_button == null)
-                {
-                    _button = Driver.GetWidgetForElement(ContentElement);
-                }
-                return _button;
-            }
+            get { return _button; }
             protected set { _button = value; }
         }
 
@@ -113,6 +106,7 @@ namespace Qooxdoo.WebDriver.UI.Form
             {
                 if (_list == null)
                 {
+                    Call("open");
                     _list = (ISelectable) WaitForChildControl("list", 3);
                 }
                 return _list;

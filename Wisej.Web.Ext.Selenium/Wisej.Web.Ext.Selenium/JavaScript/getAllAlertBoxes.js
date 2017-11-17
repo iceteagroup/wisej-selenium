@@ -17,26 +17,24 @@
 //
 */
 
-qxwebdriver.callMethod = function () {
+qxwebdriver.getAllAlertBoxes = function () {
 
-	var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);
-	if (widget) {
-		var name = arguments[1];
-		var args = arguments[2];
-		console.log("callMethod: ", name, " args: ", args);
-
-		var func = widget[name];
-		if (func == null)
-			throw new Error("Unable to find method " + widget.name + "." + name);
-
-		var retval = func.apply(widget, args);
-		if (retval instanceof qx.ui.core.Widget)
-			retval = retval.getContentElement().getDomElement();
-
-		return retval;
+	var ret = [];
+	var root = qx.core.Init.getApplication().getRoot();
+	var children = root.getChildren();
+	if (children && children.length > 0) {
+		for (var i = 0; i < children.length; i++) {
+			if (children[i] instanceof wisej.web.alertbox.DockingPane) {
+				var items = children[i].getChildren();
+				if (items && items.length > 0) {
+					for (var j = 0; j < items.length; j++) {
+						if (items[j] instanceof wisej.web.AlertBox)
+							ret.push(items[j].getContentElement().getDomElement());
+					}
+				}
+			}
+		}
 	}
-	else {
-		throw new Error("Unable to find widget " + arguments[0]);
-	}
-	return null;
+
+	return ret;
 };

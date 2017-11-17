@@ -419,22 +419,22 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Finds the first <see cref="T:OpenQA.Selenium.IWebElement" /> using the given method.
+        /// Finds the first <see cref="OpenQA.Selenium.IWebElement" /> using the given method.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <returns>The first matching <see cref="T:OpenQA.Selenium.IWebElement" /> on the current context.</returns>
-        /// <exception cref="T:OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
+        /// <returns>The first matching <see cref="OpenQA.Selenium.IWebElement" /> on the current context.</returns>
+        /// <exception cref="OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
         public IWebElement FindElement(OpenQA.Selenium.By by)
         {
             return _driver.FindElement(by);
         }
 
         /// <summary>
-        /// Finds all <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> within the current context
+        /// Finds all <see cref="OpenQA.Selenium.IWebElement">IWebElements</see> within the current context
         /// using the given mechanism.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> of all <see cref="T:OpenQA.Selenium.IWebElement">WebElements</see>
+        /// <returns>A <see cref="System.Collections.ObjectModel.ReadOnlyCollection`1" /> of all <see cref="OpenQA.Selenium.IWebElement">WebElements</see>
         /// matching the current criteria, or an empty list if nothing matches.</returns>
         public ReadOnlyCollection<IWebElement> FindElements(OpenQA.Selenium.By by)
         {
@@ -445,7 +445,7 @@ namespace Qooxdoo.WebDriver
         /// Gets or sets the URL the browser is currently displaying.
         /// </summary>
         /// <remarks>
-        /// Setting the <see cref="P:OpenQA.Selenium.IWebDriver.Url" /> property will load a new web page in the current browser window.
+        /// Setting the <see cref="OpenQA.Selenium.IWebDriver.Url" /> property will load a new web page in the current browser window.
         /// This is done using an HTTP GET operation, and the method will block until the
         /// load is complete. This will follow redirects issued either by the server or
         /// as a meta-redirect from within the returned HTML. Should a meta-redirect "rest"
@@ -453,8 +453,8 @@ namespace Qooxdoo.WebDriver
         /// should the underlying page change while your test is executing the results of
         /// future calls against this interface will be against the freshly loaded page.
         /// </remarks>
-        /// <seealso cref="M:OpenQA.Selenium.INavigation.GoToUrl(System.String)" />
-        /// <seealso cref="M:OpenQA.Selenium.INavigation.GoToUrl(System.Uri)" />
+        /// <seealso cref="OpenQA.Selenium.INavigation.GoToUrl(System.String)" />
+        /// <seealso cref="OpenQA.Selenium.INavigation.GoToUrl(System.Uri)" />
         public string Url
         {
             get { return _driver.Url; }
@@ -530,7 +530,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>Instructs the driver to change its settings.</summary>
-        /// <returns>An <see cref="T:OpenQA.Selenium.IOptions" /> object allowing the user to change
+        /// <returns>An <see cref="OpenQA.Selenium.IOptions" /> object allowing the user to change
         /// the settings of the driver.</returns>
         public IOptions Manage()
         {
@@ -540,7 +540,7 @@ namespace Qooxdoo.WebDriver
         /// <summary>
         /// Instructs the driver to navigate the browser to another location.
         /// </summary>
-        /// <returns>An <see cref="T:OpenQA.Selenium.INavigation" /> object allowing the user to access
+        /// <returns>An <see cref="OpenQA.Selenium.INavigation" /> object allowing the user to access
         /// the browser's history and to navigate to a given URL.</returns>
         public INavigation Navigate()
         {
@@ -550,7 +550,7 @@ namespace Qooxdoo.WebDriver
         /// <summary>
         /// Instructs the driver to send future commands to a different frame or window.
         /// </summary>
-        /// <returns>An <see cref="T:OpenQA.Selenium.ITargetLocator" /> object which can be used to select
+        /// <returns>An <see cref="OpenQA.Selenium.ITargetLocator" /> object which can be used to select
         /// a frame or window.</returns>
         public ITargetLocator SwitchTo()
         {
@@ -576,7 +576,7 @@ namespace Qooxdoo.WebDriver
         /// <returns>The value returned by the script.</returns>
         /// <remarks>
         ///     <para>
-        /// The <see cref="M:OpenQA.Selenium.IJavaScriptExecutor.ExecuteScript(System.String,System.Object[])" />method executes JavaScript in the context of
+        /// The <see cref="OpenQA.Selenium.IJavaScriptExecutor.ExecuteScript(System.String,System.Object[])" />method executes JavaScript in the context of
         /// the currently selected frame or window. This means that "document" will refer
         /// to the current document. If the script has a return value, then the following
         /// steps will be taken:
@@ -584,20 +584,20 @@ namespace Qooxdoo.WebDriver
         ///     <para>
         ///         <list type="bullet">
         ///             <item>
-        ///                 <description>For an HTML element, this method returns a <see cref="T:OpenQA.Selenium.IWebElement" /></description>
+        ///                 <description>For an HTML element, this method returns a <see cref="OpenQA.Selenium.IWebElement" /></description>
         ///             </item>
         ///             <item>
-        ///                 <description>For a number, a <see cref="T:System.Int64" /> is returned</description>
+        ///                 <description>For a number, a <see cref="System.Int64" /> is returned</description>
         ///             </item>
         ///             <item>
-        ///                 <description>For a boolean, a <see cref="T:System.Boolean" /> is returned</description>
+        ///                 <description>For a boolean, a <see cref="System.Boolean" /> is returned</description>
         ///             </item>
         ///             <item>
-        ///                 <description>For all other cases a <see cref="T:System.String" /> is returned.</description>
+        ///                 <description>For all other cases a <see cref="System.String" /> is returned.</description>
         ///             </item>
         ///             <item>
         ///                 <description>For an array,we check the first element, and attempt to return a
-        /// <see cref="T:System.Collections.Generic.List`1" /> of that type, following the rules above. Nested lists are not
+        /// <see cref="System.Collections.Generic.List`1" /> of that type, following the rules above. Nested lists are not
         /// supported.</description>
         ///             </item>
         ///             <item>
@@ -607,8 +607,8 @@ namespace Qooxdoo.WebDriver
         ///         </list>
         ///     </para>
         ///     <para>
-        /// Arguments must be a number (which will be converted to a <see cref="T:System.Int64" />),
-        /// a <see cref="T:System.Boolean" />, a <see cref="T:System.String" /> or a <see cref="T:OpenQA.Selenium.IWebElement" />.
+        /// Arguments must be a number (which will be converted to a <see cref="System.Int64" />),
+        /// a <see cref="System.Boolean" />, a <see cref="System.String" /> or a <see cref="OpenQA.Selenium.IWebElement" />.
         /// An exception will be thrown if the arguments do not meet these criteria.
         /// The arguments will be made available to the JavaScript via the "arguments" magic
         /// variable, as if the function were called via "Function.apply"

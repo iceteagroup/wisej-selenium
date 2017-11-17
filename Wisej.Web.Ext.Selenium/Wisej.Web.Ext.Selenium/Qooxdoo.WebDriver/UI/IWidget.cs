@@ -62,7 +62,12 @@ namespace Qooxdoo.WebDriver.UI
         /// <summary>
         /// Gets this widget's qooxdoo class name
         /// </summary>
-        string Classname { get; }
+        string ClassName { get; }
+
+        /// <summary>
+        /// Gets the name of the widget.
+        /// </summary>
+        string Name { get; }
 
         /// <summary>
         /// Gets whether the widget has been disposed.

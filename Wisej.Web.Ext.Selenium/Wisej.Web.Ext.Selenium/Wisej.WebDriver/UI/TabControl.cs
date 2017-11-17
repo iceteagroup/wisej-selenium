@@ -17,6 +17,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+using System.Linq;
+using System.Text.RegularExpressions;
 using OpenQA.Selenium;
 using QX = Qooxdoo.WebDriver;
 
@@ -34,6 +36,35 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <param name="webDriver">The web driver.</param>
         public TabControl(IWebElement element, QX.QxWebDriver webDriver) : base(element, webDriver)
         {
+        }
+
+        /// <summary>
+        /// Returns the collection of children <see cref="TabPage"/>.
+        /// </summary>
+        public TabPage[] TabPages
+        {
+            get { return Children.Cast<TabPage>().ToArray(); }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="TabPage"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="TabPage"/> in the <see cref="TabPages"/> collection.</param>
+        /// <returns>The TabPage at the specified index.</returns>
+        public TabPage GetTabPage(int index)
+        {
+            return TabPages[index];
+        }
+
+        /// <summary>
+        /// Returns the first <see cref="TabPage"/> with a label that matches the
+        /// specified regular expression.
+        /// </summary>
+        /// <param name="regex">The regular expression to match.</param>
+        /// <returns>The TabPage whose label matches the regular expression.</returns>
+        public TabPage GetTabPage(string regex)
+        {
+            return TabPages.FirstOrDefault(o => Regex.IsMatch(o.Label, regex));
         }
     }
 }
