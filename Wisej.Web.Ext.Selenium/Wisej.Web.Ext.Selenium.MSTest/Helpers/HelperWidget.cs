@@ -9,32 +9,42 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region WidgetGet
 
         public static IWidget WidgetGet(this WisejWebDriver driver, string path, string widgetType,
-            long timeoutInSeconds = 5)
+            long timeoutInSeconds = 5, bool assertIsDisplayed = true)
         {
             IWidget widget = driver.FindWidget(path);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", widgetType, path));
+            if (assertIsDisplayed)
+                widget.AssertIsDisplayed("ButtonsWindow");
             return widget;
         }
 
         public static IWidget WidgetGet(this IWidget parent, string path, string widgetType,
-            long timeoutInSeconds = 5)
+            long timeoutInSeconds = 5, bool assertIsDisplayed = true)
         {
             IWidget widget = parent.FindWidget(path);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", widgetType, path));
+            if (assertIsDisplayed)
+                widget.AssertIsDisplayed("ButtonsWindow");
             return widget;
         }
 
-        public static T WidgetGet<T>(this WisejWebDriver driver, string path, long timeoutInSeconds = 5)
+        public static T WidgetGet<T>(this WisejWebDriver driver, string path, long timeoutInSeconds = 5,
+            bool assertIsDisplayed = true)
         {
             T widget = (T) driver.FindWidget(path);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", typeof(T).Name, path));
+            if (assertIsDisplayed && widget is IWidget)
+                ((IWidget) widget).AssertIsDisplayed("ButtonsWindow");
             return widget;
         }
 
-        public static T WidgetGet<T>(this IWidget parent, string path, long timeoutInSeconds = 5)
+        public static T WidgetGet<T>(this IWidget parent, string path, long timeoutInSeconds = 5,
+            bool assertIsDisplayed = true)
         {
             T widget = (T) parent.FindWidget(path);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", typeof(T).Name, path));
+            if (assertIsDisplayed && widget is IWidget)
+                ((IWidget) widget).AssertIsDisplayed("ButtonsWindow");
             return widget;
         }
 
@@ -182,13 +192,13 @@ namespace Wisej.Web.Ext.Selenium.Tests
 
         #endregion
 
-        #region Classname
+        #region ClassName
 
-        public static void AssertClassname(this IWidget widget, string classname)
+        public static void AssertClassName(this IWidget widget, string className)
         {
-            Assert.AreEqual(widget.Classname, classname,
-                string.Format("{0}: expected {1} and actual is {2}.", widget.GetType().Name, classname,
-                    widget.Classname));
+            Assert.AreEqual(widget.ClassName, className,
+                string.Format("{0}: expected {1} and actual is {2}.", widget.GetType().Name, className,
+                    widget.ClassName));
         }
 
         #endregion

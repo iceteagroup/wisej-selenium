@@ -17,26 +17,27 @@
 //
 */
 
-qxwebdriver.callMethod = function () {
+qxwebdriver.getAllMessageBoxes = function () {
 
-	var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);
-	if (widget) {
-		var name = arguments[1];
-		var args = arguments[2];
-		console.log("callMethod: ", name, " args: ", args);
-
-		var func = widget[name];
-		if (func == null)
-			throw new Error("Unable to find method " + widget.name + "." + name);
-
-		var retval = func.apply(widget, args);
-		if (retval instanceof qx.ui.core.Widget)
-			retval = retval.getContentElement().getDomElement();
-
-		return retval;
+	var ret = [];
+	var root = qx.core.Init.getApplication().getRoot();
+	var windows = root.getWindows();
+	var children = root.getChildren();
+	if (children && children.length > 0) {
+		for (var i = 0; i < children.length; i++) {
+			if (children[i] instanceof wisej.web.Desktop) {
+				windows = children[i].getWindows();
+				break;
+			}
+		}
 	}
-	else {
-		throw new Error("Unable to find widget " + arguments[0]);
+	if (windows && windows.length > 0)
+	{
+		for (var i = 0; i < windows.length; i++) {
+			if (windows[i] instanceof wisej.web.MessageBox)
+				ret.push(windows[i].getContentElement().getDomElement());
+		}
+
 	}
-	return null;
+	return ret;
 };

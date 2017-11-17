@@ -81,7 +81,55 @@ namespace Wisej.Web.Ext.Selenium
 
         #endregion
 
-        #region Utility Methods
+        #region Utility Methods/Properties
+
+        /// <summary>
+        /// Returns all the currently open <see cref="T:Wisej.Web.AlertBox"/> instances.
+        /// </summary>
+        public AlertBox[] AlertBoxes
+        {
+            get
+            {
+                List<AlertBox> alertBoxes = new List<AlertBox>();
+                object result = JsRunner.RunScript("getAllAlertBoxes");
+                IList<IWebElement> children = (IList<IWebElement>) result;
+                if (children != null && children.Count > 0)
+                {
+                    foreach (var el in children)
+                    {
+                        if (el != null)
+                            alertBoxes.Add(new AlertBox(el, this));
+                    }
+                }
+                return alertBoxes.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Returns all the currently open <see cref="T:Wisej.Web.MessageBox"/> instanced.
+        /// </summary>
+        public MessageBox[] MessageBoxes
+        {
+            get
+            {
+                List<MessageBox> messageBoxes = new List<MessageBox>();
+                object result = JsRunner.RunScript("getAllMessageBoxes");
+                IList<IWebElement> children = (IList<IWebElement>) result;
+                if (children != null && children.Count > 0)
+                {
+                    foreach (var el in children)
+                    {
+                        if (el != null)
+                            messageBoxes.Add(new MessageBox(el, this));
+                    }
+                }
+
+                // move the topmost messagebox at position 0.
+                messageBoxes.Reverse();
+
+                return messageBoxes.ToArray();
+            }
+        }
 
         /// <summary>
         /// Sleep for the specified number of milliseconds.
@@ -112,7 +160,7 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
-        /// Gets a newly fecthed <see cref="IWidget"/> from the browser.
+        /// Gets a newly fetched <see cref="IWidget"/> from the browser.
         /// </summary>
         /// <param name="path">The path string.</param>
         /// <param name="timeoutInSeconds">The time to wait for the widget (seconds).</param>
@@ -124,7 +172,7 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
-        /// Gets a newly fecthed child <see cref="IWidget"/> from the browser.
+        /// Gets a newly fetched child <see cref="IWidget"/> from the browser.
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The path string.</param>

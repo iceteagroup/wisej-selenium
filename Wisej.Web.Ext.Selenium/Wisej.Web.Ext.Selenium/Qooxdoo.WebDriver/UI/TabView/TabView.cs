@@ -17,6 +17,7 @@
 
 *************************************************************************/
 
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using OpenQA.Selenium;
@@ -73,23 +74,7 @@ namespace Qooxdoo.WebDriver.UI.TabView
         public IWidget GetSelectableItem(string regex)
         {
             IWidget bar = GetChildControl("bar");
-            IList<IWidget> buttons = bar.Children;
-            IWidget button = null;
-
-            using (IEnumerator<IWidget> iter = buttons.GetEnumerator())
-            {
-                while (iter.MoveNext())
-                {
-                    button = iter.Current;
-                    string buttonLabel = (string) button.GetPropertyValue("label");
-                    if (Regex.IsMatch(buttonLabel, regex))
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return button;
+            return bar.Children.FirstOrDefault(o => Regex.IsMatch((string) o.GetPropertyValue("label"), regex));
         }
 
         /// <summary>

@@ -36,5 +36,13 @@ namespace Wisej.Web.Ext.Selenium.UI
         public TabPage(IWebElement element, QX.QxWebDriver webDriver) : base(element, webDriver)
         {
         }
+
+        /// <summary>
+        /// Returns the title of the TabPage.
+        /// </summary>
+        public string Label
+        {
+            get { return (string) Call("getLabel"); }
+        }
     }
 }

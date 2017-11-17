@@ -36,9 +36,9 @@ namespace Qooxdoo.WebDriver.UI.Core
     /// <seealso cref="IWidget" />
     public class WidgetImpl : IWidget
     {
-        private string _qxHash;
-        private string _classname;
-        private IWebElement _contentElement;
+        protected string _qxHash;
+        protected string _className;
+        protected IWebElement _contentElement;
 
         /// <summary>
         /// The driver
@@ -98,15 +98,15 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <summary>
         /// Gets this widget's qooxdoo class name
         /// </summary>
-        public virtual string Classname
+        public virtual string ClassName
         {
             get
             {
-                if (ReferenceEquals(_classname, null))
+                if (ReferenceEquals(_className, null))
                 {
-                    _classname = (string) JsRunner.RunScript("getClassName", _contentElement);
+                    _className = (string) JsRunner.RunScript("getClassName", _contentElement);
                 }
-                return _classname;
+                return _className;
             }
         }
 
@@ -223,9 +223,9 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <summary>Clicks this element.</summary>
         /// <remarks>
         ///     <para>
-        /// Click this element. If the click causes a new page to load, the <see cref="M:OpenQA.Selenium.IWebElement.Click" />
+        /// Click this element. If the click causes a new page to load, the <see cref="OpenQA.Selenium.IWebElement.Click" />
         /// method will attempt to block until the page has loaded. After calling the
-        /// <see cref="M:OpenQA.Selenium.IWebElement.Click" /> method, you should discard all references to this
+        /// <see cref="OpenQA.Selenium.IWebElement.Click" /> method, you should discard all references to this
         /// element unless you know that the element and the page will still be present.
         /// Otherwise, any further operations performed on this element will have an undefined.
         /// behavior.
@@ -235,8 +235,8 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// simulate a users to accidentally missing the target when clicking.
         /// </para>
         /// </remarks>
-        /// <exception cref="T:OpenQA.Selenium.ElementNotVisibleException">Thrown when the target element is not visible.</exception>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.ElementNotVisibleException">Thrown when the target element is not visible.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual void Click()
         {
             Actions actions = new Actions(Driver.WebDriver);
@@ -249,11 +249,11 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <param name="text">The text to type into the element.</param>
         /// <remarks>The text to be typed may include special characters like arrow keys,
         /// backspaces, function keys, and so on. Valid special keys are defined in
-        /// <see cref="T:OpenQA.Selenium.Keys" />.</remarks>
-        /// <seealso cref="T:OpenQA.Selenium.Keys" />
-        /// <exception cref="T:OpenQA.Selenium.InvalidElementStateException">Thrown when the target element is not enabled.</exception>
-        /// <exception cref="T:OpenQA.Selenium.ElementNotVisibleException">Thrown when the target element is not visible.</exception>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <see cref="OpenQA.Selenium.Keys" />.</remarks>
+        /// <seealso cref="OpenQA.Selenium.Keys" />
+        /// <exception cref="OpenQA.Selenium.InvalidElementStateException">Thrown when the target element is not enabled.</exception>
+        /// <exception cref="OpenQA.Selenium.ElementNotVisibleException">Thrown when the target element is not visible.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual void SendKeys(string text)
         {
             if (text == null)
@@ -385,6 +385,10 @@ namespace Qooxdoo.WebDriver.UI.Core
                 throw new ArgumentNullException(nameof(name));
 
             object result = JsRunner.RunScript("callMethod", _contentElement, name, args);
+
+            if (result is IWebElement)
+                return new WidgetImpl((IWebElement) result, this.Driver);
+
             return result;
         }
 
@@ -527,11 +531,11 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Finds the first <see cref="T:OpenQA.Selenium.IWebElement" /> using the given method.
+        /// Finds the first <see cref="OpenQA.Selenium.IWebElement" /> using the given method.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <returns>The first matching <see cref="T:OpenQA.Selenium.IWebElement" /> on the current context.</returns>
-        /// <exception cref="T:OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
+        /// <returns>The first matching <see cref="OpenQA.Selenium.IWebElement" /> on the current context.</returns>
+        /// <exception cref="OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
         public virtual IWebElement FindElement(OpenQA.Selenium.By by)
         {
             long implictWait = GetImplicitWait();
@@ -582,7 +586,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return "QxWidget " + Classname + "[" + QxHash + "]";
+            return "QxWidget " + ClassName + "[" + QxHash + "]";
         }
 
         /// <summary>
@@ -594,10 +598,10 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>Clears the content of this element.</summary>
-        /// <remarks>If this element is a text entry element, the <see cref="M:OpenQA.Selenium.IWebElement.Clear" />
+        /// <remarks>If this element is a text entry element, the <see cref="OpenQA.Selenium.IWebElement.Clear" />
         /// method will clear the value. It has no effect on other elements. Text entry elements
         /// are defined as elements with INPUT or TEXTAREA tags.</remarks>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public void Clear()
         {
             _contentElement.Clear();
@@ -605,11 +609,11 @@ namespace Qooxdoo.WebDriver.UI.Core
 
         /// <summary>Gets the tag name of this element.</summary>
         /// <remarks>
-        /// The <see cref="P:OpenQA.Selenium.IWebElement.TagName" /> property returns the tag name of the
+        /// The <see cref="OpenQA.Selenium.IWebElement.TagName" /> property returns the tag name of the
         /// element, not the value of the name attribute. For example, it will return
         /// "input" for an element specified by the HTML markup &lt;input name="foo" /&gt;.
         /// </remarks>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public string TagName
         {
             get { return _contentElement.TagName; }
@@ -621,12 +625,12 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <param name="attributeName">The name of the attribute.</param>
         /// <returns>The attribute's current value. Returns a <see langword="null" /> if the
         /// value is not set.</returns>
-        /// <remarks>The <see cref="M:OpenQA.Selenium.IWebElement.GetAttribute(System.String)" /> method will return the current value
+        /// <remarks>The <see cref="OpenQA.Selenium.IWebElement.GetAttribute(System.String)" /> method will return the current value
         /// of the attribute, even if the value has been modified after the page has been
         /// loaded. Note that the value of the following attributes will be returned even if
         /// there is no explicit attribute on the element:
         /// <list type="table"><listheader><term>Attribute name</term><term>Value returned if not explicitly specified</term><term>Valid element types</term></listheader><item><description>checked</description><description>checked</description><description>Check Box</description></item><item><description>selected</description><description>selected</description><description>Options in Select elements</description></item><item><description>disabled</description><description>disabled</description><description>Input and other UI elements</description></item></list></remarks>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public string GetAttribute(string attributeName)
         {
             return _contentElement.GetAttribute(attributeName);
@@ -638,7 +642,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <param name="propertyName">The name JavaScript the JavaScript property to get the value of.</param>
         /// <returns>The JavaScript property's current value. Returns a <see langword="null" /> if the
         /// value is not set or the property does not exist.</returns>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public string GetProperty(string propertyName)
         {
             throw new NotImplementedException();
@@ -649,7 +653,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// </summary>
         /// <remarks>This operation only applies to input elements such as checkboxes,
         /// options in a select element and radio buttons.</remarks>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual bool Selected
         {
             get { return _contentElement.Selected; }
@@ -658,9 +662,9 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <summary>
         /// Gets a value indicating whether or not this element is enabled.
         /// </summary>
-        /// <remarks>The <see cref="P:OpenQA.Selenium.IWebElement.Enabled" /> property will generally
+        /// <remarks>The <see cref="OpenQA.Selenium.IWebElement.Enabled" /> property will generally
         /// return <see langword="true" /> for everything except explicitly disabled input elements.</remarks>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual bool Enabled
         {
             get { return _contentElement.Enabled; }
@@ -670,18 +674,18 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// Gets the innerText of this element, without any leading or trailing whitespace,
         /// and with other whitespace collapsed.
         /// </summary>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual string Text
         {
             get { return _contentElement.Text; }
         }
 
         /// <summary>
-        /// Finds all <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> within the current context
+        /// Finds all <see cref="OpenQA.Selenium.IWebElement">IWebElements</see> within the current context
         /// using the given mechanism.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> of all <see cref="T:OpenQA.Selenium.IWebElement">WebElements</see>
+        /// <returns>A <see cref="System.Collections.ObjectModel.ReadOnlyCollection`1" /> of all <see cref="OpenQA.Selenium.IWebElement">WebElements</see>
         /// matching the current criteria, or an empty list if nothing matches.</returns>
         public ReadOnlyCollection<IWebElement> FindElements(OpenQA.Selenium.By by)
         {
@@ -721,19 +725,37 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Gets a <see cref="T:System.Drawing.Point" /> object containing the coordinates of the upper-left corner
+        /// Gets the name of the widget.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                try
+                {
+                    return (string) Call("getName");
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a <see cref="System.Drawing.Point" /> object containing the coordinates of the upper-left corner
         /// of this element relative to the upper-left corner of the page.
         /// </summary>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual Point Location
         {
             get { return _contentElement.Location; }
         }
 
         /// <summary>
-        /// Gets a <see cref="P:OpenQA.Selenium.IWebElement.Size" /> object containing the height and width of this element.
+        /// Gets a <see cref="OpenQA.Selenium.IWebElement.Size" /> object containing the height and width of this element.
         /// </summary>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual Size Size
         {
             get { return _contentElement.Size; }
@@ -742,12 +764,12 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <summary>Gets the value of a CSS property of this element.</summary>
         /// <param name="propertyName">The name of the CSS property to get the value of.</param>
         /// <returns>The value of the specified CSS property.</returns>
-        /// <remarks>The value returned by the <see cref="M:OpenQA.Selenium.IWebElement.GetCssValue(System.String)" />
+        /// <remarks>The value returned by the <see cref="OpenQA.Selenium.IWebElement.GetCssValue(System.String)" />
         /// method is likely to be unpredictable in a cross-browser environment.
         /// Color values should be returned as hex strings. For example, a
         /// "background-color" property set as "green" in the HTML source, will
         /// return "#008000" for its value.</remarks>
-        /// <exception cref="T:OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public string GetCssValue(string propertyName)
         {
             return _contentElement.GetCssValue(propertyName);

@@ -17,45 +17,41 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+using System.Linq;
 using OpenQA.Selenium;
 using QX = Qooxdoo.WebDriver;
 
 namespace Wisej.Web.Ext.Selenium.UI
 {
     /// <summary>
-    /// Represents a <see cref="T:Wisej.Web.TextBox"/> widget.
+    /// Represents a <see cref="T:Wisej.Web.AlertBox"/> widget.
     /// </summary>
-    public class TextBox : QX.UI.Core.WidgetWithValueBase
+    public class AlertBox : QX.UI.Core.WidgetImpl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TextBox"/> class.
+        /// Initializes a new instance of the <see cref="Button"/> class.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="webDriver">The web driver.</param>
-        public TextBox(IWebElement element, QX.QxWebDriver webDriver) : base(element, webDriver)
+        internal AlertBox(IWebElement element, QX.QxWebDriver webDriver) : base(element, webDriver)
         {
         }
 
         /// <summary>
-        /// Gets or sets the value of a TextBox's value </summary>
-        /// <returns>The TextBox value.</returns>
-        public new virtual string Value
+        /// Returns the message text.
+        /// </summary>
+        public string Message
         {
-            get { return base.Value; }
-            set
-            {
-                JsExecutor.ExecuteScript(
-                    "qx.ui.core.Widget.getWidgetByElement(arguments[0]).setValue(arguments[1])",
-                    ContentElement, value);
-            }
+            get { return ((QX.UI.Basic.Label) GetChildControl("message"))?.Value ?? string.Empty; }
         }
 
         /// <summary>
-        /// Gets the value of a TextBox's text </summary>
-        /// <returns>The TextBox value.</returns>
-        public override string Text
+        /// Closes the AlertBox.
+        /// </summary>
+        public void Close()
         {
-            get { return this.Value; }
+            Call("destroy");
+            Driver.Wait(() => IsDisposed);
         }
     }
 }

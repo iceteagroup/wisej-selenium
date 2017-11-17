@@ -17,6 +17,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+using System;
 using OpenQA.Selenium;
 using QX = Qooxdoo.WebDriver;
 
@@ -54,6 +55,15 @@ namespace Wisej.Web.Ext.Selenium.UI
         public override string Text
         {
             get { return this.Value; }
+        }
+
+        /// <summary>
+        /// Returns or sets the selected index.
+        /// </summary>
+        public int SelectedIndex
+        {
+            get { return (int) Call("getSelectedIndex"); }
+            set { Call("setSelectedIndex", value); }
         }
     }
 }

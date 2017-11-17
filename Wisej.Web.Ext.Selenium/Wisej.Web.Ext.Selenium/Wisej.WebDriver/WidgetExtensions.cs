@@ -40,7 +40,7 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
-        /// Gets a newly fecthed child <see cref="IWidget"/> from the browser.
+        /// Gets a newly fetched child <see cref="IWidget"/> from the browser.
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The path string.</param>

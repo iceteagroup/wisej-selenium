@@ -99,6 +99,7 @@
     <Compile Include="Qooxdoo.WebDriver\UI\Tree\Core\AbstractItem.cs" />
     <Compile Include="Qooxdoo.WebDriver\UI\Tree\Tree.cs" />
     <Compile Include="Qooxdoo.WebDriver\UI\Tree\VirtualTree.cs" />
+    <Compile Include="Wisej.WebDriver\UI\AlertBox.cs" />
     <Compile Include="Wisej.WebDriver\UI\Button.cs" />
     <Compile Include="Wisej.WebDriver\UI\Canvas.cs" />
     <Compile Include="Wisej.WebDriver\UI\CheckBox.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Wisej.WebDriver\UI\ListBox.cs" />
     <Compile Include="Wisej.WebDriver\UI\ListView.cs" />
     <Compile Include="Wisej.WebDriver\UI\MenuBar.cs" />
+    <Compile Include="Wisej.WebDriver\UI\MessageBox.cs" />
     <Compile Include="Wisej.WebDriver\UI\MonthCalendar.cs" />
     <Compile Include="Wisej.WebDriver\UI\Page.cs" />
     <Compile Include="Wisej.WebDriver\UI\Panel.cs" />
@@ -174,6 +176,12 @@
     <EmbeddedResource Include="JavaScript\selectTableRow.js" />
     <EmbeddedResource Include="JavaScript\setPropertyValue.js" />
     <EmbeddedResource Include="JavaScript\setTreeNodeOpened.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JavaScript\getAllAlertBoxes.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JavaScript\getAllMessageBoxes.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

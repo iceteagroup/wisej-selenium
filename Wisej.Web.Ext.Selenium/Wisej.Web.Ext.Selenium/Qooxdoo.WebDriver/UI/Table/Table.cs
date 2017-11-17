@@ -265,7 +265,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         public virtual IWebElement GetCellElement(long rowIdx, long colIdx)
         {
             string cellPath;
-            if (Classname.Equals("qx.ui.treevirtual.TreeVirtual"))
+            if (ClassName.Equals("qx.ui.treevirtual.TreeVirtual"))
             {
                 //
                 // Hierarchy:
@@ -318,7 +318,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         public virtual long GetRowIndexForCellText(long colIdx, string text)
         {
             string cellPath;
-            if (Classname.Equals("qx.ui.treevirtual.TreeVirtual"))
+            if (ClassName.Equals("qx.ui.treevirtual.TreeVirtual"))
             {
                 // Hierarchy:
                 // * TreeVirtual div (content element)
@@ -376,7 +376,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         public virtual IList<long?> GetRowIndexesForCellText(long colIdx, string text)
         {
             string cellPath;
-            if (Classname.Equals("qx.ui.treevirtual.TreeVirtual"))
+            if (ClassName.Equals("qx.ui.treevirtual.TreeVirtual"))
             {
                 // Hierarchy:
                 // * TreeVirtual div (content element)
@@ -500,7 +500,7 @@ namespace Qooxdoo.WebDriver.UI.Table
                 IWidget focusIndicator =
                     Scroller.FindWidget(By.Qxh("qx.ui.table.pane.Clipper/qx.ui.table.pane.FocusIndicator"));
                 IWidget editor = focusIndicator.FindWidget(By.Qxh("child[0]"));
-                if (editor.Classname.Equals("qx.ui.container.Composite"))
+                if (editor.ClassName.Equals("qx.ui.container.Composite"))
                 {
                     editor = editor.FindWidget(By.Qxh("child[0]"));
                 }
