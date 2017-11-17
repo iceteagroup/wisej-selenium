@@ -23,8 +23,14 @@ namespace SeleniumDemo.Tests
 
             //TestDriver.SleepDebugTest();
 
-            MessageBox messageBox = TestDriver.GetMessageBoxWithTitle("Polite Question");
+            // get MessageBox "Polite Question" and check it's enabled
+            var title = "Polite Question";
+            MessageBox messageBox = TestDriver.GetMessageBoxWithTitle(title);
             messageBox.ButtonClick(DialogResult.No);
+
+            // check MesageBox "Polite Question" doesn't exist
+            messageBox = TestDriver.GetMessageBoxWithTitle(title, false, false, 0);
+            Assert.IsNull(messageBox, string.Format("MessageBox with title {0} should not exist.", title));
         }
 
         [TestMethod]
@@ -496,7 +502,8 @@ namespace SeleniumDemo.Tests
 
             //TestDriver.SleepDebugTest();
 
-            TestDriver.GetMessageBoxWithMessage("Do you want to say good-bye now?").ButtonClick(DialogResult.Yes);
+            // click Yes on MessageBox "Polite Question"
+            TestDriver.MessageBoxWithMessageButtonClick("Do you want to say good-bye now?", DialogResult.Yes);
 
             // give enough time so YOU can see the root Page before the browser shows an empty screen
             TestDriver.Sleep(Waiter.Duration * 2);
