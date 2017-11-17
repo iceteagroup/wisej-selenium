@@ -87,11 +87,20 @@ namespace SeleniumDemo.WisejApp.Model
 
         #region Constructor
 
-        public Customer()
+        public Customer(bool clearCounter = true)
         {
             IsNew = true;
             _customerId = System.Threading.Interlocked.Increment(ref _lastId);
             OnPropertyChanged(nameof(CustomerId));
+        }
+
+        #endregion
+
+        #region state methods
+
+        internal static void ClearCounter()
+        {
+            _lastId = 0;
         }
 
         #endregion
