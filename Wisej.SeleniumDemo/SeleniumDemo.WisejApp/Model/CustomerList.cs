@@ -23,6 +23,7 @@ namespace SeleniumDemo.WisejApp.Model
             else
             {
                 _instance.Clear();
+                Customer.ClearCounter();
                 new Customer
                 {
                     FirstName = "Muddy",
