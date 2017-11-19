@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using Qooxdoo.WebDriver.UI;
 using Wisej.Web.Ext.Selenium.UI;
 
@@ -7,52 +9,122 @@ namespace Wisej.Web.Ext.Selenium.Tests
 {
     public static class HelperMessageBox
     {
+        #region private utility stuff
+
+        private static MessageBox _targetMessageBox;
+
+        private static string GetMessage(string baseMessage, string title, string message)
+        {
+            var result = string.Empty;
+            if (!string.IsNullOrWhiteSpace(title))
+                result += string.Format("with title {0}", title);
+
+            if (!string.IsNullOrWhiteSpace(message))
+                result += string.Format("with message {0}", message);
+
+            return string.Format(baseMessage, result);
+        }
+
+        #endregion
+
+        #region private Core
+
+        private static MessageBox GetMessageBoxCore(this WisejWebDriver driver, string title, string message,
+            long timeoutInSeconds = 5)
+        {
+            MessageBox messageBox = WaitForMessageBox(driver, title, message, timeoutInSeconds);
+
+            Assert.IsNotNull(messageBox, GetMessage("MessageBox {0} not found.", title, message));
+            return _targetMessageBox;
+        }
+
+        private static bool MessageBoxAssertNotExistCore(this WisejWebDriver driver, string title, string message,
+            long timeoutInSeconds = 5)
+        {
+            MessageBox messageBox = WaitForMessageBox(driver, title, message, timeoutInSeconds);
+
+            Assert.IsNull(messageBox, GetMessage("MessageBox {0} should not exist.", title, message));
+            return _targetMessageBox == null;
+        }
+
+        private static MessageBox WaitForMessageBox(this WisejWebDriver driver, string title, string message,
+            long timeoutInSeconds)
+        {
+            try
+            {
+                new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds))
+                    .Until(MessageBoxExists(title, message));
+            }
+            catch (WebDriverTimeoutException)
+            {
+            }
+
+            return _targetMessageBox;
+        }
+
+        public static Func<IWebDriver, bool> MessageBoxExists(string title, string message)
+        {
+            return driver =>
+            {
+                _targetMessageBox = null;
+                MessageBox[] messagesBoxes = ((WisejWebDriver) driver).MessageBoxes;
+                if (messagesBoxes != null)
+                {
+                    foreach (MessageBox messageBox in messagesBoxes)
+                    {
+                        // check title
+                        if (!string.IsNullOrEmpty(title))
+                        {
+                            if (title == messageBox.Title)
+                            {
+                                _targetMessageBox = messageBox;
+                                return true;
+                            }
+
+                            continue;
+                        }
+
+                        // check message
+                        if (!string.IsNullOrEmpty(message))
+                        {
+                            if (message == messageBox.Message)
+                            {
+                                _targetMessageBox = messageBox;
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                return false;
+            };
+        }
+
+        #endregion
+
         #region WithTitle
 
         public static MessageBox GetMessageBoxWithTitle(this WisejWebDriver driver, string title,
-            bool assertExists = true, bool assertIsEnabled = true, long timeoutInSeconds = 5)
+            bool assertIsEnabled = true, long timeoutInSeconds = 5)
         {
-            MessageBox messageBox = GetMessageBoxWithTitleCore(driver, title, timeoutInSeconds);
+            MessageBox messageBox = GetMessageBoxCore(driver, title, string.Empty, timeoutInSeconds);
 
-            if (assertExists)
-                Assert.IsNotNull(messageBox, string.Format("MessageBox with title {0} not found.", title));
             if (assertIsEnabled)
-                Assert.IsTrue(messageBox.Enabled, string.Format("MessageBox with title {0} isn't enabled.", title));
+                Assert.IsTrue(messageBox.Enabled, GetMessage("MessageBox {0} isn't enabled.", title, string.Empty));
 
             return messageBox;
         }
 
-        private static MessageBox GetMessageBoxWithTitleCore(this WisejWebDriver driver, string title,
+        public static bool MessageBoxWithTitleAssertNotExists(this WisejWebDriver driver, string title,
             long timeoutInSeconds = 5)
         {
-            MessageBox[] messageBoxes;
-            try
-            {
-                messageBoxes = driver.GetMessageBoxes(timeoutInSeconds);
-            }
-            catch (WebDriverTimeoutException)
-            {
-                return null;
-            }
-
-            if (messageBoxes != null)
-            {
-                foreach (MessageBox messageBox in driver.GetMessageBoxes(timeoutInSeconds))
-                {
-                    if (messageBox.Title == title)
-                    {
-                        return messageBox;
-                    }
-                }
-            }
-
-            return null;
+            return MessageBoxAssertNotExistCore(driver, title, string.Empty, timeoutInSeconds);
         }
 
-        public static void MessageBoxWithTitleButtonClick(this WisejWebDriver driver, string title,
-            DialogResult result, long timeoutInSeconds = 5)
+        public static void MessageBoxWithTitleButtonClick(this WisejWebDriver driver, string title, DialogResult result,
+            long timeoutInSeconds = 5)
         {
-            MessageBox messageBox = driver.GetMessageBoxWithTitle(title, true, true, timeoutInSeconds);
+            MessageBox messageBox = driver.GetMessageBoxWithTitle(title, true, timeoutInSeconds);
 
             messageBox.ButtonClick(result);
         }
@@ -62,49 +134,26 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region WithMessage
 
         public static MessageBox GetMessageBoxWithMessage(this WisejWebDriver driver, string message,
-            bool assertExists = true, bool assertIsEnabled = true, long timeoutInSeconds = 5)
+            bool assertIsEnabled = true, long timeoutInSeconds = 5)
         {
-            MessageBox messageBox = GetMessageBoxWithMessageCore(driver, message, timeoutInSeconds);
+            MessageBox messageBox = GetMessageBoxCore(driver, string.Empty, message, timeoutInSeconds);
 
-            if (assertExists)
-                Assert.IsNotNull(messageBox, string.Format("MessageBox with message {0} not found.", message));
             if (assertIsEnabled)
-                Assert.IsTrue(messageBox.Enabled, string.Format("MessageBox with message {0} isn't enabled.", message));
+                Assert.IsTrue(messageBox.Enabled, GetMessage("MessageBox {0} isn't enabled.", string.Empty, message));
 
             return messageBox;
         }
 
-        private static MessageBox GetMessageBoxWithMessageCore(this WisejWebDriver driver, string message,
+        public static bool MessageBoxWithMessageAssertNotExists(this WisejWebDriver driver, string message,
             long timeoutInSeconds = 5)
         {
-            MessageBox[] messageBoxes;
-            try
-            {
-                messageBoxes = driver.GetMessageBoxes(timeoutInSeconds);
-            }
-            catch (WebDriverTimeoutException)
-            {
-                return null;
-            }
-
-            if (messageBoxes != null)
-            {
-                foreach (MessageBox messageBox in messageBoxes)
-                {
-                    if (messageBox.Message == message)
-                    {
-                        return messageBox;
-                    }
-                }
-            }
-
-            return null;
+            return MessageBoxAssertNotExistCore(driver, string.Empty, message, timeoutInSeconds);
         }
 
         public static void MessageBoxWithMessageButtonClick(this WisejWebDriver driver, string message,
             DialogResult result, long timeoutInSeconds = 5)
         {
-            MessageBox messageBox = driver.GetMessageBoxWithMessage(message, true, true, timeoutInSeconds);
+            MessageBox messageBox = driver.GetMessageBoxWithMessage(message, true, timeoutInSeconds);
 
             messageBox.ButtonClick(result);
         }

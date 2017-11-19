@@ -3,119 +3,166 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Qooxdoo.WebDriver.UI;
+using Wisej.Web.Ext.Selenium.UI;
 
 namespace Wisej.Web.Ext.Selenium.Tests
 {
     public static class HelperAlertBox
     {
+        #region private utility stuff
+
+        private static AlertBox _targetAlertBox;
+
+        private static string GetMessage(string baseMessage, MessageBoxIcon alertBoxIcon,
+            bool ignoreIcon, string alertBoxMessage = "")
+        {
+            var result = string.Empty;
+            if (!ignoreIcon)
+            {
+                result += string.Format("icon {0}", alertBoxIcon);
+                if (!string.IsNullOrWhiteSpace(alertBoxMessage))
+                    result += " and ";
+            }
+            if (!string.IsNullOrWhiteSpace(alertBoxMessage))
+                result += string.Format("message {0}", alertBoxMessage);
+
+            return string.Format(baseMessage, result);
+        }
+
+        #endregion
+
+        #region private Core
+
+        private static AlertBox AlertBoxGetCore(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
+            bool ignoreIcon, string alertBoxMessage = "", long timeoutInSeconds = 5)
+        {
+            AlertBox alertBox = WaitForAlertBox(driver, alertBoxIcon, ignoreIcon, alertBoxMessage, timeoutInSeconds);
+
+            Assert.IsNotNull(alertBox,
+                GetMessage("AlertBox with {0} not found.", alertBoxIcon, ignoreIcon, alertBoxMessage));
+            return _targetAlertBox;
+        }
+
+        private static bool AlertBoxAssertNotExistsCore(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
+            bool ignoreIcon, string alertBoxMessage = "", long timeoutInSeconds = 5)
+        {
+            AlertBox alertBox = WaitForAlertBox(driver, alertBoxIcon, ignoreIcon, alertBoxMessage, timeoutInSeconds);
+
+            Assert.IsNull(alertBox,
+                GetMessage("AlertBox with {0} should not exist.", alertBoxIcon, ignoreIcon, alertBoxMessage));
+            return _targetAlertBox == null;
+        }
+
+        private static AlertBox WaitForAlertBox(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
+            bool ignoreIcon,
+            string alertBoxMessage, long timeoutInSeconds)
+        {
+            try
+            {
+                new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds))
+                    .Until(AlertBoxExists(alertBoxIcon, ignoreIcon, alertBoxMessage));
+            }
+            catch (WebDriverTimeoutException)
+            {
+            }
+
+            return _targetAlertBox;
+        }
+
+        public static Func<IWebDriver, bool> AlertBoxExists(MessageBoxIcon alertBoxIcon, bool ignoreIcon,
+            string alertBoxMessage)
+        {
+            return driver =>
+            {
+                _targetAlertBox = null;
+                AlertBox[] alertBoxes = ((WisejWebDriver) driver).AlertBoxes;
+                if (alertBoxes != null)
+                {
+                    foreach (AlertBox alertBox in alertBoxes)
+                    {
+                        var matchIcon = false;
+                        var matchMessage = false;
+
+                        // check icon type
+                        if (!ignoreIcon)
+                        {
+                            if (alertBoxIcon.ToString().ToUpper() == alertBox.Icon.ToUpper())
+                            {
+                                matchIcon = true;
+                            }
+                        }
+                        else
+                        {
+                            matchIcon = true;
+                        }
+
+                        // check message box
+                        if (!string.IsNullOrEmpty(alertBoxMessage))
+                        {
+                            if (alertBoxMessage == alertBox.Message)
+                            {
+                                matchMessage = true;
+                            }
+                        }
+                        else
+                        {
+                            matchMessage = true;
+                        }
+
+                        if (matchIcon && matchMessage)
+                        {
+                            _targetAlertBox = alertBox;
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            };
+        }
+
+        #endregion
+
         #region AlertBox Get
 
-        public static IWidget AlertBoxGet(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
-            string alertBoxMessage = "", long timeoutInSeconds = 5)
+        public static AlertBox AlertBoxGet(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
+            string alertBoxMessage, long timeoutInSeconds = 5)
         {
             return AlertBoxGetCore(driver, alertBoxIcon, false, alertBoxMessage, timeoutInSeconds);
         }
 
-        public static IWidget AlertBoxGet(this WisejWebDriver driver, string alertBoxMessage = "",
+        public static AlertBox AlertBoxGet(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
+            long timeoutInSeconds = 5)
+        {
+            return AlertBoxGetCore(driver, alertBoxIcon, false, string.Empty, timeoutInSeconds);
+        }
+
+        public static AlertBox AlertBoxGet(this WisejWebDriver driver, string alertBoxMessage = "",
             long timeoutInSeconds = 5)
         {
             return AlertBoxGetCore(driver, MessageBoxIcon.None, true, alertBoxMessage, timeoutInSeconds);
         }
 
-        private static IWidget AlertBoxGetCore(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon, bool ignoreIcon,
-            string alertBoxMessage = "", long timeoutInSeconds = 5)
-        {
-            var alertBoxManagerBy = HelperUI.QxhByString("qx.ui.container.Composite");
-            IWidget alertBoxManager = driver.WaitForWidget(alertBoxManagerBy, timeoutInSeconds);
-            Assert.IsNotNull(alertBoxManager, "AlertBox manager not found.");
+        #endregion
 
-            return WaitForAlertBox(driver, alertBoxManager, alertBoxIcon, ignoreIcon, alertBoxMessage,
-                timeoutInSeconds);
+        #region AlertBox Assert Not Exists
+
+        public static bool AlertBoxAssertNotExists(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
+            string alertBoxMessage, long timeoutInSeconds = 5)
+        {
+            return AlertBoxAssertNotExistsCore(driver, alertBoxIcon, false, alertBoxMessage, timeoutInSeconds);
         }
 
-        private static IWidget WaitForAlertBox(this WisejWebDriver driver, IWidget alertBoxManager,
-            MessageBoxIcon alertBoxIcon, bool ignoreIcon, string alertBoxMessage, long timeoutInSeconds)
+        public static bool AlertBoxAssertNotExists(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
+            long timeoutInSeconds = 5)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            IWidget widget;
-            try
-            {
-                widget = wait.Until(AlertBoxExists(alertBoxManager, alertBoxIcon, ignoreIcon, alertBoxMessage));
-            }
-            catch (WebDriverTimeoutException e)
-            {
-                throw new NoSuchElementException("Unable to find element for locator.", e);
-            }
-
-            Assert.IsNotNull(widget, "AlertBox not found.");
-            return widget;
+            return AlertBoxAssertNotExistsCore(driver, alertBoxIcon, false, string.Empty, timeoutInSeconds);
         }
 
-        public static Func<IWebDriver, IWidget> AlertBoxExists(IWidget alertBoxManager, MessageBoxIcon alertBoxIcon,
-            bool ignoreIcon, string alertBoxMessage)
+        public static bool AlertBoxAssertNotExists(this WisejWebDriver driver, string alertBoxMessage = "",
+            long timeoutInSeconds = 5)
         {
-            return driver =>
-            {
-                foreach (var alertBox in alertBoxManager.Children)
-                {
-                    var matchIcon = false;
-                    var matchMessage = false;
-
-                    // check icon type
-                    if (!ignoreIcon)
-                    {
-                        object icon = null;
-                        try
-                        {
-                            icon = alertBox.GetPropertyValue("icon");
-                        }
-                        catch (Exception)
-                        {
-                        }
-                        Assert.IsNotNull(icon, "AlertBox icon not found.");
-
-                        if (alertBoxIcon.ToString().ToUpper() == icon.ToString().ToUpper())
-                        {
-                            matchIcon = true;
-                        }
-                    }
-                    else
-                    {
-                        matchIcon = true;
-                    }
-
-                    // check message box
-                    if (!string.IsNullOrEmpty(alertBoxMessage))
-                    {
-                        string message = null;
-                        try
-                        {
-                            message = (string) alertBox.GetPropertyValue("message");
-                        }
-                        catch (Exception)
-                        {
-                        }
-                        Assert.IsNotNull(message, "AlertBox message not found.");
-
-                        if (alertBoxMessage == message)
-                        {
-                            matchMessage = true;
-                        }
-                    }
-                    else
-                    {
-                        matchMessage = true;
-                    }
-
-                    if (matchIcon && matchMessage)
-                    {
-                        return alertBox;
-                    }
-                }
-
-
-                return null;
-            };
+            return AlertBoxAssertNotExistsCore(driver, MessageBoxIcon.None, true, alertBoxMessage, timeoutInSeconds);
         }
 
         #endregion
@@ -123,9 +170,15 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region AlertBox close
 
         public static void AlertBoxClose(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
-            string alertBoxMessage = "", long timeoutInSeconds = 5)
+            string alertBoxMessage, long timeoutInSeconds = 5)
         {
             AlertBoxCloseCore(driver, alertBoxIcon, false, alertBoxMessage, timeoutInSeconds);
+        }
+
+        public static void AlertBoxClose(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
+            long timeoutInSeconds = 5)
+        {
+            AlertBoxCloseCore(driver, alertBoxIcon, false, string.Empty, timeoutInSeconds);
         }
 
         public static void AlertBoxClose(this WisejWebDriver driver, string alertBoxMessage = "",
@@ -138,22 +191,18 @@ namespace Wisej.Web.Ext.Selenium.Tests
             string alertBoxMessage = "", long timeoutInSeconds = 5)
         {
             var alertBox = AlertBoxGetCore(driver, alertBoxIcon, ignoreIcon, alertBoxMessage, timeoutInSeconds);
-            IWidget closeButton = null;
-            try
-            {
-                closeButton = alertBox.GetChildControl("close");
-            }
-            catch (Exception)
-            {
-            }
-            Assert.IsNotNull(closeButton, "AlertBox close button not found.");
-            Assert.IsTrue(closeButton.Enabled, "AlertBox close button isn\'t enabled.");
+            Assert.IsNotNull(alertBox,
+                GetMessage("AlertBox with {0} not found.", alertBoxIcon, ignoreIcon, alertBoxMessage));
+
+            IWidget closeButton = alertBox.CloseButton;
+            Assert.IsNotNull(closeButton,
+                GetMessage("AlertBox close button with {0} not found.", alertBoxIcon, ignoreIcon, alertBoxMessage));
+            Assert.IsTrue(closeButton.Enabled,
+                GetMessage("AlertBox close button with {0} isn\'t enabled.", alertBoxIcon, ignoreIcon,
+                    alertBoxMessage));
             closeButton.Click();
         }
 
         #endregion
-
-        // TODO: MessageBoxGetCaption
-        // TODO: MessageBoxGetMessage
     }
 }
