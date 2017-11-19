@@ -22,11 +22,11 @@ namespace SeleniumDemo.WisejApp.View
         private void supplierEditor_Click(object sender, EventArgs e)
         {
             AlertBox.Show("Supplier Editor must be implemented", MessageBoxIcon.Error, true,
-                ContentAlignment.BottomRight, 120000);
+                ContentAlignment.BottomRight, 0);
             AlertBox.Show("Supplier Editor should be implemented", MessageBoxIcon.Warning, true,
-                ContentAlignment.BottomRight, 120000);
+                ContentAlignment.BottomRight, 0);
             AlertBox.Show("Supplier Editor will be implemented", MessageBoxIcon.Information, true,
-                ContentAlignment.BottomRight, 120000);
+                ContentAlignment.BottomRight, 0);
         }
 
         private void productEditor_Click(object sender, EventArgs e)

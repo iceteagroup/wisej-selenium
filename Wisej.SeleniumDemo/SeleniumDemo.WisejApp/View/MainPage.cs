@@ -12,7 +12,7 @@ namespace SeleniumDemo.WisejApp.View
             InitializeComponent();
 
             AlertBox.Show("Place holder to show the application is present in the browser.", MessageBoxIcon.None, true,
-                ContentAlignment.BottomRight, 120000);
+                ContentAlignment.BottomRight, 0);
         }
 
         private void buttonsWindow_Click(object sender, EventArgs e)
