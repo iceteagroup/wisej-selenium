@@ -26,9 +26,9 @@ namespace SeleniumDemo.WisejApp.Model
                 Customer.ClearCounter();
                 new Customer
                 {
-                    FirstName = "Muddy",
-                    LastName = "Waters",
-                    State = States.MS
+                    FirstName = "Mudy",
+                    LastName = "Watters",
+                    State = States.FL
                 }.Save();
 
                 new Customer
