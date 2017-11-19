@@ -29,8 +29,7 @@ namespace SeleniumDemo.Tests
             messageBox.ButtonClick(DialogResult.No);
 
             // check MesageBox "Polite Question" doesn't exist
-            messageBox = TestDriver.GetMessageBoxWithTitle(title, false, false, 0);
-            Assert.IsNull(messageBox, string.Format("MessageBox with title {0} should not exist.", title));
+            TestDriver.MessageBoxWithTitleAssertNotExists(title, 0);
         }
 
         [TestMethod]
@@ -140,7 +139,7 @@ namespace SeleniumDemo.Tests
             // get firstName TextBox
             TextBox firstName = customerEditor.WidgetGet<TextBox>("firstName");
             // check firstName
-            firstName.AssertText("Muddy");
+            firstName.AssertText("Mudy");
 
             #region THIS DOES NOT WORK RELIABLY
 
@@ -157,38 +156,26 @@ namespace SeleniumDemo.Tests
             firstName.SendKeys(Keys.Shift + Keys.Tab);
 
             // change firstName
-            firstName.SendKeys("Murky");*/
+            firstName.SendKeys("Muddy");*/
 
             #endregion
 
             // change firstName
-            //firstName.TextBoxClear();
-            firstName.Value = string.Empty; // TODO Value setter clears the TextBox
-            firstName.SendKeys("Harry"); // TODO changes reach the server
+            firstName.Value = "Muddy";
 
-            //if (CurrentBrowser == Browser.Edge)
-            TestDriver.Sleep(Waiter.BrowserUpdate);
+            if (CurrentBrowser == Browser.Edge)
+                TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // Save it
-            customerEditor.ButtonClick("saveButton"); // TODO this triggers validation
+            customerEditor.ButtonClick("saveButton");
 
-            TestDriver.Sleep(Waiter.Duration);
-
-            // TODO: this should work - changes should reach the server, but they don't
-            firstName.Value = "Murk";
-            //firstName.SendKeys("y"); // TODO uncomment this line and changes reach the server
-
-            //if (CurrentBrowser == Browser.Edge)
             TestDriver.Sleep(Waiter.BrowserUpdate);
-
-            // Save it
-            customerEditor.ButtonClick("saveButton"); // TODO this triggers validation, but fullName doesn't change
 
             Label fullName = customerEditor.WidgetGet<Label>("fullName");
             var lastName = fullName.Text.Split(' ')[1];
 
             // check fullName for changed firstName
-            fullName.AssertText("Murky " + lastName);
+            fullName.AssertText("Muddy " + lastName);
         }
 
         [TestMethod]
@@ -206,7 +193,7 @@ namespace SeleniumDemo.Tests
             // get lastName TextBox
             TextBox lastName = customerEditor.WidgetGet<TextBox>("lastName");
             // check lastName
-            lastName.AssertText("WATERS");
+            lastName.AssertText("WATTERS");
 
             #region THIS DOES NOT WORK RELIABLY
 
@@ -223,29 +210,17 @@ namespace SeleniumDemo.Tests
             lastName.SendKeys(Keys.Shift + Keys.Tab);
 
             // change lastName
-            lastName.SendKeys("matters");*/
+            lastName.SendKeys("waters");*/
 
             #endregion
 
             // change lastName
-            //lastName.TextBoxClear();
-            lastName.Value = string.Empty; // TODO Value setter clears the TextBox
-            lastName.SendKeys("potter"); // TODO changes reach the server
+            lastName.Value = "waters";
 
-            // Save it
-            customerEditor.ButtonClick("saveButton"); // TODO this triggers validation
-
-            TestDriver.Sleep(Waiter.Duration);
-
-            // TODO: this should work - changes should reach the server, but they don't
-            lastName.Value = "matter";
-            //lastName.SendKeys("s"); // TODO uncomment this line and changes reach the server
-
-            //if (CurrentBrowser == Browser.Edge)
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // Save it
-            customerEditor.ButtonClick("saveButton"); // TODO this triggers validation, but fullName doesn't change
+            customerEditor.ButtonClick("saveButton");
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
@@ -253,7 +228,7 @@ namespace SeleniumDemo.Tests
             var firstName = fullName.Text.Split(' ')[0];
 
             // check fullName for changed lastName
-            fullName.AssertText(firstName + " MATTERS");
+            fullName.AssertText(firstName + " WATERS");
         }
 
         [TestMethod]
@@ -273,10 +248,10 @@ namespace SeleniumDemo.Tests
             // get state ComboBox
             ComboBox state = customerEditor.WidgetGet<ComboBox>("state");
             // check state
-            state.AssertText("Mississippi");
+            state.AssertText("Florida");
 
             // change state
-            state.SelectItem(9);
+            state.SelectItem(25);
 
             if (CurrentBrowser == Browser.Edge)
                 TestDriver.Sleep(Waiter.BrowserUpdate);
@@ -285,7 +260,7 @@ namespace SeleniumDemo.Tests
             customerEditor.ButtonClick("saveButton");
 
             // check changed lastName
-            state.AssertText("Florida");
+            state.AssertText("Mississippi");
 
             TestDriver.Sleep(Waiter.Duration);
         }
@@ -424,7 +399,13 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // get brands TabPage by label
-            TabPage brands = tabControl.GetTabPage("Brands");
+            // LUCA: var brands = tabControl.GetSelectableItem("Brands");
+            // get the currently selected page.
+
+            /*var tabs = tabControl.TabPages;
+            var brands = tabs[0];*/
+
+            var brands = tabControl.Current;
 
             // check brands exists and is visible
             Assert.IsNotNull(brands);
@@ -446,7 +427,13 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // get models TabPage by label
-            TabPage models = tabControl.GetTabPage("Models");
+            // var models = tabControl.GetSelectableItem("Models");
+            // get the currently selected page.
+
+            /*var tabs = tabControl.TabPages;
+            var models = tabs[0];*/
+
+            var models = tabControl.Current;
 
             // check models exists and is visible
             Assert.IsNotNull(models);
@@ -479,19 +466,20 @@ namespace SeleniumDemo.Tests
             TestDriver.AlertBoxClose(MessageBoxIcon.Error, "Supplier Editor must be implemented");
             TestDriver.AlertBoxClose("Supplier Editor should be implemented");
             TestDriver.AlertBoxClose(MessageBoxIcon.Information);
+
+            TestDriver.AlertBoxAssertNotExists(MessageBoxIcon.Error, "Supplier Editor must be implemented");
+            TestDriver.AlertBoxAssertNotExists("Supplier Editor should be implemented");
+            TestDriver.AlertBoxAssertNotExists(MessageBoxIcon.Information);
         }
 
         [TestMethod]
         public void W090_CloseButtonsWindow()
         {
             // give enough time so YOU can follow the windows closing
-            TestDriver.Sleep(Waiter.Duration);
+            //TestDriver.Sleep(Waiter.Duration);
 
             // close ButtonsWindow
             TestDriver.FormClose("ButtonsWindow");
-
-            // give enough time so YOU can see all windows are closed
-            TestDriver.Sleep(Waiter.Duration);
         }
 
         [TestMethod]
