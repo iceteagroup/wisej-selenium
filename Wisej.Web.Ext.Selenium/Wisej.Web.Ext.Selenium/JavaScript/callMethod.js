@@ -30,8 +30,16 @@ qxwebdriver.callMethod = function () {
 			throw new Error("Unable to find method " + widget.name + "." + name);
 
 		var retval = func.apply(widget, args);
+
 		if (retval instanceof qx.ui.core.Widget)
 			retval = retval.getContentElement().getDomElement();
+
+		if (retval instanceof Array) {
+			for (var i = 0; i < retval.length; i++) {
+				if (retval[i] instanceof qx.ui.core.Widget)
+					retval[i] = retval[i].getContentElement().getDomElement();
+			}
+		}
 
 		return retval;
 	}
