@@ -68,7 +68,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
         }
 
         /// <summary>
-        /// Gets the scroll step.
+        /// Returns the scroll step.
         /// </summary>
         /// <param name="direction">The direction.</param>
         /// <returns>The scroll step in pixels.</returns>

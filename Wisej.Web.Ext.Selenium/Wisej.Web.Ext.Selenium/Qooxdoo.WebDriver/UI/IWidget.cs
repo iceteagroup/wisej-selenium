@@ -70,12 +70,12 @@ namespace Qooxdoo.WebDriver.UI
         string Name { get; }
 
         /// <summary>
-        /// Gets whether the widget has been disposed.
+        /// Gets a value indicating whether the widget has been disposed.
         /// </summary>
         bool IsDisposed { get; }
 
         /// <summary>
-        /// Returns the <see cref="IWebDriver"/> associated to this widget.
+        /// Gets the <see cref="IWebDriver"/> associated to this widget.
         /// </summary>
         IWebDriver Driver { get; }
 
@@ -166,7 +166,7 @@ namespace Qooxdoo.WebDriver.UI
         IWidget FindWidget(OpenQA.Selenium.By by);
 
         /// <summary>
-        /// Finds a widget relative to the current one by traversing the qooxdoo
+        /// Waits to find a widget relative to the current one by traversing the qooxdoo
         /// widget hierarchy.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>

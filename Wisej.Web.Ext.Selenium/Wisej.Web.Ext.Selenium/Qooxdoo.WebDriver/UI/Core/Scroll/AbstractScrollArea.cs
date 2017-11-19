@@ -39,7 +39,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
         }
 
         /// <summary>
-        /// Gets the Scrollbar widget.
+        /// Returns the Scrollbar widget.
         /// </summary>
         /// <param name="direction">The scrollbar direction.</param>
         /// <returns>The scroll bar.</returns>
@@ -88,7 +88,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
         }
 
         /// <summary>
-        /// Gets the scroll position.
+        /// Returns the scroll position.
         /// </summary>
         /// <param name="scrollBar">The scroll bar.</param>
         /// <returns>The scroll position in pixels.</returns>
@@ -107,7 +107,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
         }
 
         /// <summary>
-        /// Gets the scroll step.
+        /// Returns the scroll step.
         /// </summary>
         /// <param name="scrollBar">The scroll bar.</param>
         /// <returns>The scroll step in pixels.</returns>
@@ -118,7 +118,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
         }
 
         /// <summary>
-        /// Gets the scroll step.
+        /// Returns the scroll step.
         /// </summary>
         /// <param name="direction">The direction.</param>
         /// <returns>The scroll step in pixels.</returns>

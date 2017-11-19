@@ -77,7 +77,7 @@ namespace Qooxdoo.WebDriver.UI.Table.Pane
         }
 
         /// <summary>
-        /// Gets the scroll step.
+        /// Returns the scroll step.
         /// </summary>
         /// <param name="direction">The direction.</param>
         /// <returns>The scroll step.</returns>
@@ -93,7 +93,7 @@ namespace Qooxdoo.WebDriver.UI.Table.Pane
         }
 
         /// <summary>
-        /// Gets the visible row.
+        /// Returns the visible row.
         /// </summary>
         /// <param name="index">The index.</param>
         /// <returns>The target row.</returns>

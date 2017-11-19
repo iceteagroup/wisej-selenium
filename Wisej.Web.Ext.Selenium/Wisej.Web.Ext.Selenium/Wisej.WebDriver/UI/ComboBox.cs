@@ -58,7 +58,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Returns or sets the selected index.
+        /// Gets or sets the selected index.
         /// </summary>
         public int SelectedIndex
         {

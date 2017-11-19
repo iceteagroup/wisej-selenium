@@ -99,7 +99,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         }
 
         /// <summary>
-        /// Gets the header cell.
+        /// Returns the header cell.
         /// </summary>
         /// <param name="label">The label.</param>
         /// <returns>The found header cell.</returns>
@@ -125,7 +125,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         }
 
         /// <summary>
-        /// Gets the header cell.
+        /// Returns the header cell.
         /// </summary>
         /// <param name="index">The index.</param>
         /// <returns>The found header cell.</returns>
@@ -234,7 +234,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         }
 
         /// <summary>
-        /// Gets the cell by text.
+        /// Returns the cell by text.
         /// </summary>
         /// <param name="text">The text to search for..</param>
         /// <returns>The found cell.</returns>
@@ -257,7 +257,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         }
 
         /// <summary>
-        /// Gets the cell element.
+        /// Returns the cell element.
         /// </summary>
         /// <param name="rowIdx">Index of the row.</param>
         /// <param name="colIdx">Index of the col.</param>
