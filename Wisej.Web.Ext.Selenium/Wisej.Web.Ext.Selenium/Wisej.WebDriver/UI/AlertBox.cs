@@ -38,11 +38,27 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Returns the message text.
+        /// Gets the message icon name.
+        /// </summary>
+        public string Icon
+        {
+            get { return (string) GetPropertyValue("icon"); }
+        }
+
+        /// <summary>
+        /// Gets the message text.
         /// </summary>
         public string Message
         {
             get { return ((QX.UI.Basic.Label) GetChildControl("message"))?.Value ?? string.Empty; }
+        }
+
+        /// <summary>
+        /// Gets the close button.
+        /// </summary>
+        public QX.UI.IWidget CloseButton
+        {
+            get { return GetChildControl("close"); }
         }
 
         /// <summary>
