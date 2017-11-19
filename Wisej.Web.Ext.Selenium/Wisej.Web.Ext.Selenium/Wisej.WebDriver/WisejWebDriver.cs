@@ -20,7 +20,6 @@
 using System;
 using System.Collections.Generic;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using Qooxdoo.WebDriver;
 using Qooxdoo.WebDriver.UI;
 using Wisej.Web.Ext.Selenium.UI;
@@ -84,106 +83,66 @@ namespace Wisej.Web.Ext.Selenium
 
         #region Utility Methods/Properties
 
-        private IList<IWebElement> _allMessageBoxes;
-        private IList<IWebElement> _allAlertBoxes;
-
-        private Func<IWebDriver, bool> GetAllAlertBoxes()
-        {
-            return driver =>
-            {
-                _allAlertBoxes = null;
-                var result = JsRunner.RunScript("getAllAlertBoxes");
-
-                try
-                {
-                    _allAlertBoxes = (IList<IWebElement>) result;
-                }
-                catch //(InvalidCastException)
-                {
-                    return false;
-                }
-
-                return true;
-            };
-        }
-
-        private Func<IWebDriver, bool> GetAllMessageBoxes()
-        {
-            return driver =>
-            {
-                _allMessageBoxes = null;
-                var result = JsRunner.RunScript("getAllMessageBoxes");
-
-                try
-                {
-                    _allMessageBoxes = (IList<IWebElement>) result;
-                }
-                catch //(InvalidCastException)
-                {
-                    return false;
-                }
-
-                return true;
-            };
-        }
-
         /// <summary>
         /// Gets all the currently open <see cref="T:Wisej.Web.AlertBox"/> instances.
         /// </summary>
-        public AlertBox[] GetAlertBoxes(long timeoutInSeconds = 5)
+        public AlertBox[] AlertBoxes
         {
-            new WebDriverWait(WebDriver, TimeSpan.FromSeconds(timeoutInSeconds)).Until(GetAllAlertBoxes());
-
-            List<AlertBox> alertBoxes = new List<AlertBox>();
-
-            if (_allAlertBoxes != null && _allAlertBoxes.Count > 0)
-            {
-                foreach (var el in _allAlertBoxes)
-                {
-                    if (el != null)
-                        alertBoxes.Add(new AlertBox(el, this));
-                }
-            }
-            return alertBoxes.ToArray();
-
-            /*get
+            get
             {
                 List<AlertBox> alertBoxes = new List<AlertBox>();
                 object result = JsRunner.RunScript("getAllAlertBoxes");
-                IList<IWebElement> children = (IList<IWebElement>) result;
-                if (children != null && children.Count > 0)
+                try
                 {
-                    foreach (var el in children)
+                    IList<IWebElement> children = (IList<IWebElement>) result;
+                    if (children != null && children.Count > 0)
                     {
-                        if (el != null)
-                            alertBoxes.Add(new AlertBox(el, this));
+                        foreach (var el in children)
+                        {
+                            if (el != null)
+                                alertBoxes.Add(new AlertBox(el, this));
+                        }
                     }
+                    return alertBoxes.ToArray();
                 }
-                return alertBoxes.ToArray();
-            }*/
+                catch (InvalidCastException)
+                {
+                    return null;
+                }
+            }
         }
 
         /// <summary>
         /// Gets all the currently open <see cref="T:Wisej.Web.MessageBox"/> instanced.
         /// </summary>
-        public MessageBox[] GetMessageBoxes(long timeoutInSeconds = 5)
+        public MessageBox[] MessageBoxes
         {
-            new WebDriverWait(WebDriver, TimeSpan.FromSeconds(timeoutInSeconds)).Until(GetAllMessageBoxes());
-
-            List<MessageBox> messageBoxes = new List<MessageBox>();
-            if (_allMessageBoxes != null && _allMessageBoxes.Count > 0)
+            get
             {
-                foreach (var el in _allMessageBoxes)
+                List<MessageBox> messageBoxes = new List<MessageBox>();
+                object result = JsRunner.RunScript("getAllMessageBoxes");
+                try
                 {
-                    if (el != null)
-                        messageBoxes.Add(new MessageBox(el, this));
+                    IList<IWebElement> children = (IList<IWebElement>) result;
+                    if (children != null && children.Count > 0)
+                    {
+                        foreach (var el in children)
+                        {
+                            if (el != null)
+                                messageBoxes.Add(new MessageBox(el, this));
+                        }
+                    }
+
+                    // move the topmost messagebox at position 0.
+                    messageBoxes.Reverse();
+
+                    return messageBoxes.ToArray();
+                }
+                catch (InvalidCastException)
+                {
+                    return null;
                 }
             }
-
-            // move the topmost messagebox at position 0.
-            messageBoxes.Reverse();
-
-            return messageBoxes.ToArray();
         }
 
         /// <summary>
@@ -215,7 +174,7 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
-        /// Gets a newly fetched <see cref="IWidget"/> from the browser.
+        /// Returns a newly fetched <see cref="IWidget"/> from the browser.
         /// </summary>
         /// <param name="path">The path string.</param>
         /// <param name="timeoutInSeconds">The time to wait for the widget (seconds).</param>
@@ -227,7 +186,7 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
-        /// Gets a newly fetched child <see cref="IWidget"/> from the browser.
+        /// Returns a newly fetched child <see cref="IWidget"/> from the browser.
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The path string.</param>
