@@ -138,7 +138,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
         }
 
         /// <summary>
-        /// Gets the center of a given element.
+        /// Returns the center of a given element.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>The center of the element.</returns>

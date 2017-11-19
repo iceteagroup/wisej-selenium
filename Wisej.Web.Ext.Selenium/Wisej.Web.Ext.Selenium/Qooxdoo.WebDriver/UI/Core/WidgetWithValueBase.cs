@@ -67,7 +67,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Gets or sets the value of a TextBox's value </summary>
+        /// Gets the value of a TextBox's value </summary>
         /// <returns>The TextBox value.</returns>
         public virtual string Value
         {

@@ -66,7 +66,7 @@ namespace Qooxdoo.WebDriver.Resources
         protected internal string FileExtension = ".js";
 
         /// <summary>
-        /// Gets the JavaScript content of the resource.
+        /// Returns the JavaScript content of the resource.
         /// </summary>
         /// <param name="resourceId">The resource identifier.</param>
         /// <returns>The JavaScript content.</returns>
@@ -107,7 +107,7 @@ namespace Qooxdoo.WebDriver.Resources
         }
 
         /// <summary>
-        /// Gets the full path of a JavaScript resource.
+        /// Returns the full path of a JavaScript resource.
         /// </summary>
         /// <param name="resourceId">The resource identifier.</param>
         /// <returns>The full path of the resource.</returns>
@@ -179,7 +179,7 @@ namespace Qooxdoo.WebDriver.Resources
         }
 
         /// <summary>
-        /// Gets the ordinal number of this instance.
+        /// Returns the ordinal number of this instance.
         /// </summary>
         /// <returns>The ordinal number of this instance.</returns>
         public int Ordinal()
@@ -188,7 +188,7 @@ namespace Qooxdoo.WebDriver.Resources
         }
 
         /// <summary>
-        /// Gets the name of this instance.
+        /// Returns the name of this instance.
         /// </summary>
         /// <returns>The name of this instance.</returns>
         public override string ToString()

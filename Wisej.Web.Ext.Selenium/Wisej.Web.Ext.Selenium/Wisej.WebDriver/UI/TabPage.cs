@@ -38,7 +38,15 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Returns the title of the TabPage.
+        /// Gets the button that corresponds to this <see cref="TabPage"/>.
+        /// </summary>
+        public QX.UI.IWidget Button
+        {
+            get { return GetWidgetFromProperty("button"); }
+        }
+
+        /// <summary>
+        /// Gets the title of the TabPage.
         /// </summary>
         public string Label
         {

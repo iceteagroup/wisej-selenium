@@ -243,7 +243,7 @@ namespace Qooxdoo.WebDriver
             }
 
             /// <summary>
-            /// Gets a string representation of the finder.
+            /// Returns a string representation of the finder.
             /// </summary>
             /// <returns>The string displaying the finder content.</returns>
             public override string ToString()

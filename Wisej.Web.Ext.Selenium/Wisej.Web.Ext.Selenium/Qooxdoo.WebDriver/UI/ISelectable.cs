@@ -31,13 +31,13 @@ namespace Qooxdoo.WebDriver.UI
         /// </summary>
         /// <param name="index">The index of the item.</param>
         /// <returns>The found item.</returns>
-        IWidget GetSelectableItem(int? index);
+        IWidget GetSelectableItem(int index);
 
         /// <summary>
         /// Finds a selectable child widget by index and selects it
         /// </summary>
         /// <param name="index">The index of the item.</param>
-        void SelectItem(int? index);
+        void SelectItem(int index);
 
         /// <summary>
         /// Finds the first selectable child widget with a label matching the regular

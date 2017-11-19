@@ -40,7 +40,7 @@ namespace Qooxdoo.WebDriver.UI.List
         /// <summary>
         /// Finds a selectable child widget by index and returns it
         /// </summary>
-        public new virtual IWidget GetSelectableItem(int? index)
+        public new virtual IWidget GetSelectableItem(int index)
         {
             throw new Exception(
                 "GetSelectableItem(Integer index) is not implemented for qx.ui.list.List, use GetSelectableItem(String label) instead.");

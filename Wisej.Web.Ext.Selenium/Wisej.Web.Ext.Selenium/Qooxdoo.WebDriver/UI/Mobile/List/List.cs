@@ -21,7 +21,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.List
         }
 
         /// <summary>
-        /// Gets the selectable item.
+        /// Returns the selectable item.
         /// </summary>
         /// <param name="index">The index.</param>
         /// <returns>The found item.</returns>
@@ -44,7 +44,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.List
         }
 
         /// <summary>
-        /// Gets the selectable item.
+        /// Returns the selectable item.
         /// </summary>
         /// <param name="regex">The regular expression to match.</param>
         /// <returns>The found item.</returns>

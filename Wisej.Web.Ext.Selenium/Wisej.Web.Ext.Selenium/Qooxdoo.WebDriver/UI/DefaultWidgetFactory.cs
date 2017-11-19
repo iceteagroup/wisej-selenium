@@ -53,7 +53,7 @@ namespace Qooxdoo.WebDriver.UI
         private QxWebDriver _driver;
 
         /// <summary>
-        /// The QxWebDriver/WisejWebDriver used.
+        /// Gets or sets the QxWebDriver/WisejWebDriver used.
         /// </summary>
         protected internal QxWebDriver Driver
         {

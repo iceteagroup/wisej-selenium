@@ -37,7 +37,7 @@ namespace Qooxdoo.WebDriver.UI.Form
         }
 
         /// <summary>
-        /// Gets or sets the list.
+        /// Gets the list.
         /// </summary>
         /// <value>
         /// The list.

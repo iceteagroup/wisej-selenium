@@ -45,7 +45,9 @@ namespace Wisej.Web.Ext.Selenium.UI
             set
             {
                 JsExecutor.ExecuteScript(
-                    "qx.ui.core.Widget.getWidgetByElement(arguments[0]).setValue(arguments[1])",
+                    "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
+                    "widget.setValue(arguments[1]);" +
+                    "widget.fireEvent('focusin');",
                     ContentElement, value);
             }
         }

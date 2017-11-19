@@ -61,7 +61,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <param name="element">The element.</param>
         /// <param name="webDriver">The web driver.</param>
         public WidgetImpl(IWebElement element, IWebDriver webDriver)
-            : this(element, (QxWebDriver) webDriver)
+            : this(element, (QxWebDriver)webDriver)
         {
         }
 
@@ -77,7 +77,7 @@ namespace Qooxdoo.WebDriver.UI.Core
             JsExecutor = Driver.JsExecutor;
             JsRunner = Driver.JsRunner;
 
-            _contentElement = (IWebElement) JsRunner.RunScript("getContentElement", element);
+            _contentElement = (IWebElement)JsRunner.RunScript("getContentElement", element);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Qooxdoo.WebDriver.UI.Core
             {
                 if (ReferenceEquals(_qxHash, null))
                 {
-                    _qxHash = (string) JsRunner.RunScript("getObjectHash", _contentElement);
+                    _qxHash = (string)JsRunner.RunScript("getObjectHash", _contentElement);
                 }
                 return _qxHash;
             }
@@ -104,7 +104,7 @@ namespace Qooxdoo.WebDriver.UI.Core
             {
                 if (ReferenceEquals(_className, null))
                 {
-                    _className = (string) JsRunner.RunScript("getClassName", _contentElement);
+                    _className = (string)JsRunner.RunScript("getClassName", _contentElement);
                 }
                 return _className;
             }
@@ -136,11 +136,11 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <param name="target">The target.</param>
         public virtual void DragOver(IWidget target)
         {
-            IMouse mouse = ((IHasInputDevices) Driver.WebDriver).Mouse;
-            ILocatable root = (ILocatable) Driver.FindElement(By.TagName("body"));
+            IMouse mouse = ((IHasInputDevices)Driver.WebDriver).Mouse;
+            ILocatable root = (ILocatable)Driver.FindElement(By.TagName("body"));
             //cast IWebElement to ILocatable
-            ILocatable sourceL = (ILocatable) _contentElement;
-            ILocatable targetL = (ILocatable) target.ContentElement;
+            ILocatable sourceL = (ILocatable)_contentElement;
+            ILocatable targetL = (ILocatable)target.ContentElement;
 
             ICoordinates coord = root.Coordinates;
             mouse.MouseDown(sourceL.Coordinates);
@@ -213,16 +213,18 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <param name="target">The target.</param>
         public virtual void Drop(IWidget target)
         {
-            IMouse mouse = ((IHasInputDevices) Driver.WebDriver).Mouse;
+            IMouse mouse = ((IHasInputDevices)Driver.WebDriver).Mouse;
             DragOver(target);
 
-            ILocatable targetL = (ILocatable) target.ContentElement;
+            ILocatable targetL = (ILocatable)target.ContentElement;
             mouse.MouseUp(targetL.Coordinates);
         }
 
-        /// <summary>Clicks this element.</summary>
+        /// <summary>
+        /// Clicks this element.
+        /// </summary>
         /// <remarks>
-        ///     <para>
+        /// <para>
         /// Click this element. If the click causes a new page to load, the <see cref="OpenQA.Selenium.IWebElement.Click" />
         /// method will attempt to block until the page has loaded. After calling the
         /// <see cref="OpenQA.Selenium.IWebElement.Click" /> method, you should discard all references to this
@@ -230,7 +232,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// Otherwise, any further operations performed on this element will have an undefined.
         /// behavior.
         /// </para>
-        ///     <para>
+        /// <para>
         /// If this element is not clickable, then this operation is ignored. This allows you to
         /// simulate a users to accidentally missing the target when clicking.
         /// </para>
@@ -312,7 +314,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 throw new ArgumentNullException(nameof(childControlId));
 
             object result = JsRunner.RunScript("getChildControl", _contentElement, childControlId);
-            IWebElement element = (IWebElement) result;
+            IWebElement element = (IWebElement)result;
             if (element == null)
             {
                 return null;
@@ -333,7 +335,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 throw new ArgumentNullException(nameof(childControlId));
 
             object result = JsRunner.RunScript("hasChildControl", _contentElement, childControlId);
-            return result != null && (bool) result;
+            return result != null && (bool)result;
         }
 
         /// <summary>
@@ -344,7 +346,7 @@ namespace Qooxdoo.WebDriver.UI.Core
             get
             {
                 object result = JsRunner.RunScript("getLayoutParent", _contentElement);
-                IWebElement element = (IWebElement) result;
+                IWebElement element = (IWebElement)result;
                 if (element == null)
                 {
                     return null;
@@ -387,7 +389,19 @@ namespace Qooxdoo.WebDriver.UI.Core
             object result = JsRunner.RunScript("callMethod", _contentElement, name, args);
 
             if (result is IWebElement)
-                return new WidgetImpl((IWebElement) result, this.Driver);
+                return Driver.GetWidgetForElement((IWebElement)result);
+
+            if (result is IList<IWebElement>)
+            {
+                var i = 0;
+                var array = (IList<IWebElement>)result;
+                var widgets = new IWidget[array.Count];
+                foreach (IWebElement el in array)
+                {
+                    widgets[i++] = Driver.GetWidgetForElement(el);
+                }
+                result = widgets;
+            }
 
             return result;
         }
@@ -409,7 +423,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 throw new ArgumentNullException(nameof(propertyName));
 
             object result = JsRunner.RunScript("getPropertyValueAsJson", _contentElement, propertyName);
-            return (string) result;
+            return (string)result;
         }
 
         /// <summary>
@@ -435,7 +449,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         private IWebElement GetElementFromProperty(string propertyName)
         {
             object result = JsRunner.RunScript("getElementFromProperty", _contentElement, propertyName);
-            return (IWebElement) result;
+            return (IWebElement)result;
         }
 
         /// <summary>
@@ -469,7 +483,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 throw new ArgumentNullException(nameof(propertyName));
 
             IList<IWebElement> elements =
-                (IList<IWebElement>) JsRunner.RunScript("getElementsFromProperty", _contentElement, propertyName);
+                (IList<IWebElement>)JsRunner.RunScript("getElementsFromProperty", _contentElement, propertyName);
             IList<IWidget> widgets = new List<IWidget>();
 
             using (IEnumerator<IWebElement> elemIter = elements.GetEnumerator())
@@ -490,7 +504,7 @@ namespace Qooxdoo.WebDriver.UI.Core
             get
             {
                 object result = JsRunner.RunScript("getChildrenElements", _contentElement);
-                IList<IWebElement> children = (IList<IWebElement>) result;
+                IList<IWebElement> children = (IList<IWebElement>)result;
                 return children;
             }
         }
@@ -607,7 +621,9 @@ namespace Qooxdoo.WebDriver.UI.Core
             _contentElement.Clear();
         }
 
-        /// <summary>Gets the tag name of this element.</summary>
+        /// <summary>
+        /// Gets the tag name of this element.
+        /// </summary>
         /// <remarks>
         /// The <see cref="OpenQA.Selenium.IWebElement.TagName" /> property returns the tag name of the
         /// element, not the value of the name attribute. For example, it will return
@@ -620,7 +636,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Gets the value of the specified attribute for this element.
+        /// Returns the value of the specified attribute for this element.
         /// </summary>
         /// <param name="attributeName">The name of the attribute.</param>
         /// <returns>The attribute's current value. Returns a <see langword="null" /> if the
@@ -637,7 +653,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Gets the value of a JavaScript property of this element.
+        /// Returns the value of a JavaScript property of this element.
         /// </summary>
         /// <param name="propertyName">The name JavaScript the JavaScript property to get the value of.</param>
         /// <returns>The JavaScript property's current value. Returns a <see langword="null" /> if the
@@ -649,7 +665,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Gets a value indicating whether or not this element is selected.
+        /// Gets a value indicating whether this element is selected.
         /// </summary>
         /// <remarks>This operation only applies to input elements such as checkboxes,
         /// options in a select element and radio buttons.</remarks>
@@ -660,7 +676,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Gets a value indicating whether or not this element is enabled.
+        /// Gets a value indicating whether this element is enabled.
         /// </summary>
         /// <remarks>The <see cref="OpenQA.Selenium.IWebElement.Enabled" /> property will generally
         /// return <see langword="true" /> for everything except explicitly disabled input elements.</remarks>
@@ -693,20 +709,20 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Determines if the widget is visible by querying the qooxdoo property
+        /// Gets a value indicating whether the widget is visible.
         /// <a href="http://demo.qooxdoo.org/current/apiviewer/#qx.ui.core.Widget~isSeeable!method_public">seeable</a>.
         /// </summary>
         public virtual bool Displayed
         {
             get
             {
-                return ((bool?) ExecuteJavascript(
+                return ((bool?)ExecuteJavascript(
                     "return qx.ui.core.Widget.getWidgetByElement(arguments[0]).isSeeable()")).Value;
             }
         }
 
         /// <summary>
-        /// Determines if the widget has been disposed.
+        /// Gets a value indicating whether the widget has been disposed.
         /// </summary>
         public virtual bool IsDisposed
         {
@@ -715,7 +731,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 try
                 {
                     object result = JsRunner.RunScript("isDisposed", _contentElement);
-                    return result == null || (bool) result;
+                    return result == null || (bool)result;
                 }
                 catch (StaleElementReferenceException)
                 {
@@ -733,7 +749,7 @@ namespace Qooxdoo.WebDriver.UI.Core
             {
                 try
                 {
-                    return (string) Call("getName");
+                    return (string)Call("getName");
                 }
                 catch
                 {
@@ -761,7 +777,9 @@ namespace Qooxdoo.WebDriver.UI.Core
             get { return _contentElement.Size; }
         }
 
-        /// <summary>Gets the value of a CSS property of this element.</summary>
+        /// <summary>
+        /// Returns the value of a CSS property of this element.
+        /// </summary>
         /// <param name="propertyName">The name of the CSS property to get the value of.</param>
         /// <returns>The value of the specified CSS property.</returns>
         /// <remarks>The value returned by the <see cref="OpenQA.Selenium.IWebElement.GetCssValue(System.String)" />
@@ -776,7 +794,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Returns the <see cref="IWebDriver"/> associated to this widget.
+        /// Gets the <see cref="IWebDriver"/> associated to this widget.
         /// </summary>
         IWebDriver IWidget.Driver
         {

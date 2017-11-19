@@ -38,7 +38,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Returns the title text.
+        /// Gets the title text.
         /// </summary>
         public string Title
         {
@@ -46,7 +46,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Returns the message text.
+        /// Gets the message text.
         /// </summary>
         public string Message
         {

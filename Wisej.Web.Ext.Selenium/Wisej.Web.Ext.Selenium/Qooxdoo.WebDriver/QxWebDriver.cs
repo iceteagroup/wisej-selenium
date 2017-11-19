@@ -68,7 +68,7 @@ namespace Qooxdoo.WebDriver
         internal TimeSpan? ImplictWait;
 
         /// <summary>
-        /// The widget factory used by the QxWebDriver
+        /// Gets the widget factory used by the QxWebDriver
         /// </summary>
         protected internal IWidgetFactory WidgetFactory { get; set; }
 
@@ -250,7 +250,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Gets the original WebDriver instance
+        /// Gets the browser WebDriver instance
         /// </summary>
         public virtual IWebDriver WebDriver
         {
@@ -325,7 +325,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Find the first matching <see cref="IWidget"/> using the given method.
+        /// Waits to find the first matching <see cref="IWidget"/> using the given method.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
         /// <param name="timeoutInSeconds">The time to wait for the widget </param>
@@ -338,7 +338,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Gets an instance of <see cref="IWidget"/> or one of its subclasses that
+        /// Returns an instance of <see cref="IWidget"/> or one of its subclasses that
         /// represents the qooxdoo widget containing the given element. </summary>
         /// <param name="element"> A <see cref="IWebElement"/> representing a DOM element that is part of a
         /// qooxdoo widget </param>
@@ -358,7 +358,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Retrieves the AUT's qx log entries. registerLogAppender() *must* be called
+        /// Gets the AUT's qx log entries. registerLogAppender() *must* be called
         /// before this can be used.
         /// </summary>
         public virtual IList<Log.LogEntry> LogEvents
@@ -390,7 +390,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Retrieves any exceptions caught by qooxdoo's global error handling.
+        /// Gets any exceptions caught by qooxdoo's global error handling.
         /// RegisterGlobalErrorHandler *must* be called before this can be used.
         /// </summary>
         public virtual IList<string> CaughtErrors
@@ -472,7 +472,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Wait until qx.core.Init.getApplication() returns something truthy.
+        /// Waits until qx.core.Init.getApplication() returns something truthy.
         /// </summary>
         public virtual void WaitForQxApplication()
         {
@@ -508,7 +508,9 @@ namespace Qooxdoo.WebDriver
             get { return _driver.PageSource; }
         }
 
-        /// <summary>Gets the title of the current browser window.</summary>
+        /// <summary>
+        /// Gets the title of the current browser window.
+        /// </summary>
         public string Title
         {
             get { return _driver.Title; }
@@ -529,7 +531,9 @@ namespace Qooxdoo.WebDriver
             get { return _driver.WindowHandles; }
         }
 
-        /// <summary>Instructs the driver to change its settings.</summary>
+        /// <summary>
+        /// Instructs the driver to change its settings.
+        /// </summary>
         /// <returns>An <see cref="OpenQA.Selenium.IOptions" /> object allowing the user to change
         /// the settings of the driver.</returns>
         public IOptions Manage()
@@ -651,7 +655,7 @@ namespace Qooxdoo.WebDriver
         #region TakesScreenshot
 
         /// <summary>
-        /// Gets a OpenQA.Selenium.Screenshot object representing the image of the page on
+        /// Returns a OpenQA.Selenium.Screenshot object representing the image of the page on
         /// the screen.
         /// </summary>
         /// <returns>A OpenQA.Selenium.Screenshot object containing the image.</returns>

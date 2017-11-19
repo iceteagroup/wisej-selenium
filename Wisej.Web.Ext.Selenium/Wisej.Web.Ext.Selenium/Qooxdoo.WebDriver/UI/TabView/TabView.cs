@@ -47,18 +47,18 @@ namespace Qooxdoo.WebDriver.UI.TabView
         /// <returns>
         /// The found item.
         ///.</returns>
-        public IWidget GetSelectableItem(int? index)
+        public IWidget GetSelectableItem(int index)
         {
             IWidget bar = GetChildControl("bar");
             IList<IWidget> buttons = bar.Children;
-            return buttons[index.Value];
+            return buttons[index];
         }
 
         /// <summary>
         /// Finds a selectable child widget by index and selects it
         /// </summary>
         /// <param name="index">The index of the item.</param>
-        public void SelectItem(int? index)
+        public void SelectItem(int index)
         {
             GetSelectableItem(index).Click();
         }

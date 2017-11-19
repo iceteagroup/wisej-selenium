@@ -45,7 +45,7 @@ namespace Qooxdoo.WebDriver.UI.Menu
         /// Finds a selectable child widget by index and selects it
         /// </summary>
         /// <param name="index">The index of the item.</param>
-        public virtual void SelectItem(int? index)
+        public virtual void SelectItem(int index)
         {
             GetSelectableItem(index).Click();
         }
@@ -65,7 +65,7 @@ namespace Qooxdoo.WebDriver.UI.Menu
         /// </summary>
         /// <param name="index">The index of the item.</param>
         /// <returns>The found item.</returns>
-        public IWidget GetSelectableItem(int? index)
+        public IWidget GetSelectableItem(int index)
         {
             bool? hasSlideBar = HasChildControl("slidebar");
             if (hasSlideBar.Value)
@@ -76,7 +76,7 @@ namespace Qooxdoo.WebDriver.UI.Menu
             }
 
             IList<IWidget> children = Children;
-            return children[index.Value];
+            return children[index];
         }
 
         /// <summary>
