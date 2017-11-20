@@ -54,8 +54,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         private static AlertBox WaitForAlertBox(this WisejWebDriver driver, MessageBoxIcon alertBoxIcon,
-            bool ignoreIcon,
-            string alertBoxMessage, long timeoutInSeconds)
+            bool ignoreIcon, string alertBoxMessage, long timeoutInSeconds)
         {
             try
             {
