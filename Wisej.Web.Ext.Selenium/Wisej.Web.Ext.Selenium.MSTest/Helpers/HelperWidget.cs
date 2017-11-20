@@ -196,9 +196,10 @@ namespace Wisej.Web.Ext.Selenium.Tests
 
         public static void AssertClassName(this IWidget widget, string className)
         {
-            Assert.AreEqual(widget.ClassName, className,
-                string.Format("{0}: expected {1} and actual is {2}.", widget.GetType().Name, className,
-                    widget.ClassName));
+            /*Assert.AreEqual(widget.ClassName, className,
+                string.Format("{0}: expected {1} and actual is {2}.", widget.GetType().Name, className, 
+                    widget.ClassName));*/
+            Assert.AreEqual(widget.ClassName, className);
         }
 
         #endregion
