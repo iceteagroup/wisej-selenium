@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using Wisej.Web.Ext.Selenium.Tests;
 using Wisej.Web.Ext.Selenium.UI;
+using By = Qooxdoo.WebDriver.By;
 
 namespace SeleniumDemo.Tests
 {
@@ -336,6 +337,37 @@ namespace SeleniumDemo.Tests
             // check DataGridView has two rows
             Assert.IsTrue(dataGridView.RowCount == 3,
                 string.Format("dataGridView row count: expected 3 and actual is {0}.", dataGridView.RowCount));
+
+            // check row 0 is selected
+            int selectedRow = -1;
+            for (int row = 0; row < dataGridView.RowCount; row++)
+            {
+                if (dataGridView.Children[row].Selected) // TODO This should return a row...
+                    selectedRow = row;
+            }
+            Assert.AreEqual(selectedRow, 0);
+
+            // select row 1
+            dataGridView.SendKeys(Keys.ArrowDown);
+            // check row 2 is selected
+            selectedRow = -1;
+            for (int row = 0; row < dataGridView.RowCount; row++)
+            {
+                if (dataGridView.Children[row].Selected) // TODO This should return a row...
+                    selectedRow = row;
+            }
+            Assert.AreEqual(selectedRow, 1);
+
+            // select row 2
+            dataGridView.SelectRow(2);
+            // check row 2 is selected
+            selectedRow = -1;
+            for (int row = 0; row < dataGridView.RowCount; row++)
+            {
+                if (dataGridView.Children[row].Selected) // TODO This should return a row...
+                    selectedRow = row;
+            }
+            Assert.AreEqual(selectedRow, 2);
         }
 
         [TestMethod]
@@ -348,6 +380,23 @@ namespace SeleniumDemo.Tests
             // check DataGridView has two rows
             Assert.IsTrue(dataGridView.RowCount == 3,
                 string.Format("dataGridView row count: expected 3 and actual is {0}.", dataGridView.RowCount));
+
+
+            // select row with id 2
+            dataGridView.SelectRow(1);
+            // check id
+            Label id = customerEditor.WidgetGet<Label>("id");
+            id.AssertText("2");
+
+            // Remove the row
+            customerEditor.ButtonClick("removeButton");
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            dataGridView = customerEditor.WidgetRefresh<DataGridView>("dataGridView");
+            // check DataGridView has two rows
+            Assert.IsTrue(dataGridView.RowCount == 2,
+                string.Format("dataGridView row count: expected 2 and actual is {0}.", dataGridView.RowCount));
         }
 
         [TestMethod]
@@ -398,25 +447,39 @@ namespace SeleniumDemo.Tests
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
-            // get brands TabPage by label
-            // LUCA: var brands = tabControl.GetSelectableItem("Brands");
-            // get the currently selected page.
-
-            /*var tabs = tabControl.TabPages;
-            var brands = tabs[0];*/
-
             var brands = tabControl.Current;
 
             // check brands exists and is visible
             Assert.IsNotNull(brands);
             brands.AssertIsDisplayed("brands");
 
-            // get brandsList and check it's visible
-            ListBox brandsList = brands.WidgetGet<ListBox>("brandsList", 10);
+            // get brandsListBox and check it's visible
+            ListBox brandsListBox = brands.WidgetGet<ListBox>("brandsListBox", 10);
         }
 
         [TestMethod]
-        public void W070_ProductEditor_tabControl_models()
+        public void W070_ProductEditor_tabControl_productTypes()
+        {
+            // get tabControl and check it's visible
+            TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl", 10);
+
+            // select models TabPage by label
+            tabControl.SelectItem("Product Types");
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            var models = tabControl.Current;
+
+            // check models exists and is visible
+            Assert.IsNotNull(models);
+            models.AssertIsDisplayed("productTypes");
+
+            // get productTypesTreeView and check it's visible
+            TreeView productTypesTreeView = models.WidgetGet<TreeView>("productTypesTreeView", 10);
+        }
+
+        [TestMethod]
+        public void W072_ProductEditor_tabControl_models()
         {
             // get tabControl and check it's visible
             TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl", 10);
@@ -426,21 +489,14 @@ namespace SeleniumDemo.Tests
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
-            // get models TabPage by label
-            // var models = tabControl.GetSelectableItem("Models");
-            // get the currently selected page.
-
-            /*var tabs = tabControl.TabPages;
-            var models = tabs[0];*/
-
             var models = tabControl.Current;
 
             // check models exists and is visible
             Assert.IsNotNull(models);
             models.AssertIsDisplayed("models");
 
-            // get modelsTree and check it's visible
-            TreeView modelsTree = models.WidgetGet<TreeView>("modelsTree", 10);
+            // get modelsDataGridView and check it's visible
+            DataGridView modelsDataGridView = models.WidgetGet<DataGridView>("modelsDataGridView", 10);
         }
 
         [TestMethod]
