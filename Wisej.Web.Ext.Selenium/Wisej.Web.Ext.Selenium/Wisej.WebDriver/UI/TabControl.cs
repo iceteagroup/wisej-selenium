@@ -50,11 +50,6 @@ namespace Wisej.Web.Ext.Selenium.UI
                 }
 
                 return null;
-
-                /*var selection = (QX.UI.IWidget[]) Call("getSelection");
-                return selection != null && selection.Length > 0
-                    ? (TabPage) selection[0]
-                    : null;*/
             }
         }
     }
