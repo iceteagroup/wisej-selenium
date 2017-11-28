@@ -166,7 +166,6 @@
     <EmbeddedResource Include="JavaScript\getTableSelectedRanges.js" />
     <EmbeddedResource Include="JavaScript\getVisibleTableRowCount.js" />
     <EmbeddedResource Include="JavaScript\getWidgetByElement.js" />
-    <EmbeddedResource Include="JavaScript\getWidgetByElement_strict.js" />
     <EmbeddedResource Include="JavaScript\hasChildControl.js" />
     <EmbeddedResource Include="JavaScript\isApplicationReady.js" />
     <EmbeddedResource Include="JavaScript\isDisposed.js" />
