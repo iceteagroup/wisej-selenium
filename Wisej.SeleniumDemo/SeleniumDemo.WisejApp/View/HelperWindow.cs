@@ -23,6 +23,9 @@ namespace SeleniumDemo.WisejApp.View
         private void resetData_Click(object sender, EventArgs e)
         {
             Model.CustomerList.ResetData();
+            Model.ModelList.ResetData();
+            Model.BrandList.ResetData();
+            Model.ProductTypeList.ResetData();
             label1.Text = "Data reset to factory settings.";
         }
     }

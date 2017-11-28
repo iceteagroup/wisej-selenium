@@ -28,24 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Wisej.Web.TreeNode treeNode1 = new Wisej.Web.TreeNode();
-            Wisej.Web.TreeNode treeNode2 = new Wisej.Web.TreeNode();
-            Wisej.Web.TreeNode treeNode3 = new Wisej.Web.TreeNode();
-            Wisej.Web.TreeNode treeNode4 = new Wisej.Web.TreeNode();
-            Wisej.Web.TreeNode treeNode5 = new Wisej.Web.TreeNode();
-            Wisej.Web.TreeNode treeNode6 = new Wisej.Web.TreeNode();
-            Wisej.Web.TreeNode treeNode7 = new Wisej.Web.TreeNode();
-            Wisej.Web.TreeNode treeNode8 = new Wisej.Web.TreeNode();
+            this.components = new System.ComponentModel.Container();
             this.tabControl = new Wisej.Web.TabControl();
             this.brands = new Wisej.Web.TabPage();
+            this.brandsListBox = new Wisej.Web.ListBox();
+            this.brandsBindingSource = new Wisej.Web.BindingSource(this.components);
+            this.productTypes = new Wisej.Web.TabPage();
+            this.productTypesTreeView = new Wisej.Web.TreeView();
             this.models = new Wisej.Web.TabPage();
-            this.brandsList = new Wisej.Web.ListBox();
-            this.modelsTree = new Wisej.Web.TreeView();
+            this.modelsDataGridView = new Wisej.Web.DataGridView();
+            this.modelId = new Wisej.Web.DataGridViewTextBoxColumn();
+            this.modelName = new Wisej.Web.DataGridViewTextBoxColumn();
+            this.brandId = new Wisej.Web.DataGridViewComboBoxColumn();
+            this.productTypeId = new Wisej.Web.DataGridViewComboBoxColumn();
+            this.productTypesBindingSource = new Wisej.Web.BindingSource(this.components);
+            this.modelsBindingSource = new Wisej.Web.BindingSource(this.components);
             this.newButton = new Wisej.Web.Button();
             this.removeButton = new Wisej.Web.Button();
             this.tabControl.SuspendLayout();
             this.brands.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.brandsBindingSource)).BeginInit();
+            this.productTypes.SuspendLayout();
             this.models.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.modelsDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.productTypesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modelsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -54,6 +61,7 @@
             | Wisej.Web.AnchorStyles.Left) 
             | Wisej.Web.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.brands);
+            this.tabControl.Controls.Add(this.productTypes);
             this.tabControl.Controls.Add(this.models);
             this.tabControl.Location = new System.Drawing.Point(20, 20);
             this.tabControl.Name = "tabControl";
@@ -63,68 +71,120 @@
             // 
             // brands
             // 
-            this.brands.Controls.Add(this.brandsList);
+            this.brands.Controls.Add(this.brandsListBox);
             this.brands.Location = new System.Drawing.Point(1, 35);
             this.brands.Name = "brands";
             this.brands.Text = "Brands";
             // 
+            // brandsListBox
+            // 
+            this.brandsListBox.DataSource = this.brandsBindingSource;
+            this.brandsListBox.DisplayMember = "BrandName";
+            this.brandsListBox.Dock = Wisej.Web.DockStyle.Fill;
+            this.brandsListBox.Location = new System.Drawing.Point(0, 0);
+            this.brandsListBox.Name = "brandsListBox";
+            this.brandsListBox.Size = new System.Drawing.Size(570, 353);
+            this.brandsListBox.TabIndex = 0;
+            this.brandsListBox.ValueMember = "BrandId";
+            this.brandsListBox.DoubleClick += new System.EventHandler(this.brandsListBox_DoubleClick);
+            // 
+            // brandsBindingSource
+            // 
+            this.brandsBindingSource.AllowNew = true;
+            this.brandsBindingSource.DataSource = typeof(SeleniumDemo.WisejApp.Model.BrandList);
+            this.brandsBindingSource.RefreshValueOnChange = true;
+            // 
+            // productTypes
+            // 
+            this.productTypes.Controls.Add(this.productTypesTreeView);
+            this.productTypes.Location = new System.Drawing.Point(1, 35);
+            this.productTypes.Name = "productTypes";
+            this.productTypes.Text = "Product Types";
+            // 
+            // productTypesTreeView
+            // 
+            this.productTypesTreeView.Dock = Wisej.Web.DockStyle.Fill;
+            this.productTypesTreeView.Location = new System.Drawing.Point(0, 0);
+            this.productTypesTreeView.Name = "productTypesTreeView";
+            this.productTypesTreeView.Size = new System.Drawing.Size(570, 353);
+            this.productTypesTreeView.TabIndex = 0;
+            this.productTypesTreeView.NodeMouseDoubleClick += new Wisej.Web.TreeNodeMouseClickEventHandler(this.productTypesTreeView_NodeMouseDoubleClick);
+            // 
             // models
             // 
-            this.models.Controls.Add(this.modelsTree);
+            this.models.Controls.Add(this.modelsDataGridView);
             this.models.Location = new System.Drawing.Point(1, 35);
             this.models.Name = "models";
             this.models.Text = "Models";
+            this.models.Enter += new System.EventHandler(this.models_Enter);
+            this.models.Leave += new System.EventHandler(this.models_Leave);
             // 
-            // brandsList
+            // modelsDataGridView
             // 
-            this.brandsList.Dock = Wisej.Web.DockStyle.Fill;
-            this.brandsList.Items.AddRange(new object[] {
-            "Candy",
-            "Electrolux",
-            "Hoover",
-            "Kunft",
-            "LG",
-            "Philips",
-            "Samsung",
-            "Siemens",
-            "Whirlpool"});
-            this.brandsList.Location = new System.Drawing.Point(0, 0);
-            this.brandsList.Name = "brandsList";
-            this.brandsList.Size = new System.Drawing.Size(570, 353);
-            this.brandsList.TabIndex = 0;
+            this.modelsDataGridView.AllowUserToAddRows = true;
+            this.modelsDataGridView.AllowUserToDeleteRows = true;
+            this.modelsDataGridView.AllowUserToResizeColumns = false;
+            this.modelsDataGridView.AllowUserToResizeRows = false;
+            this.modelsDataGridView.AutoGenerateColumns = false;
+            this.modelsDataGridView.Columns.AddRange(new Wisej.Web.DataGridViewColumn[] {
+            this.modelId,
+            this.modelName,
+            this.brandId,
+            this.productTypeId});
+            this.modelsDataGridView.DataSource = this.modelsBindingSource;
+            this.modelsDataGridView.Dock = Wisej.Web.DockStyle.Fill;
+            this.modelsDataGridView.KeepSameRowHeight = true;
+            this.modelsDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.modelsDataGridView.MultiSelect = false;
+            this.modelsDataGridView.Name = "modelsDataGridView";
+            this.modelsDataGridView.RowHeadersWidthSizeMode = Wisej.Web.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.modelsDataGridView.ShowColumnVisibilityMenu = false;
+            this.modelsDataGridView.Size = new System.Drawing.Size(570, 353);
+            this.modelsDataGridView.TabIndex = 0;
             // 
-            // modelsTree
+            // modelId
             // 
-            this.modelsTree.Dock = Wisej.Web.DockStyle.Fill;
-            this.modelsTree.Location = new System.Drawing.Point(0, 0);
-            this.modelsTree.Name = "modelsTree";
-            treeNode1.Name = "DishWasher";
-            treeNode1.Text = "Dish Washer";
-            treeNode2.Name = "Dryer";
-            treeNode2.Text = "Dryer";
-            treeNode3.Name = "Radio";
-            treeNode3.Text = "Radio";
-            treeNode4.Name = "Refrigerator";
-            treeNode4.Text = "Refrigerator";
-            treeNode5.Name = "VacuumCleaner";
-            treeNode5.Text = "Vacuum Cleaner";
-            treeNode6.Name = "WashersDryer";
-            treeNode6.Text = "Washers/Dryer";
-            treeNode7.Name = "Washer";
-            treeNode7.Text = "Washer";
-            treeNode8.Name = "Tv";
-            treeNode8.Text = "TV";
-            this.modelsTree.Nodes.AddRange(new Wisej.Web.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5,
-            treeNode6,
-            treeNode7,
-            treeNode8});
-            this.modelsTree.Size = new System.Drawing.Size(570, 353);
-            this.modelsTree.TabIndex = 0;
+            this.modelId.DataPropertyName = "ModelId";
+            this.modelId.HeaderText = "Id";
+            this.modelId.Name = "modelId";
+            this.modelId.ReadOnly = true;
+            this.modelId.Width = 40;
+            // 
+            // modelName
+            // 
+            this.modelName.DataPropertyName = "ModelName";
+            this.modelName.HeaderText = "Name";
+            this.modelName.Name = "modelName";
+            // 
+            // brandId
+            // 
+            this.brandId.DataPropertyName = "BrandId";
+            this.brandId.DataSource = this.brandsBindingSource;
+            this.brandId.DisplayMember = "BrandName";
+            this.brandId.HeaderText = "Brand";
+            this.brandId.Name = "brandId";
+            this.brandId.ValueMember = "BrandId";
+            // 
+            // productTypeId
+            // 
+            this.productTypeId.DataPropertyName = "ProductTypeId";
+            this.productTypeId.DataSource = this.productTypesBindingSource;
+            this.productTypeId.DisplayMember = "ProductTypeName";
+            this.productTypeId.HeaderText = "Model Type";
+            this.productTypeId.Name = "productTypeId";
+            this.productTypeId.ValueMember = "ProductTypeId";
+            // 
+            // productTypesBindingSource
+            // 
+            this.productTypesBindingSource.AllowNew = true;
+            this.productTypesBindingSource.DataSource = typeof(SeleniumDemo.WisejApp.Model.ProductTypeList);
+            this.productTypesBindingSource.RefreshValueOnChange = true;
+            // 
+            // modelsBindingSource
+            // 
+            this.modelsBindingSource.AllowNew = true;
+            this.modelsBindingSource.DataSource = typeof(SeleniumDemo.WisejApp.Model.ModelList);
+            this.modelsBindingSource.RefreshValueOnChange = true;
             // 
             // newButton
             // 
@@ -134,6 +194,7 @@
             this.newButton.Size = new System.Drawing.Size(80, 26);
             this.newButton.TabIndex = 13;
             this.newButton.Text = "New";
+            this.newButton.Click += new System.EventHandler(this.newButton_Click);
             // 
             // removeButton
             // 
@@ -143,6 +204,7 @@
             this.removeButton.Size = new System.Drawing.Size(80, 26);
             this.removeButton.TabIndex = 14;
             this.removeButton.Text = "Remove";
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
             // 
             // ProductEditor
             // 
@@ -154,9 +216,15 @@
             this.Controls.Add(this.tabControl);
             this.Name = "ProductEditor";
             this.Text = "Product Editor";
+            this.Load += new System.EventHandler(this.ProductEditor_Load);
             this.tabControl.ResumeLayout(false);
             this.brands.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.brandsBindingSource)).EndInit();
+            this.productTypes.ResumeLayout(false);
             this.models.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.modelsDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.productTypesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modelsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -165,10 +233,19 @@
 
         private Wisej.Web.TabControl tabControl;
         private Wisej.Web.TabPage brands;
+        private Wisej.Web.TabPage productTypes;
         private Wisej.Web.TabPage models;
-        private Wisej.Web.ListBox brandsList;
-        private Wisej.Web.TreeView modelsTree;
+        private Wisej.Web.ListBox brandsListBox;
+        private Wisej.Web.TreeView productTypesTreeView;
+        private Wisej.Web.DataGridView modelsDataGridView;
         private Wisej.Web.Button newButton;
         private Wisej.Web.Button removeButton;
+        private Wisej.Web.BindingSource brandsBindingSource;
+        private Wisej.Web.DataGridViewTextBoxColumn modelId;
+        private Wisej.Web.DataGridViewTextBoxColumn modelName;
+        private Wisej.Web.DataGridViewComboBoxColumn brandId;
+        private Wisej.Web.DataGridViewComboBoxColumn productTypeId;
+        private Wisej.Web.BindingSource modelsBindingSource;
+        private Wisej.Web.BindingSource productTypesBindingSource;
     }
 }

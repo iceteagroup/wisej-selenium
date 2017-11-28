@@ -14,7 +14,7 @@ namespace SeleniumDemo.WisejApp.View
             InitializeComponent();
         }
 
-        private void DataGridBinding_Load(object sender, System.EventArgs e)
+        private void CustomerEditor_Load(object sender, System.EventArgs e)
         {
             // Bind ComboBox list datasources first
             statesbindingSource.EnumToDataSource(typeof(States));
