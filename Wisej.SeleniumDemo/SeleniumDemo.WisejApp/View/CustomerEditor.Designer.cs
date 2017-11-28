@@ -277,7 +277,7 @@
             this.MinimumSize = new System.Drawing.Size(750, 505);
             this.Name = "CustomerEditor";
             this.Text = "Customer Editor";
-            this.Load += new System.EventHandler(this.DataGridBinding_Load);
+            this.Load += new System.EventHandler(this.CustomerEditor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.customerListBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.customerBindingSource)).EndInit();

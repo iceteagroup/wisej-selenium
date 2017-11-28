@@ -45,8 +45,13 @@
     <Content Include="Default.html" />
     <Content Include="Default.json" />
     <Content Include="favicon.ico" />
+    <Content Include="Properties\DataSources\SeleniumDemo.WisejApp.Model.BrandList.datasource" />
     <Content Include="Properties\DataSources\SeleniumDemo.WisejApp.Model.Customer.datasource" />
     <Content Include="Properties\DataSources\SeleniumDemo.WisejApp.Model.CustomerList.datasource" />
+    <Content Include="Properties\DataSources\SeleniumDemo.WisejApp.Model.ModelList.datasource" />
+    <Content Include="Properties\DataSources\SeleniumDemo.WisejApp.Model.ProductTypeList.datasource" />
+    <Content Include="Properties\DataSources\SeleniumDemo.WisejApp.Model.Brand.datasource" />
+    <Content Include="Properties\DataSources\SeleniumDemo.WisejApp.Model.ProductType.datasource" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -58,12 +63,24 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Brand.cs" />
+    <Compile Include="Model\BrandList.cs" />
     <Compile Include="Model\EnumExtension.cs" />
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Model\CustomerList.cs" />
+    <Compile Include="Model\Model.cs" />
+    <Compile Include="Model\ModelList.cs" />
+    <Compile Include="Model\ProductType.cs" />
+    <Compile Include="Model\ProductTypeList.cs" />
     <Compile Include="Model\States.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\BrandEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\BrandEditor.Designer.cs">
+      <DependentUpon>BrandEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ButtonsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +105,12 @@
     <Compile Include="View\MainPage.Designer.cs">
       <DependentUpon>MainPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\ProductTypeEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ProductTypeEditor.Designer.cs">
+      <DependentUpon>ProductTypeEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ProductEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +132,9 @@
     <Reference Include="Wisej.Web" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="View\BrandEditor.resx">
+      <DependentUpon>BrandEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ButtonsWindow.resx">
       <DependentUpon>ButtonsWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -120,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\MainPage.resx">
       <DependentUpon>MainPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\ProductTypeEditor.resx">
+      <DependentUpon>ProductTypeEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProductEditor.resx">
       <DependentUpon>ProductEditor.cs</DependentUpon>
