@@ -72,16 +72,6 @@ Note that the Qxh strategy will only return the **first match** for the locator 
 The root node where a _By.Qxh_ locator will begin searching is determined by its context: When used with _QxWebDriver.FindWidget_, the children of the qooxdoo application's root widget will be matched against the first step.
 When used with _IWidget.FindWidget_, the widget itself will be the root node for the search.
 
-### Inline Applications
-
-Inline applications extending [qx.application.Inline](http://demo.qooxdoo.org/current/apiviewer/#qx.application.Inline) can have multiple root widgets. To locate a child widget, first find the DOM node to which the inline root is attached, then search within it:
-
-    WebElement root = driver.FindElement(By.Id("inlineRoot"));
-    // Within a WebElement, we can't use FindWidget, so we use FindElement...
-    WebElement buttonEl = root.FindElement(By.Qxh("qx.ui.container.Composite/qx.ui.form.Button"));
-    // ...and get a IWidget for it
-    IWidget button = (IWidget) driver.GetWidgetForElement(buttonEl);
-
 ## Extending WisejWebDriver
 
 _FindWidget_ uses a _IWidgetFactory_ to determine which widget class to instantiate. An alternative class implementing _IWidgetFactory_ and probably extending _DefaultWidgetFactory_ can be passed to the _QxWebDriver_ constructor to support custom widgets.
