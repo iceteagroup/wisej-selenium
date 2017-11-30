@@ -10,8 +10,14 @@ THIS FILE WAS ADAPTED FROM QxWebDriver-NET AND IS A WORK IN PROGRESS.
 
 wisej-selenium is a work in progress. The API is subject to change without notice, not all of Wisej widgets/controls are supported. Don't let that stop you from playing with it, giving us feedback on the [issues tab](http://github.com/iceteagroup/wisej-selenium/issues) and sending pull requests. Thanks!
 
+### Currently includes
+
+* WisejWebDriver library
+* helper library for MSTest test framework
+
 ### Still To Come
 
+* more complete support for Wisej UI classes.
 * NuGet package
 * helper library for [NUnit](http://nunit.org/) test framework
 
