@@ -10,17 +10,28 @@ THIS FILE WAS ADAPTED FROM QxWebDriver-NET AND IS A WORK IN PROGRESS.
 
 wisej-selenium is a work in progress. The API is subject to change without notice, not all of Wisej widgets/controls are supported. Don't let that stop you from playing with it, giving us feedback on the [issues tab](http://github.com/iceteagroup/wisej-selenium/issues) and sending pull requests. Thanks!
 
+### Currently includes
+
+* WisejWebDriver library
+* helper library for MSTest test framework
+
+### Still To Come
+
+* more complete support for Wisej UI classes.
+* NuGet package
+* helper library for [NUnit](http://nunit.org/) test framework
+
 ## Project Goal
 
 The goal of this project is to provide an API that facilitates writing [WebDriver](http://seleniumhq.org/docs/03_webdriver.html)-based interaction tests for [Wisej](http://wisej.com) applications by abstracting away the implementation details of qooxdoo/Wisej JavaScript widgets.
 
-## [Wisej.Web.Ext.Selenium](http://github.com/iceteagroup/wisej-selenium/tree/master/Wisej.Web.Ext.Selenium/Wisej.Web.Ext.Selenium)
+## Library [Wisej.Web.Ext.Selenium](http://github.com/iceteagroup/wisej-selenium/tree/master/Wisej.Web.Ext.Selenium/Wisej.Web.Ext.Selenium)
 
-This is the WisejWebDriver project that embeds QxWebDriver and extends it with classes that try to match Wisej UI classes.
+This is the WisejWebDriver library that embeds QxWebDriver and extends it with classes that try to match Wisej UI classes.
 
-## [Wisej.Web.Ext.Selenium.MSTest](http://github.com/iceteagroup/wisej-selenium/tree/master/Wisej.Web.Ext.Selenium/Wisej.Web.Ext.Selenium.MSTest)
+## Library [Wisej.Web.Ext.Selenium.MSTest](http://github.com/iceteagroup/wisej-selenium/tree/master/Wisej.Web.Ext.Selenium/Wisej.Web.Ext.Selenium.MSTest)
 
-This project is a set of helper classes to simplify the manipulation of Wisej widgets. Most methods handle assertions as needed (eg. close Form and assert it's closed).
+This library is a set of helper classes to simplify the manipulation of Wisej widgets. Most methods handle assertions as needed (eg. close Form and assert it's closed). This library uses MSTest (ASSERT is test framework dependent).
 
 ## Widget Interfaces
 
