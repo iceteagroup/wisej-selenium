@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using Wisej.Web.Ext.Selenium;
 using Wisej.Web.Ext.Selenium.Tests;
 using Wisej.Web.Ext.Selenium.UI;
 using By = Qooxdoo.WebDriver.By;
@@ -523,9 +524,9 @@ namespace SeleniumDemo.Tests
             TestDriver.AlertBoxClose("Supplier Editor should be implemented");
             TestDriver.AlertBoxClose(MessageBoxIcon.Information);
 
-            TestDriver.AlertBoxAssertNotExists(MessageBoxIcon.Error, "Supplier Editor must be implemented");
-            TestDriver.AlertBoxAssertNotExists("Supplier Editor should be implemented");
-            TestDriver.AlertBoxAssertNotExists(MessageBoxIcon.Information);
+            TestDriver.AlertBoxAssertNotExists(MessageBoxIcon.Error, "Supplier Editor must be implemented", 0);
+            TestDriver.AlertBoxAssertNotExists("Supplier Editor should be implemented", 0);
+            TestDriver.AlertBoxAssertNotExists(MessageBoxIcon.Information, 0);
         }
 
         [TestMethod]
