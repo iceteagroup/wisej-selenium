@@ -1,4 +1,4 @@
-﻿namespace Wisej.Web.Ext.Selenium.Tests
+﻿namespace Wisej.Web.Ext.Selenium
 {
     public enum MessageBoxIcon
     {

@@ -325,7 +325,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Waits to find the first matching <see cref="IWidget"/> using the given method.
+        /// Waits to find the first matching <see cref="IWidget"/> using the given locator.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
         /// <param name="timeoutInSeconds">The time to wait for the widget </param>

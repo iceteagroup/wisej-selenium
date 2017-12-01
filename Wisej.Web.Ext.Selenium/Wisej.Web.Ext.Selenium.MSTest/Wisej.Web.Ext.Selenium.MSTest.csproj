@@ -47,17 +47,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\DialogResult.cs" />
-    <Compile Include="Enums\MessageBoxIcon.cs" />
-    <Compile Include="Helpers\HelperAlertBox.cs" />
-    <Compile Include="Helpers\HelperButton.cs" />
-    <Compile Include="Helpers\HelperDebug.cs" />
-    <Compile Include="Helpers\HelperForm.cs" />
-    <Compile Include="Helpers\HelperMessageBox.cs" />
-    <Compile Include="Helpers\HelperTextBox.cs" />
-    <Compile Include="Helpers\HelperUI.cs" />
-    <Compile Include="Helpers\HelperValue.cs" />
-    <Compile Include="Helpers\HelperWidget.cs" />
+    <Compile Include="HelperAlertBox.cs" />
+    <Compile Include="HelperButton.cs" />
+    <Compile Include="HelperDebug.cs" />
+    <Compile Include="HelperForm.cs" />
+    <Compile Include="HelperMessageBox.cs" />
+    <Compile Include="HelperTextBox.cs" />
+    <Compile Include="HelperUI.cs" />
+    <Compile Include="HelperValue.cs" />
+    <Compile Include="HelperWidget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

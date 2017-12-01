@@ -99,6 +99,8 @@
     <Compile Include="Qooxdoo.WebDriver\UI\Tree\Core\AbstractItem.cs" />
     <Compile Include="Qooxdoo.WebDriver\UI\Tree\Tree.cs" />
     <Compile Include="Qooxdoo.WebDriver\UI\Tree\VirtualTree.cs" />
+    <Compile Include="Wisej.WebDriver\DialogResult.cs" />
+    <Compile Include="Wisej.WebDriver\MessageBoxIcon.cs" />
     <Compile Include="Wisej.WebDriver\UI\AlertBox.cs" />
     <Compile Include="Wisej.WebDriver\UI\Button.cs" />
     <Compile Include="Wisej.WebDriver\UI\Canvas.cs" />
