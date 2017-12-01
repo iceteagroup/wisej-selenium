@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using Qooxdoo.WebDriver;
 using Qooxdoo.WebDriver.UI;
 using Wisej.Web.Ext.Selenium.UI;
@@ -81,7 +82,7 @@ namespace Wisej.Web.Ext.Selenium
 
         #endregion
 
-        #region Utility Methods/Properties
+        #region Properties
 
         /// <summary>
         /// Gets all the currently open <see cref="T:Wisej.Web.AlertBox"/> instances.
@@ -144,6 +145,157 @@ namespace Wisej.Web.Ext.Selenium
                 }
             }
         }
+
+        #endregion
+
+        #region WaitFor methods
+
+        /// <summary>
+        /// Waits to find the first matching <see cref="AlertBox" /> using the given method.
+        /// </summary>
+        /// <param name="ignoreIcon">if set to <c>true</c> ignores the alert box icon parameter.</param>
+        /// <param name="alertBoxIcon">The alert box icon to search for.</param>
+        /// <param name="alertBoxMessage">The alert box message to search for.</param>
+        /// <param name="timeoutInSeconds">The time to wait for the alert box.</param>
+        /// <returns>
+        /// The first matching alert box.
+        /// </returns>
+        /// <exception cref="NoSuchElementException">If no matching alert box was found before the timeout elapsed</exception>
+        public AlertBox WaitForAlertBox(bool ignoreIcon, MessageBoxIcon alertBoxIcon, string alertBoxMessage,
+            long timeoutInSeconds)
+        {
+            AlertBox alertBox = null;
+            try
+            {
+                alertBox = new WebDriverWait(this, TimeSpan.FromSeconds(timeoutInSeconds))
+                    .Until(AlertBoxExists(ignoreIcon, alertBoxIcon, alertBoxMessage));
+            }
+            catch (WebDriverTimeoutException)
+            {
+            }
+
+            return alertBox;
+        }
+
+        /// <summary>
+        /// An expectation for checking an alert box exists.
+        /// </summary>
+        public static Func<IWebDriver, AlertBox> AlertBoxExists(bool ignoreIcon, MessageBoxIcon alertBoxIcon,
+            string alertBoxMessage)
+        {
+            return driver =>
+            {
+                AlertBox[] alertBoxes = ((WisejWebDriver) driver).AlertBoxes;
+                if (alertBoxes != null)
+                {
+                    foreach (AlertBox alertBox in alertBoxes)
+                    {
+                        var matchIcon = false;
+                        var matchMessage = false;
+
+                        // check icon type
+                        if (!ignoreIcon)
+                        {
+                            if (alertBoxIcon.ToString().ToUpper() == alertBox.Icon.ToUpper())
+                            {
+                                matchIcon = true;
+                            }
+                        }
+                        else
+                        {
+                            matchIcon = true;
+                        }
+
+                        // check message box
+                        if (!string.IsNullOrEmpty(alertBoxMessage))
+                        {
+                            if (alertBoxMessage == alertBox.Message)
+                            {
+                                matchMessage = true;
+                            }
+                        }
+                        else
+                        {
+                            matchMessage = true;
+                        }
+
+                        if (matchIcon && matchMessage)
+                        {
+                            return alertBox;
+                        }
+                    }
+                }
+
+                return null;
+            };
+        }
+
+        /// <summary>
+        /// Waits to find the first matching <see cref="MessageBox" /> using the given method.
+        /// </summary>
+        /// <param name="title">The title of message box to search for.</param>
+        /// <param name="message">The message to search for.</param>
+        /// <param name="timeoutInSeconds">The time to wait for the message box.</param>
+        /// <returns>
+        /// The first matching message box.
+        /// </returns>
+        /// <exception cref="NoSuchElementException">If no matching message box was found before the timeout elapsed</exception>
+        public MessageBox WaitForMessageBox(string title, string message, long timeoutInSeconds)
+        {
+            MessageBox messageBox = null;
+            try
+            {
+                messageBox = new WebDriverWait(this, TimeSpan.FromSeconds(timeoutInSeconds))
+                    .Until(MessageBoxExists(title, message));
+            }
+            catch (WebDriverTimeoutException)
+            {
+            }
+
+            return messageBox;
+        }
+
+        /// <summary>
+        /// An expectation for checking a message box exists.
+        /// </summary>
+        public static Func<IWebDriver, MessageBox> MessageBoxExists(string title, string message)
+        {
+            return driver =>
+            {
+                MessageBox[] messagesBoxes = ((WisejWebDriver) driver).MessageBoxes;
+                if (messagesBoxes != null)
+                {
+                    foreach (MessageBox messageBox in messagesBoxes)
+                    {
+                        // check title
+                        if (!string.IsNullOrEmpty(title))
+                        {
+                            if (title == messageBox.Title)
+                            {
+                                return messageBox;
+                            }
+
+                            continue;
+                        }
+
+                        // check message
+                        if (!string.IsNullOrEmpty(message))
+                        {
+                            if (message == messageBox.Message)
+                            {
+                                return messageBox;
+                            }
+                        }
+                    }
+                }
+
+                return null;
+            };
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Sleep for the specified number of milliseconds.
@@ -237,12 +389,12 @@ namespace Wisej.Web.Ext.Selenium
 
         #region Cache
 
-        private Dictionary<string, IWidget> _cache = new Dictionary<string, IWidget>();
+        private readonly Dictionary<string, IWidget> _cache = new Dictionary<string, IWidget>();
 
         // Finds the widget in the cache using the path.
         private IWidget Cache(string key, Func<IWidget> callback)
         {
-            IWidget widget = null;
+            IWidget widget;
             if (_cache.TryGetValue(key, out widget))
             {
                 // refresh if disposed.
