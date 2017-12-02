@@ -151,24 +151,21 @@ namespace Wisej.Web.Ext.Selenium
         #region WaitFor methods
 
         /// <summary>
-        /// Waits to find the first matching <see cref="AlertBox" /> using the given method.
+        /// Waits to find the first matching <see cref="AlertBox" /> using the specifyed method.
         /// </summary>
-        /// <param name="ignoreIcon">if set to <c>true</c> ignores the alert box icon parameter.</param>
-        /// <param name="alertBoxIcon">The alert box icon to search for.</param>
-        /// <param name="alertBoxMessage">The alert box message to search for.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the alert box.</param>
-        /// <returns>
-        /// The first matching alert box.
-        /// </returns>
-        /// <exception cref="NoSuchElementException">If no matching alert box was found before the timeout elapsed</exception>
-        public AlertBox WaitForAlertBox(bool ignoreIcon, MessageBoxIcon alertBoxIcon, string alertBoxMessage,
-            long timeoutInSeconds)
+        /// <param name="ignoreIcon">If set to <c>true</c> ignores the AlertBox icon parameter.</param>
+        /// <param name="icon">The AlertBox icon to look for.</param>
+        /// <param name="message">The AlertBox message to search for.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the AlertBox.</param>
+        /// <returns>The first matching AlertBox or <value>null</value> if none found.</returns>
+        /// <exception cref="NoSuchElementException">If no matching AlertBox was found before the timeout elapsed</exception>
+        public AlertBox WaitForAlertBox(bool ignoreIcon, MessageBoxIcon icon, string message, long timeoutInSeconds)
         {
             AlertBox alertBox = null;
             try
             {
                 alertBox = new WebDriverWait(this, TimeSpan.FromSeconds(timeoutInSeconds))
-                    .Until(AlertBoxExists(ignoreIcon, alertBoxIcon, alertBoxMessage));
+                    .Until(AlertBoxExists(ignoreIcon, icon, message));
             }
             catch (WebDriverTimeoutException)
             {
@@ -178,10 +175,13 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
-        /// An expectation for checking an alert box exists.
+        /// An expectation for checking an AlertBox exists.
         /// </summary>
-        public static Func<IWebDriver, AlertBox> AlertBoxExists(bool ignoreIcon, MessageBoxIcon alertBoxIcon,
-            string alertBoxMessage)
+        /// <param name="ignoreIcon">If set to <c>true</c> ignores the AlertBox icon parameter.</param>
+        /// <param name="icon">The AlertBox icon to look for.</param>
+        /// <param name="message">The AlertBox message to search for.</param>
+        /// <returns>The first matching AlertBox or <value>null</value> if none found.</returns>
+        public static Func<IWebDriver, AlertBox> AlertBoxExists(bool ignoreIcon, MessageBoxIcon icon, string message)
         {
             return driver =>
             {
@@ -196,7 +196,7 @@ namespace Wisej.Web.Ext.Selenium
                         // check icon type
                         if (!ignoreIcon)
                         {
-                            if (alertBoxIcon.ToString().ToUpper() == alertBox.Icon.ToUpper())
+                            if (icon.ToString().ToUpper() == alertBox.Icon.ToUpper())
                             {
                                 matchIcon = true;
                             }
@@ -206,10 +206,10 @@ namespace Wisej.Web.Ext.Selenium
                             matchIcon = true;
                         }
 
-                        // check message box
-                        if (!string.IsNullOrEmpty(alertBoxMessage))
+                        // check message
+                        if (!string.IsNullOrEmpty(message))
                         {
-                            if (alertBoxMessage == alertBox.Message)
+                            if (message == alertBox.Message)
                             {
                                 matchMessage = true;
                             }
@@ -231,22 +231,23 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
-        /// Waits to find the first matching <see cref="MessageBox" /> using the given method.
+        /// Waits to find the first matching <see cref="MessageBox" /> using the specifyed method.
         /// </summary>
         /// <param name="title">The title of message box to search for.</param>
+        /// <param name="ignoreIcon">If set to <c>true</c> ignores the MessageBox icon parameter.</param>
+        /// <param name="icon">The MessageBox icon to look for.</param>
         /// <param name="message">The message to search for.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the message box.</param>
-        /// <returns>
-        /// The first matching message box.
-        /// </returns>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the message box.</param>
+        /// <returns>The first matching MessageBox or <value>null</value> if none found.</returns>
         /// <exception cref="NoSuchElementException">If no matching message box was found before the timeout elapsed</exception>
-        public MessageBox WaitForMessageBox(string title, string message, long timeoutInSeconds)
+        public MessageBox WaitForMessageBox(string title, bool ignoreIcon, MessageBoxIcon icon, string message,
+            long timeoutInSeconds)
         {
             MessageBox messageBox = null;
             try
             {
                 messageBox = new WebDriverWait(this, TimeSpan.FromSeconds(timeoutInSeconds))
-                    .Until(MessageBoxExists(title, message));
+                    .Until(MessageBoxExists(title, ignoreIcon, icon, message));
             }
             catch (WebDriverTimeoutException)
             {
@@ -258,7 +259,13 @@ namespace Wisej.Web.Ext.Selenium
         /// <summary>
         /// An expectation for checking a message box exists.
         /// </summary>
-        public static Func<IWebDriver, MessageBox> MessageBoxExists(string title, string message)
+        /// <param name="title">The title of message box to search for.</param>
+        /// <param name="ignoreIcon">If set to <c>true</c> ignores the MessageBox icon parameter.</param>
+        /// <param name="icon">The MessageBox icon to look for.</param>
+        /// <param name="message">The message to search for.</param>
+        /// <returns>The first matching MessageBox or <value>null</value> if none found.</returns>
+        public static Func<IWebDriver, MessageBox> MessageBoxExists(string title, bool ignoreIcon, MessageBoxIcon icon,
+            string message)
         {
             return driver =>
             {
@@ -267,15 +274,34 @@ namespace Wisej.Web.Ext.Selenium
                 {
                     foreach (MessageBox messageBox in messagesBoxes)
                     {
+                        var matchTitle = false;
+                        var matchIcon = false;
+                        var matchMessage = false;
+
                         // check title
                         if (!string.IsNullOrEmpty(title))
                         {
                             if (title == messageBox.Title)
                             {
-                                return messageBox;
+                                matchTitle = true;
                             }
+                        }
+                        else
+                        {
+                            matchTitle = true;
+                        }
 
-                            continue;
+                        // check icon type
+                        if (!ignoreIcon)
+                        {
+                            if (icon.ToString().ToUpper() == messageBox.Icon.ToUpper())
+                            {
+                                matchIcon = true;
+                            }
+                        }
+                        else
+                        {
+                            matchIcon = true;
                         }
 
                         // check message
@@ -283,8 +309,17 @@ namespace Wisej.Web.Ext.Selenium
                         {
                             if (message == messageBox.Message)
                             {
-                                return messageBox;
+                                matchMessage = true;
                             }
+                        }
+                        else
+                        {
+                            matchMessage = true;
+                        }
+
+                        if (matchIcon && matchTitle && matchMessage)
+                        {
+                            return messageBox;
                         }
                     }
                 }
@@ -300,7 +335,7 @@ namespace Wisej.Web.Ext.Selenium
         /// <summary>
         /// Sleep for the specified number of milliseconds.
         /// </summary>
-        /// <param name="milliseconds"></param>
+        /// <param name="milliseconds">The number milliseconds to sleep.</param>
         public void Sleep(int milliseconds)
         {
             System.Threading.Thread.Sleep(milliseconds);
@@ -326,10 +361,10 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
-        /// Returns a newly fetched <see cref="IWidget"/> from the browser.
+        /// Returns an <see cref="IWidget"/> newly fetched from the browser.
         /// </summary>
         /// <param name="path">The path string.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the widget (seconds).</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
         /// <returns>The <see cref="IWidget"/> that matches the <para>path</para>.</returns>
         public IWidget Refresh(string path, long timeoutInSeconds = 5)
         {
@@ -338,11 +373,11 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
-        /// Returns a newly fetched child <see cref="IWidget"/> from the browser.
+        /// Returns a child <see cref="IWidget"/> newly fetched from the browser.
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The path string.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the widget (seconds).</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
         /// <returns>The child <see cref="IWidget"/> that matches the <para>path</para>.</returns>
         public IWidget RefreshChildWidget(IWidget parent, string path, long timeoutInSeconds = 5)
         {
@@ -354,7 +389,7 @@ namespace Wisej.Web.Ext.Selenium
         /// Returns the widget identified by the specified <para>path</para>.
         /// </summary>
         /// <param name="path">The path string.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the widget (seconds).</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
         /// <returns>The <see cref="IWidget"/> that matches the <para>path</para>.</returns>
         public IWidget FindWidget(string path, long timeoutInSeconds = 5)
         {
@@ -372,7 +407,7 @@ namespace Wisej.Web.Ext.Selenium
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The path string.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the widget (seconds).</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
         /// <returns>The child <see cref="IWidget"/> that matches the <para>path</para>.</returns>
         public IWidget FindChildWidget(IWidget parent, string path, long timeoutInSeconds = 5)
         {
