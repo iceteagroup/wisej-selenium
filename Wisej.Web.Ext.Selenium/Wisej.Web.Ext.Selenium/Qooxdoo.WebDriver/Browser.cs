@@ -20,7 +20,7 @@
 namespace OpenQA.Selenium
 {
     /// <summary>
-    /// Supported browses enumeration used on QxWebDriver/WisejWebDriver constructor.
+    /// Supported browser enumeration used on QxWebDriver/WisejWebDriver constructor.
     /// </summary>
     public enum Browser
     {

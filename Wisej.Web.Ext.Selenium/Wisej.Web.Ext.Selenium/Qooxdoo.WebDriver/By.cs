@@ -64,7 +64,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Searches for elements by traversing the qooxdoo application's widget  hierarchy.
+        /// Searches for elements by traversing the qooxdoo application's widget hierarchy.
         /// See the <a href="TODO">Qxh locator manual page</a> for details.
         /// This strategy will ignore any widgets that are not currently visible, as
         /// determined by checking the qooxdoo property <a href="http://demo.qooxdoo.org/current/apiviewer/#qx.ui.Core.Widget~isSeeable!method_public">seeable</a>.
@@ -80,9 +80,8 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Searches for elements by traversing the qooxdoo application's widget  hierarchy.
+        /// Searches for elements by traversing the qooxdoo application's widget hierarchy.
         /// See the <a href="TODO">Qxh locator manual page</a> for details.
-        ///
         /// This strategy will ignore any widgets that are not currently visible, as
         /// determined by checking the qooxdoo property <a href="http://demo.qooxdoo.org/current/apiviewer/#qx.ui.Core.Widget~isSeeable!method_public">seeable</a>.
         /// </summary>
@@ -132,9 +131,8 @@ namespace Qooxdoo.WebDriver
             return new ByQxh(locator, onlySeeable);
         }
 
-
         /// <summary>
-        /// Convert a widget namespace (including the widget's name) to a <see cref="ByQxh"/> locator string.
+        /// Convert a widget namespace (including the widget name) to a <see cref="ByQxh"/> locator string.
         /// </summary>
         /// <param name="namespace">The locator string.</param>
         /// <returns>The converted locator string.</returns>
@@ -154,10 +152,11 @@ namespace Qooxdoo.WebDriver
             internal bool? OnlySeeable;
 
             /// <summary>
-            /// Searches for elements by traversing the qooxdoo application's widget  hierarchy.
+            /// Searches for elements by traversing the qooxdoo application's widget hierarchy.
             /// </summary>
-            /// <param name="locator"></param>
-            /// <param name="onlySeeable"></param>
+            /// <param name="locator"> Locator specification </param>
+            /// <param name="onlySeeable"> <code>false</code> if invisible widgets should be
+            /// traversed. Note that this can considerably increase execution time. </param>
             public ByQxh(string locator, bool? onlySeeable)
             {
                 Locator = locator;
@@ -168,7 +167,7 @@ namespace Qooxdoo.WebDriver
             /// Finds all elements matching the criteria.
             /// </summary>
             /// <param name="context">An <see cref="ISearchContext"/> object to use to search for the elements.</param>
-            /// <returns>A <see cref="ReadOnlyCollection{T}"/> of all <see cref="IWebElement">WebElements</see>
+            /// <returns>A <see cref="ReadOnlyCollection{T}"/> of all <see cref="IWebElement"/>
             /// matching the current criteria, or an empty list if nothing matches.</returns>
             public override ReadOnlyCollection<IWebElement> FindElements(ISearchContext context)
             {

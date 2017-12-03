@@ -68,7 +68,7 @@ namespace Qooxdoo.WebDriver.UI
 
         /// <summary>
         /// Returns a list of qooxdoo interfaces implemented by the widget containing
-        /// the given element.
+        /// the specifyed element.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>.</returns>
@@ -81,7 +81,7 @@ namespace Qooxdoo.WebDriver.UI
         }
 
         /// <summary>
-        /// Returns the inheritance hierarchy of the widget containing the given element.
+        /// Returns the inheritance hierarchy of the widget containing the specifyed element.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>.</returns>
@@ -95,7 +95,7 @@ namespace Qooxdoo.WebDriver.UI
 
         /// <summary>
         /// Returns an instance of <seealso cref="IWidget" /> or one of its subclasses that
-        /// represents the qooxdoo widget containing the given element.
+        /// represents the qooxdoo widget containing the specifyed element.
         /// </summary>
         /// <param name="element">A IWebElement representing a DOM element
         /// that is part of a qooxdoo widget</param>

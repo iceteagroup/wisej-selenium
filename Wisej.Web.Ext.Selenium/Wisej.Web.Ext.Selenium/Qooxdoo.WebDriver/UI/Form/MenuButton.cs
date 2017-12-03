@@ -31,7 +31,7 @@ namespace Qooxdoo.WebDriver.UI.Form
         /// Initializes a new instance of the <see cref="MenuButton"/> class.
         /// </summary>
         /// <param name="element">The element.</param>
-        /// <param name="driver">The driver.</param>
+        /// <param name="driver">The driver to use.</param>
         public MenuButton(IWebElement element, QxWebDriver driver) : base(element, driver)
         {
         }
