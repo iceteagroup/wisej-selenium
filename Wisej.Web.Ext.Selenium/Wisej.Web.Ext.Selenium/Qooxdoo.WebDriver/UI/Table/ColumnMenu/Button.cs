@@ -13,7 +13,7 @@ namespace Qooxdoo.WebDriver.UI.Table.ColumnMenu
         /// Initializes a new instance of the <see cref="Button"/> class.
         /// </summary>
         /// <param name="element">The element.</param>
-        /// <param name="driver">The driver.</param>
+        /// <param name="driver">The driver to use.</param>
         public Button(IWebElement element, QxWebDriver driver) : base(element, driver)
         {
         }

@@ -38,6 +38,14 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
+        /// Gets the icon name.
+        /// </summary>
+        public string Icon
+        {
+            get { return (string) GetPropertyValue("image"); }
+        }
+
+        /// <summary>
         /// Gets the title text.
         /// </summary>
         public string Title

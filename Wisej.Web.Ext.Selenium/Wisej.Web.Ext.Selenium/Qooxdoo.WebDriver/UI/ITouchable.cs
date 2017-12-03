@@ -36,7 +36,7 @@ namespace Qooxdoo.WebDriver.UI
         void Longtap();
 
         /// <summary>
-        /// Tracks this widget by the given offsets </summary>
+        /// Tracks this widget by the specifyed offsets </summary>
         /// <param name="x"> Amount of pixels to move horizontally </param>
         /// <param name="y"> Amount of pixels to move vertically </param>
         /// <param name="step"> Generate a move event every (step) pixels </param>

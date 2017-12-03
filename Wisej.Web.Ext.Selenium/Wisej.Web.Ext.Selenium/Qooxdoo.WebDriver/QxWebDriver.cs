@@ -258,10 +258,10 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Find the first matching <see cref="IWidget"/> using the given method.
+        /// Find the first matching <see cref="IWidget"/> using the specifyed method.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <param name="timeoutInSeconds"> Time to wait for the widget in seconds</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
         /// <returns>The first matching widget on the current page.</returns>
         /// <exception cref="NoSuchElementException"> If no matching widget was found before the timeout elapsed </exception>
         /// <seealso cref="By"/>
@@ -276,13 +276,13 @@ namespace Qooxdoo.WebDriver
             }
             catch (WebDriverTimeoutException e)
             {
-                throw new NoSuchElementException("Unable to find element for locator: " + by.ToString(), e);
+                throw new NoSuchElementException("Unable to find element for locator: " + by, e);
             }
             return GetWidgetForElement(element);
         }
 
         /// <summary>
-        /// Find the first matching <see cref="IWidget"/> using the given method. Retry for up to <see cref="ITimeouts.ImplicitWait"/> seconds
+        /// Find the first matching <see cref="IWidget"/> using the specifyed method. Retry for up to <see cref="ITimeouts.ImplicitWait"/> seconds
         /// before throwing.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
@@ -305,7 +305,7 @@ namespace Qooxdoo.WebDriver
         /// </summary>
         /// <param name="throwException">Throws the <see cref="WebDriverTimeoutException"/>.</param>
         /// <param name="condition">Callback condition function.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the condition.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the condition.</param>
         public void Wait(Func<bool> condition, bool throwException = false, long timeoutInSeconds = 5)
         {
             if (condition == null)
@@ -325,10 +325,10 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Waits to find the first matching <see cref="IWidget"/> using the given locator.
+        /// Waits to find the first matching <see cref="IWidget"/> using the specifyed locator.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the widget </param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
         /// <returns>The first matching element on the current page.</returns>
         /// <exception cref="NoSuchElementException"> If no matching widget was found before the timeout elapsed </exception>
         /// <seealso cref="By"/>
@@ -339,7 +339,7 @@ namespace Qooxdoo.WebDriver
 
         /// <summary>
         /// Returns an instance of <see cref="IWidget"/> or one of its subclasses that
-        /// represents the qooxdoo widget containing the given element. </summary>
+        /// represents the qooxdoo widget containing the specifyed element. </summary>
         /// <param name="element"> A <see cref="IWebElement"/> representing a DOM element that is part of a
         /// qooxdoo widget </param>
         /// <returns>Widget object.</returns>
@@ -419,22 +419,22 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Finds the first <see cref="OpenQA.Selenium.IWebElement" /> using the given method.
+        /// Finds the first <see cref="IWebElement" /> using the specifyed method.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <returns>The first matching <see cref="OpenQA.Selenium.IWebElement" /> on the current context.</returns>
-        /// <exception cref="OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
+        /// <returns>The first matching <see cref="IWebElement" /> on the current context.</returns>
+        /// <exception cref="NoSuchElementException">If no element matches the criteria.</exception>
         public IWebElement FindElement(OpenQA.Selenium.By by)
         {
             return _driver.FindElement(by);
         }
 
         /// <summary>
-        /// Finds all <see cref="OpenQA.Selenium.IWebElement">IWebElements</see> within the current context
-        /// using the given mechanism.
+        /// Finds all <see cref="IWebElement"/> within the current context
+        /// using the specifyed mechanism.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <returns>A <see cref="System.Collections.ObjectModel.ReadOnlyCollection`1" /> of all <see cref="OpenQA.Selenium.IWebElement">WebElements</see>
+        /// <returns>A <see cref="ReadOnlyCollection{IWebElement}"/> of all <see cref="IWebElement"/>
         /// matching the current criteria, or an empty list if nothing matches.</returns>
         public ReadOnlyCollection<IWebElement> FindElements(OpenQA.Selenium.By by)
         {
@@ -545,7 +545,7 @@ namespace Qooxdoo.WebDriver
         /// Instructs the driver to navigate the browser to another location.
         /// </summary>
         /// <returns>An <see cref="OpenQA.Selenium.INavigation" /> object allowing the user to access
-        /// the browser's history and to navigate to a given URL.</returns>
+        /// the browser's history and to navigate to the specifyed URL.</returns>
         public INavigation Navigate()
         {
             return _driver.Navigate();
@@ -554,7 +554,7 @@ namespace Qooxdoo.WebDriver
         /// <summary>
         /// Instructs the driver to send future commands to a different frame or window.
         /// </summary>
-        /// <returns>An <see cref="OpenQA.Selenium.ITargetLocator" /> object which can be used to select
+        /// <returns>An <see cref="ITargetLocator" /> object which can be used to select
         /// a frame or window.</returns>
         public ITargetLocator SwitchTo()
         {
@@ -580,7 +580,7 @@ namespace Qooxdoo.WebDriver
         /// <returns>The value returned by the script.</returns>
         /// <remarks>
         ///     <para>
-        /// The <see cref="OpenQA.Selenium.IJavaScriptExecutor.ExecuteScript(System.String,System.Object[])" />method executes JavaScript in the context of
+        /// The <see cref="IJavaScriptExecutor.ExecuteScript(string, object[])" />method executes JavaScript in the context of
         /// the currently selected frame or window. This means that "document" will refer
         /// to the current document. If the script has a return value, then the following
         /// steps will be taken:
@@ -588,21 +588,20 @@ namespace Qooxdoo.WebDriver
         ///     <para>
         ///         <list type="bullet">
         ///             <item>
-        ///                 <description>For an HTML element, this method returns a <see cref="OpenQA.Selenium.IWebElement" /></description>
+        ///                 <description>For an HTML element, this method returns a <see cref="IWebElement" /></description>
         ///             </item>
         ///             <item>
-        ///                 <description>For a number, a <see cref="System.Int64" /> is returned</description>
+        ///                 <description>For a number, a <see cref="long" /> is returned</description>
         ///             </item>
         ///             <item>
-        ///                 <description>For a boolean, a <see cref="System.Boolean" /> is returned</description>
+        ///                 <description>For a boolean, a <see cref="bool" /> is returned</description>
         ///             </item>
         ///             <item>
-        ///                 <description>For all other cases a <see cref="System.String" /> is returned.</description>
+        ///                 <description>For all other cases a <see cref="string" /> is returned.</description>
         ///             </item>
         ///             <item>
-        ///                 <description>For an array,we check the first element, and attempt to return a
-        /// <see cref="System.Collections.Generic.List`1" /> of that type, following the rules above. Nested lists are not
-        /// supported.</description>
+        ///                 <description>For an array, we check the first element, and attempt to return a List of that type, 
+        /// following the rules above. Nested lists are not supported.</description>
         ///             </item>
         ///             <item>
         ///                 <description>If the value is null or there is no return value,
@@ -611,8 +610,8 @@ namespace Qooxdoo.WebDriver
         ///         </list>
         ///     </para>
         ///     <para>
-        /// Arguments must be a number (which will be converted to a <see cref="System.Int64" />),
-        /// a <see cref="System.Boolean" />, a <see cref="System.String" /> or a <see cref="OpenQA.Selenium.IWebElement" />.
+        /// Arguments must be a number (which will be converted to a <see cref="long" />),
+        /// a <see cref="bool" />, a <see cref="string" /> or a <see cref="IWebElement" />.
         /// An exception will be thrown if the arguments do not meet these criteria.
         /// The arguments will be made available to the JavaScript via the "arguments" magic
         /// variable, as if the function were called via "Function.apply"

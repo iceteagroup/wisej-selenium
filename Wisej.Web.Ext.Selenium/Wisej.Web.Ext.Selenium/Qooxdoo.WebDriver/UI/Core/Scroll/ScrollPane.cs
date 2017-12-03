@@ -37,7 +37,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
         }
 
         /// <summary>
-        /// Scrolls the widget to a given position
+        /// Scrolls the widget to the specifyed position
         /// </summary>
         /// <param name="direction"> "x" or "y" for horizontal/vertical scrolling </param>
         /// <param name="position"> Position (in pixels) to scroll to </param>

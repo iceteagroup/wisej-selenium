@@ -38,7 +38,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Gets the message icon name.
+        /// Gets the icon name.
         /// </summary>
         public string Icon
         {

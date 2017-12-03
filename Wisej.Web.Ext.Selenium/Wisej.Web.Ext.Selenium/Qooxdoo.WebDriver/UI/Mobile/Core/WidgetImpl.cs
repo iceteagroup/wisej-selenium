@@ -74,7 +74,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
         /// <summary>
         /// Performs a single tap on the element of the specified driver.
         /// </summary>
-        /// <param name="driver">The driver.</param>
+        /// <param name="driver">The driver to use.</param>
         /// <param name="element">The element.</param>
         public static void Tap(IWebDriver driver, IWebElement element)
         {
@@ -138,7 +138,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
         }
 
         /// <summary>
-        /// Returns the center of a given element.
+        /// Returns the center of the specifyed element.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>The center of the element.</returns>
@@ -157,7 +157,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
         }
 
         /// <summary>
-        /// Tracks this widget by the given offsets
+        /// Tracks this widget by the specifyed offsets
         /// </summary>
         /// <param name="x">Amount of pixels to move horizontally</param>
         /// <param name="y">Amount of pixels to move vertically</param>
@@ -168,7 +168,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
         }
 
         /// <summary>
-        /// Tracks the element of the specified driver by the given offsets
+        /// Tracks the element of the specified driver by the specifyed offsets
         /// </summary>
         /// <param name="driver">The driver to use.</param>
         /// <param name="element">The element to track.</param>
@@ -259,7 +259,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
         }
 
         /// <summary>
-        /// Scrolls the widget to a given position
+        /// Scrolls the widget to the specifyed position
         /// </summary>
         /// <param name="x">The x position (in pixels) to scroll to </param>
         /// <param name="y">The y position (in pixels) to scroll to </param>

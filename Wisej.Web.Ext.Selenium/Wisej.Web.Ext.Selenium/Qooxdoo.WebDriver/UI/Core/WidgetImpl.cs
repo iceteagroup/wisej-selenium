@@ -36,9 +36,9 @@ namespace Qooxdoo.WebDriver.UI.Core
     /// <seealso cref="IWidget" />
     public class WidgetImpl : IWidget
     {
-        protected string _qxHash;
-        protected string _className;
-        protected IWebElement _contentElement;
+        private string _qxHash;
+        private string _className;
+        private IWebElement _contentElement;
 
         /// <summary>
         /// The driver
@@ -61,7 +61,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <param name="element">The element.</param>
         /// <param name="webDriver">The web driver.</param>
         public WidgetImpl(IWebElement element, IWebDriver webDriver)
-            : this(element, (QxWebDriver)webDriver)
+            : this(element, (QxWebDriver) webDriver)
         {
         }
 
@@ -77,11 +77,11 @@ namespace Qooxdoo.WebDriver.UI.Core
             JsExecutor = Driver.JsExecutor;
             JsRunner = Driver.JsRunner;
 
-            _contentElement = (IWebElement)JsRunner.RunScript("getContentElement", element);
+            _contentElement = (IWebElement) JsRunner.RunScript("getContentElement", element);
         }
 
         /// <summary>
-        /// Gets this widget's qooxdoo object registry ID
+        /// Gets this widget qooxdoo object registry ID
         /// </summary>
         public virtual string QxHash
         {
@@ -89,14 +89,14 @@ namespace Qooxdoo.WebDriver.UI.Core
             {
                 if (ReferenceEquals(_qxHash, null))
                 {
-                    _qxHash = (string)JsRunner.RunScript("getObjectHash", _contentElement);
+                    _qxHash = (string) JsRunner.RunScript("getObjectHash", _contentElement);
                 }
                 return _qxHash;
             }
         }
 
         /// <summary>
-        /// Gets this widget's qooxdoo class name
+        /// Gets this widget qooxdoo class name
         /// </summary>
         public virtual string ClassName
         {
@@ -104,14 +104,14 @@ namespace Qooxdoo.WebDriver.UI.Core
             {
                 if (ReferenceEquals(_className, null))
                 {
-                    _className = (string)JsRunner.RunScript("getClassName", _contentElement);
+                    _className = (string) JsRunner.RunScript("getClassName", _contentElement);
                 }
                 return _className;
             }
         }
 
         /// <summary>
-        /// Gets the IWebElement representing this widget's content element
+        /// Gets the IWebElement representing this widget content element
         /// </summary>
         public virtual IWebElement ContentElement
         {
@@ -122,7 +122,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <summary>
         /// Drag and drop this widget onto another widget
         /// </summary>
-        /// <param name="target">The target.</param>
+        /// <param name="target">The target widget.</param>
         public virtual void DragToWidget(IWidget target)
         {
             Actions actions = new Actions(Driver.WebDriver);
@@ -133,14 +133,14 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <summary>
         /// Drag over this widget to another widget
         /// </summary>
-        /// <param name="target">The target.</param>
+        /// <param name="target">The target widget.</param>
         public virtual void DragOver(IWidget target)
         {
-            IMouse mouse = ((IHasInputDevices)Driver.WebDriver).Mouse;
-            ILocatable root = (ILocatable)Driver.FindElement(By.TagName("body"));
+            IMouse mouse = ((IHasInputDevices) Driver.WebDriver).Mouse;
+            ILocatable root = (ILocatable) Driver.FindElement(By.TagName("body"));
             //cast IWebElement to ILocatable
-            ILocatable sourceL = (ILocatable)_contentElement;
-            ILocatable targetL = (ILocatable)target.ContentElement;
+            ILocatable sourceL = (ILocatable) _contentElement;
+            ILocatable targetL = (ILocatable) target.ContentElement;
 
             ICoordinates coord = root.Coordinates;
             mouse.MouseDown(sourceL.Coordinates);
@@ -210,13 +210,13 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <summary>
         /// Drag and drop this widget onto another widget
         /// </summary>
-        /// <param name="target">The target.</param>
+        /// <param name="target">The target widget.</param>
         public virtual void Drop(IWidget target)
         {
-            IMouse mouse = ((IHasInputDevices)Driver.WebDriver).Mouse;
+            IMouse mouse = ((IHasInputDevices) Driver.WebDriver).Mouse;
             DragOver(target);
 
-            ILocatable targetL = (ILocatable)target.ContentElement;
+            ILocatable targetL = (ILocatable) target.ContentElement;
             mouse.MouseUp(targetL.Coordinates);
         }
 
@@ -225,9 +225,9 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// </summary>
         /// <remarks>
         /// <para>
-        /// Click this element. If the click causes a new page to load, the <see cref="OpenQA.Selenium.IWebElement.Click" />
+        /// Click this element. If the click causes a new page to load, the <see cref="IWebElement.Click" />
         /// method will attempt to block until the page has loaded. After calling the
-        /// <see cref="OpenQA.Selenium.IWebElement.Click" /> method, you should discard all references to this
+        /// <see cref="IWebElement.Click" /> method, you should discard all references to this
         /// element unless you know that the element and the page will still be present.
         /// Otherwise, any further operations performed on this element will have an undefined.
         /// behavior.
@@ -237,8 +237,8 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// simulate a users to accidentally missing the target when clicking.
         /// </para>
         /// </remarks>
-        /// <exception cref="OpenQA.Selenium.ElementNotVisibleException">Thrown when the target element is not visible.</exception>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="ElementNotVisibleException">Thrown when the target element is not visible.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual void Click()
         {
             Actions actions = new Actions(Driver.WebDriver);
@@ -251,11 +251,10 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <param name="text">The text to type into the element.</param>
         /// <remarks>The text to be typed may include special characters like arrow keys,
         /// backspaces, function keys, and so on. Valid special keys are defined in
-        /// <see cref="OpenQA.Selenium.Keys" />.</remarks>
-        /// <seealso cref="OpenQA.Selenium.Keys" />
-        /// <exception cref="OpenQA.Selenium.InvalidElementStateException">Thrown when the target element is not enabled.</exception>
-        /// <exception cref="OpenQA.Selenium.ElementNotVisibleException">Thrown when the target element is not visible.</exception>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <see cref="Keys" />.</remarks>
+        /// <exception cref="InvalidElementStateException">Thrown when the target element is not enabled.</exception>
+        /// <exception cref="ElementNotVisibleException">Thrown when the target element is not visible.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual void SendKeys(string text)
         {
             if (text == null)
@@ -265,11 +264,11 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Repeatedly checks if the child control with the given id is visible.
+        /// Repeatedly checks if the child control with the specifyed id is visible.
         /// Returns the child control if successful.
         /// </summary>
         /// <param name="childControlId">The child control identifier.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the child control in seconds.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the child control.</param>
         /// <returns>The matching child widget.</returns>
         public IWidget WaitForChildControl(String childControlId, int? timeoutInSeconds)
         {
@@ -314,7 +313,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 throw new ArgumentNullException(nameof(childControlId));
 
             object result = JsRunner.RunScript("getChildControl", _contentElement, childControlId);
-            IWebElement element = (IWebElement)result;
+            IWebElement element = (IWebElement) result;
             if (element == null)
             {
                 return null;
@@ -335,7 +334,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 throw new ArgumentNullException(nameof(childControlId));
 
             object result = JsRunner.RunScript("hasChildControl", _contentElement, childControlId);
-            return result != null && (bool)result;
+            return result != null && (bool) result;
         }
 
         /// <summary>
@@ -346,7 +345,7 @@ namespace Qooxdoo.WebDriver.UI.Core
             get
             {
                 object result = JsRunner.RunScript("getLayoutParent", _contentElement);
-                IWebElement element = (IWebElement)result;
+                IWebElement element = (IWebElement) result;
                 if (element == null)
                 {
                     return null;
@@ -356,7 +355,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Calls IJavaScriptExecutor.ExecuteScript. The first argument is the widget's
+        /// Calls IJavaScriptExecutor.ExecuteScript. The first argument is the widget
         /// content element.
         /// </summary>
         /// <param name="script">The script to execute.</param>
@@ -389,12 +388,12 @@ namespace Qooxdoo.WebDriver.UI.Core
             object result = JsRunner.RunScript("callMethod", _contentElement, name, args);
 
             if (result is IWebElement)
-                return Driver.GetWidgetForElement((IWebElement)result);
+                return Driver.GetWidgetForElement((IWebElement) result);
 
             if (result is IList<IWebElement>)
             {
                 var i = 0;
-                var array = (IList<IWebElement>)result;
+                var array = (IList<IWebElement>) result;
                 var widgets = new IWidget[array.Count];
                 foreach (IWebElement el in array)
                 {
@@ -423,11 +422,11 @@ namespace Qooxdoo.WebDriver.UI.Core
                 throw new ArgumentNullException(nameof(propertyName));
 
             object result = JsRunner.RunScript("getPropertyValueAsJson", _contentElement, propertyName);
-            return (string)result;
+            return (string) result;
         }
 
         /// <summary>
-        /// Returns the value of a qooxdoo property on this widget. See the <seealso cref="OpenQA.Selenium.IJavaScriptExecutor" />
+        /// Returns the value of a qooxdoo property on this widget. See the <seealso cref="IJavaScriptExecutor" />
         /// documentation for details on how JavaScript types are represented.
         /// <strong>NOTE:</strong> Never use this for property values that are instances
         /// of qx.core.Object. Circular references in qooxdoo's OO system will lead to
@@ -449,7 +448,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         private IWebElement GetElementFromProperty(string propertyName)
         {
             object result = JsRunner.RunScript("getElementFromProperty", _contentElement, propertyName);
-            return (IWebElement)result;
+            return (IWebElement) result;
         }
 
         /// <summary>
@@ -483,7 +482,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 throw new ArgumentNullException(nameof(propertyName));
 
             IList<IWebElement> elements =
-                (IList<IWebElement>)JsRunner.RunScript("getElementsFromProperty", _contentElement, propertyName);
+                (IList<IWebElement>) JsRunner.RunScript("getElementsFromProperty", _contentElement, propertyName);
             IList<IWidget> widgets = new List<IWidget>();
 
             using (IEnumerator<IWebElement> elemIter = elements.GetEnumerator())
@@ -504,13 +503,13 @@ namespace Qooxdoo.WebDriver.UI.Core
             get
             {
                 object result = JsRunner.RunScript("getChildrenElements", _contentElement);
-                IList<IWebElement> children = (IList<IWebElement>)result;
+                IList<IWebElement> children = (IList<IWebElement>) result;
                 return children;
             }
         }
 
         /// <summary>
-        /// Gets a list of <seealso cref="IWidget" /> objects representing this widget's children
+        /// Gets a list of <seealso cref="IWidget" /> objects representing this widget children
         /// as defined using <a href="http://demo.qooxdoo.org/current/apiviewer/#qx.ui.core.MChildrenHandling~add!method_public">parent.add(child);</a> in the application code.
         /// </summary>
         public virtual IList<IWidget> Children
@@ -545,7 +544,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Finds the first <see cref="OpenQA.Selenium.IWebElement" /> using the given method.
+        /// Finds the first <see cref="OpenQA.Selenium.IWebElement" /> using the specifyed method.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
         /// <returns>The first matching <see cref="OpenQA.Selenium.IWebElement" /> on the current context.</returns>
@@ -588,7 +587,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// widget hierarchy.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the widget in seconds.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
         /// <returns>The matching widget.</returns>
         public virtual IWidget WaitForWidget(OpenQA.Selenium.By by, long timeoutInSeconds)
         {
@@ -615,7 +614,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <remarks>If this element is a text entry element, the <see cref="OpenQA.Selenium.IWebElement.Clear" />
         /// method will clear the value. It has no effect on other elements. Text entry elements
         /// are defined as elements with INPUT or TEXTAREA tags.</remarks>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public void Clear()
         {
             _contentElement.Clear();
@@ -629,7 +628,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// element, not the value of the name attribute. For example, it will return
         /// "input" for an element specified by the HTML markup &lt;input name="foo" /&gt;.
         /// </remarks>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public string TagName
         {
             get { return _contentElement.TagName; }
@@ -646,7 +645,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// loaded. Note that the value of the following attributes will be returned even if
         /// there is no explicit attribute on the element:
         /// <list type="table"><listheader><term>Attribute name</term><term>Value returned if not explicitly specified</term><term>Valid element types</term></listheader><item><description>checked</description><description>checked</description><description>Check Box</description></item><item><description>selected</description><description>selected</description><description>Options in Select elements</description></item><item><description>disabled</description><description>disabled</description><description>Input and other UI elements</description></item></list></remarks>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public string GetAttribute(string attributeName)
         {
             return _contentElement.GetAttribute(attributeName);
@@ -658,7 +657,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <param name="propertyName">The name JavaScript the JavaScript property to get the value of.</param>
         /// <returns>The JavaScript property's current value. Returns a <see langword="null" /> if the
         /// value is not set or the property does not exist.</returns>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public string GetProperty(string propertyName)
         {
             throw new NotImplementedException();
@@ -669,7 +668,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// </summary>
         /// <remarks>This operation only applies to input elements such as checkboxes,
         /// options in a select element and radio buttons.</remarks>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual bool Selected
         {
             get { return _contentElement.Selected; }
@@ -678,9 +677,9 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <summary>
         /// Gets a value indicating whether this element is enabled.
         /// </summary>
-        /// <remarks>The <see cref="OpenQA.Selenium.IWebElement.Enabled" /> property will generally
+        /// <remarks>The <see cref="IWebElement.Enabled" /> property will generally
         /// return <see langword="true" /> for everything except explicitly disabled input elements.</remarks>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual bool Enabled
         {
             get { return _contentElement.Enabled; }
@@ -690,18 +689,18 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// Gets the innerText of this element, without any leading or trailing whitespace,
         /// and with other whitespace collapsed.
         /// </summary>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual string Text
         {
             get { return _contentElement.Text; }
         }
 
         /// <summary>
-        /// Finds all <see cref="OpenQA.Selenium.IWebElement">IWebElements</see> within the current context
-        /// using the given mechanism.
+        /// Finds all <see cref="IWebElement"/> within the current context
+        /// using the specifyed mechanism.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <returns>A <see cref="System.Collections.ObjectModel.ReadOnlyCollection`1" /> of all <see cref="OpenQA.Selenium.IWebElement">WebElements</see>
+        /// <returns>A <see cref="ReadOnlyCollection{IWebElement}" /> of all <see cref="IWebElement"/>
         /// matching the current criteria, or an empty list if nothing matches.</returns>
         public ReadOnlyCollection<IWebElement> FindElements(OpenQA.Selenium.By by)
         {
@@ -716,7 +715,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         {
             get
             {
-                return ((bool?)ExecuteJavascript(
+                return ((bool?) ExecuteJavascript(
                     "return qx.ui.core.Widget.getWidgetByElement(arguments[0]).isSeeable()")).Value;
             }
         }
@@ -731,7 +730,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 try
                 {
                     object result = JsRunner.RunScript("isDisposed", _contentElement);
-                    return result == null || (bool)result;
+                    return result == null || (bool) result;
                 }
                 catch (StaleElementReferenceException)
                 {
@@ -749,7 +748,7 @@ namespace Qooxdoo.WebDriver.UI.Core
             {
                 try
                 {
-                    return (string)Call("getName");
+                    return (string) Call("getName");
                 }
                 catch
                 {
@@ -759,19 +758,19 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Gets a <see cref="System.Drawing.Point" /> object containing the coordinates of the upper-left corner
+        /// Gets a <see cref="Point" /> object containing the coordinates of the upper-left corner
         /// of this element relative to the upper-left corner of the page.
         /// </summary>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual Point Location
         {
             get { return _contentElement.Location; }
         }
 
         /// <summary>
-        /// Gets a <see cref="OpenQA.Selenium.IWebElement.Size" /> object containing the height and width of this element.
+        /// Gets a <see cref="System.Drawing.Size" /> object containing the height and width of this element.
         /// </summary>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual Size Size
         {
             get { return _contentElement.Size; }
@@ -782,12 +781,12 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// </summary>
         /// <param name="propertyName">The name of the CSS property to get the value of.</param>
         /// <returns>The value of the specified CSS property.</returns>
-        /// <remarks>The value returned by the <see cref="OpenQA.Selenium.IWebElement.GetCssValue(System.String)" />
+        /// <remarks>The value returned by the <see cref="IWebElement.GetCssValue(string)" />
         /// method is likely to be unpredictable in a cross-browser environment.
         /// Color values should be returned as hex strings. For example, a
         /// "background-color" property set as "green" in the HTML source, will
         /// return "#008000" for its value.</remarks>
-        /// <exception cref="OpenQA.Selenium.StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public string GetCssValue(string propertyName)
         {
             return _contentElement.GetCssValue(propertyName);

@@ -42,8 +42,8 @@ using OpenQA.Selenium;
 namespace Qooxdoo.WebDriver.UI
 {
     /// <summary>
-    /// Represents a qx.Desktop widget. <seealso cref="OpenQA.Selenium.IWebElement"/>
-    /// methods are forwarded to the widget's content element. Click() and SendKeys()
+    /// Represents a qx.Desktop widget. <seealso cref="IWebElement"/>
+    /// methods are forwarded to the widget content element. Click() and SendKeys()
     /// will generally workFor simple widgets that contain only one button and/or
     /// text field.
     ///
@@ -55,12 +55,12 @@ namespace Qooxdoo.WebDriver.UI
     public interface IWidget : IWebElement
     {
         /// <summary>
-        /// Gets this widget's qooxdoo object registry ID
+        /// Gets this widget qooxdoo object registry ID
         /// </summary>
         string QxHash { get; }
 
         /// <summary>
-        /// Gets this widget's qooxdoo class name
+        /// Gets this widget qooxdoo class name
         /// </summary>
         string ClassName { get; }
 
@@ -80,7 +80,7 @@ namespace Qooxdoo.WebDriver.UI
         IWebDriver Driver { get; }
 
         /// <summary>
-        /// Gets the IWebElement representing this widget's content element
+        /// Gets the IWebElement representing this widget content element
         /// </summary>
         IWebElement ContentElement { get; }
 
@@ -92,11 +92,11 @@ namespace Qooxdoo.WebDriver.UI
         IWidget GetChildControl(string childControlId);
 
         /// <summary>
-        /// Repeatedly checks if the child control with the given id is visible.
+        /// Repeatedly checks if the child control with the specifyed id is visible.
         /// Returns the child control if successful.
         /// </summary>
         /// <param name="childControlId">The child control identifier.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the child control in seconds.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the child control.</param>
         /// <returns>The matching child widget.</returns>
         IWidget WaitForChildControl(string childControlId, int? timeoutInSeconds);
 
@@ -106,7 +106,7 @@ namespace Qooxdoo.WebDriver.UI
         IWidget LayoutParent { get; }
 
         /// <summary>
-        /// Calls IJavaScriptExecutor.ExecuteScript. The first argument is the widget's content element.
+        /// Calls IJavaScriptExecutor.ExecuteScript. The first argument is the widget content element.
         /// </summary>
         /// <param name="script">The script to execute.</param>
         /// <returns>The value returned by the execution.</returns>
@@ -124,7 +124,7 @@ namespace Qooxdoo.WebDriver.UI
         string GetPropertyValueAsJson(string propertyName);
 
         /// <summary>
-        /// Returns the value of a qooxdoo property on this widget. See the <seealso cref="OpenQA.Selenium.IJavaScriptExecutor" />
+        /// Returns the value of a qooxdoo property on this widget. See the <seealso cref="IJavaScriptExecutor" />
         /// documentation for details on how JavaScript types are represented.
         /// <strong>NOTE:</strong> Never use this for property values that are instances
         /// of qx.core.Object. Circular references in qooxdoo's OO system will lead to
@@ -152,7 +152,7 @@ namespace Qooxdoo.WebDriver.UI
         IWidget GetWidgetFromProperty(string propertyName);
 
         /// <summary>
-        /// Gets a list of <seealso cref="IWidget"/> objects representing this widget's children
+        /// Gets a list of <seealso cref="IWidget"/> objects representing this widget children
         /// as defined using <a href="http://demo.qooxdoo.org/current/apiviewer/#qx.ui.core.MChildrenHandling~add!method_public">parent.add(child);</a> in the application code.
         /// </summary>
         IList<IWidget> Children { get; }
@@ -170,26 +170,26 @@ namespace Qooxdoo.WebDriver.UI
         /// widget hierarchy.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
-        /// <param name="timeoutInSeconds">The time to wait for the widget in seconds.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
         /// <returns>The matching widget.</returns>
         IWidget WaitForWidget(OpenQA.Selenium.By by, long timeoutInSeconds);
 
         /// <summary>
         /// Drag and drop this widget onto another widget
         /// </summary>
-        /// <param name="target">The target.</param>
+        /// <param name="target">The target widget.</param>
         void DragToWidget(IWidget target);
 
         /// <summary>
         /// Drag over this widget to another widget
         /// </summary>
-        /// <param name="target">The target.</param>
+        /// <param name="target">The target widget.</param>
         void DragOver(IWidget target);
 
         /// <summary>
         /// Drag and drop this widget onto another widget
         /// </summary>
-        /// <param name="target">The target.</param>
+        /// <param name="target">The target widget.</param>
         void Drop(IWidget target);
     }
 }
