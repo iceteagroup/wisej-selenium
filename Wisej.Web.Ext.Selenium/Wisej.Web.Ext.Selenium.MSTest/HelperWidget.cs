@@ -17,8 +17,8 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="widgetType">The widget type name.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
-        /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
+        /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed (default is <c>true</c>).</param>
         /// <returns>An <see cref="IWidget"/> that matches the specifyed search parameters.</returns>
         public static IWidget WidgetGet(this WisejWebDriver driver, string path, string widgetType,
             long timeoutInSeconds = 5, bool assertIsDisplayed = true)
@@ -36,11 +36,11 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="widgetType">The widget type name.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
-        /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
+        /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed (default is <c>true</c>).</param>
         /// <returns>An <see cref="IWidget"/> that matches the specifyed search parameters.</returns>
-        public static IWidget WidgetGet(this IWidget parent, string path, string widgetType,
-            long timeoutInSeconds = 5, bool assertIsDisplayed = true)
+        public static IWidget WidgetGet(this IWidget parent, string path, string widgetType, long timeoutInSeconds = 5,
+            bool assertIsDisplayed = true)
         {
             IWidget widget = parent.FindWidget(path);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", widgetType, path));
@@ -55,8 +55,8 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <typeparam name="T">The type of the widget to return.</typeparam>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
-        /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
+        /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed (default is <c>true</c>).</param>
         /// <returns>A widget of type <typeparamref name="T"/> that matches the specifyed parameters.</returns>
         public static T WidgetGet<T>(this WisejWebDriver driver, string path, long timeoutInSeconds = 5,
             bool assertIsDisplayed = true)
@@ -74,8 +74,8 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <typeparam name="T">The type of the widget to return.</typeparam>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
-        /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
+        /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed (default is <c>true</c>).</param>
         /// <returns>A widget of type <typeparamref name="T"/> that matches the specifyed parameters.</returns>
         public static T WidgetGet<T>(this IWidget parent, string path, long timeoutInSeconds = 5,
             bool assertIsDisplayed = true)
@@ -97,7 +97,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="widgetType">The widget type name.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>An widget newly fetched from the browser.</returns>
         /// <remarks>
         /// Removes an existing widget from the cache and fetches a fresh widget from the browser.
@@ -116,7 +116,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="widgetType">The widget type name.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>An widget newly fetched from the browser.</returns>
         /// <remarks>
         /// Removes an existing widget from the cache and fetches a fresh widget from the browser.
@@ -135,7 +135,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <typeparam name="T">The type of the widget to return.</typeparam>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>An widget newly fetched from the browser.</returns>
         /// <remarks>
         /// Removes an existing widget from the cache and fetches a fresh widget from the browser.
@@ -153,7 +153,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <typeparam name="T">The type of the widget to return.</typeparam>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>An widget newly fetched from the browser.</returns>
         /// <remarks>
         /// Removes an existing widget from the cache and fetches a fresh widget from the browser.
@@ -186,7 +186,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="path">The widget path.</param>
         /// <param name="text">The text to match.</param>
         /// <param name="widgetType">The widget type name.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         public static void WidgetAssertTextIs(this WisejWebDriver driver, string path, string text, string widgetType,
             long timeoutInSeconds = 5)
         {
@@ -201,7 +201,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="path">The widget path.</param>
         /// <param name="text">The text to match.</param>
         /// <param name="widgetType">The widget type name.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         public static void WidgetAssertTextIs(this IWidget parent, string path, string text, string widgetType,
             long timeoutInSeconds = 5)
         {
@@ -238,7 +238,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// Asserts the widget is enabled.
         /// </summary>
         /// <param name="widget">The target widget.</param>
-        /// <param name="name">The widget name.</param>
+        /// <param name="name">The widget name (default is an empty string).</param>
         public static void AssertIsEnabled(this IWidget widget, string name = "")
         {
             var message = GetMessage("is not Enabled.", widget.GetType().Name, name);
@@ -249,7 +249,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// Asserts the widget is not enabled.
         /// </summary>
         /// <param name="widget">The target widget.</param>
-        /// <param name="name">The widget name.</param>
+        /// <param name="name">The widget name (default is an empty string).</param>
         public static void AssertIsNotEnabled(this IWidget widget, string name = "")
         {
             var message = GetMessage("is Enabled.", widget.GetType().Name, name);
@@ -264,7 +264,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// Asserts the widget is selected.
         /// </summary>
         /// <param name="widget">The target widget.</param>
-        /// <param name="name">The widget name.</param>
+        /// <param name="name">The widget name (default is an empty string).</param>
         public static void AssertIsSelected(this IWidget widget, string name = "")
         {
             var message = GetMessage("is not Selected.", widget.GetType().Name, name);
@@ -275,7 +275,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// Asserts the widget is not selected.
         /// </summary>
         /// <param name="widget">The target widget.</param>
-        /// <param name="name">The widget name.</param>
+        /// <param name="name">The widget name (default is an empty string).</param>
         public static void AssertIsNotSelected(this IWidget widget, string name = "")
         {
             var message = GetMessage("is Selected.", widget.GetType().Name, name);
@@ -290,7 +290,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// Asserts the widget is displayed.
         /// </summary>
         /// <param name="widget">The target widget.</param>
-        /// <param name="name">The widget name.</param>
+        /// <param name="name">The widget name (default is an empty string).</param>
         public static void AssertIsDisplayed(this IWidget widget, string name = "")
         {
             var message = GetMessage("is not Displayed.", widget.GetType().Name, name);
@@ -301,7 +301,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// Asserts the widget is not displayed.
         /// </summary>
         /// <param name="widget">The target widget.</param>
-        /// <param name="name">The widget name.</param>
+        /// <param name="name">The widget name (default is an empty string).</param>
         public static void AssertIsNotDisplayed(this IWidget widget, string name = "")
         {
             var message = GetMessage("is Displayed.", widget.GetType().Name, name);
@@ -316,7 +316,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// Asserts the widget is disposed.
         /// </summary>
         /// <param name="widget">The target widget.</param>
-        /// <param name="name">The widget name.</param>
+        /// <param name="name">The widget name (default is an empty string).</param>
         public static void AssertIsDisposed(this IWidget widget, string name = "")
         {
             var message = GetMessage("is not Disposed.", widget.GetType().Name, name);
@@ -327,7 +327,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// Asserts the widget is not disposed.
         /// </summary>
         /// <param name="widget">The target widget.</param>
-        /// <param name="name">The widget name.</param>
+        /// <param name="name">The widget name (default is an empty string).</param>
         public static void AssertIsNotDisposed(this IWidget widget, string name = "")
         {
             var message = GetMessage("is Disposed.", widget.GetType().Name, name);

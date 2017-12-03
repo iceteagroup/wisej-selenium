@@ -11,8 +11,8 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// When debugging tests, suspends the current thread for a specified time..
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
-        /// <param name="millisecondsTimeout">The number of milliseconds for which the thread is blocked.
-        /// Defaults to 1000 milliseconds.</param>
+        /// <param name="millisecondsTimeout">The number of milliseconds for which the thread is blocked
+        /// (defaults is 1000 milliseconds.)</param>
         public static void SleepDebugTest(this WisejWebDriver driver, int millisecondsTimeout = 1000)
         {
             if (millisecondsTimeout == 0 || millisecondsTimeout == Timeout.Infinite)

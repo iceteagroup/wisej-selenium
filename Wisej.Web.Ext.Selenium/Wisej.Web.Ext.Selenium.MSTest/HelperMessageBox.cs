@@ -28,7 +28,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region private Core
 
         private static MessageBox GetMessageBoxCore(this WisejWebDriver driver, string title, bool ignoreIcon,
-            MessageBoxIcon icon, string message, long timeoutInSeconds = 5)
+            MessageBoxIcon icon, string message, long timeoutInSeconds)
         {
             MessageBox messageBox = driver.WaitForMessageBox(title, ignoreIcon, icon, message, timeoutInSeconds);
 
@@ -37,7 +37,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         private static void MessageBoxAssertNotExistCore(this WisejWebDriver driver, string title, bool ignoreIcon,
-            MessageBoxIcon icon, string message, long timeoutInSeconds = 5)
+            MessageBoxIcon icon, string message, long timeoutInSeconds)
         {
             MessageBox messageBox = driver.WaitForMessageBox(title, ignoreIcon, icon, message, timeoutInSeconds);
 
@@ -52,8 +52,8 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// Returns the first <see cref="MessageBox"/>.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
-        /// <param name="assertIsEnabled">If set to <c>true</c>, asserts the MessageBox is enabled.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="assertIsEnabled">If set to <c>true</c>, asserts the MessageBox is enabled (default is <c>true</c>).</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 5).</param>
         /// <returns>The first MessageBox.</returns>
         public static MessageBox GetMessageBox(this WisejWebDriver driver, bool assertIsEnabled = true,
             long timeoutInSeconds = 5)
@@ -72,8 +72,8 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// Asserts no <see cref="MessageBox"/> exists.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
-        public static void MessageBoxAssertNotExists(this WisejWebDriver driver, long timeoutInSeconds = 5)
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 0).</param>
+        public static void MessageBoxAssertNotExists(this WisejWebDriver driver, long timeoutInSeconds = 0)
         {
             driver.MessageBoxAssertNotExistCore(string.Empty, true, MessageBoxIcon.None, string.Empty,
                 timeoutInSeconds);
@@ -84,7 +84,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="resultButton">The result button to click.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 5).</param>
         public static void MessageBoxButtonClick(this WisejWebDriver driver, DialogResult resultButton,
             long timeoutInSeconds = 5)
         {
@@ -102,8 +102,8 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="title">The MessageBox title to search for.</param>
-        /// <param name="assertIsEnabled">If set to <c>true</c>, asserts the MessageBox is enabled.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="assertIsEnabled">If set to <c>true</c>, asserts the MessageBox is enabled (default is <c>true</c>).</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 5).</param>
         /// <returns>The first matching MessageBox.</returns>
         public static MessageBox GetMessageBoxWithTitle(this WisejWebDriver driver, string title,
             bool assertIsEnabled = true, long timeoutInSeconds = 5)
@@ -122,9 +122,9 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="title">The MessageBox title to search for.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 0).</param>
         public static void MessageBoxWithTitleAssertNotExists(this WisejWebDriver driver, string title,
-            long timeoutInSeconds = 5)
+            long timeoutInSeconds = 0)
         {
             driver.MessageBoxAssertNotExistCore(title, true, MessageBoxIcon.None, string.Empty, timeoutInSeconds);
         }
@@ -135,7 +135,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="title">The MessageBox title to search for.</param>
         /// <param name="resultButton">The result button to click.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 5).</param>
         public static void MessageBoxWithTitleButtonClick(this WisejWebDriver driver, string title,
             DialogResult resultButton, long timeoutInSeconds = 5)
         {
@@ -153,8 +153,8 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The MessageBox message to search for.</param>
-        /// <param name="assertIsEnabled">If set to <c>true</c>, asserts the MessageBox is enabled.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="assertIsEnabled">If set to <c>true</c>, asserts the MessageBox is enabled (default is <c>true</c>).</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 5).</param>
         /// <returns>The first matching MessageBox.</returns>
         public static MessageBox GetMessageBoxWithMessage(this WisejWebDriver driver, string message,
             bool assertIsEnabled = true, long timeoutInSeconds = 5)
@@ -173,9 +173,9 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The MessageBox message to search for.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 0).</param>
         public static void MessageBoxWithMessageAssertNotExists(this WisejWebDriver driver, string message,
-            long timeoutInSeconds = 5)
+            long timeoutInSeconds = 0)
         {
             driver.MessageBoxAssertNotExistCore(string.Empty, true, MessageBoxIcon.None, message, timeoutInSeconds);
         }
@@ -186,7 +186,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The MessageBox message to search for.</param>
         /// <param name="resultButton">The result button to click.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 5).</param>
         public static void MessageBoxWithMessageButtonClick(this WisejWebDriver driver, string message,
             DialogResult resultButton, long timeoutInSeconds = 5)
         {
@@ -204,14 +204,13 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The MessageBoxIcon to look for.</param>
-        /// <param name="assertIsEnabled">If set to <c>true</c>, asserts the MessageBox is enabled.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="assertIsEnabled">If set to <c>true</c>, asserts the MessageBox is enabled (default is <c>true</c>).</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 5).</param>
         /// <returns>The first matching MessageBox.</returns>
         public static MessageBox GetMessageBoxWithIcon(this WisejWebDriver driver, MessageBoxIcon icon,
             bool assertIsEnabled = true, long timeoutInSeconds = 5)
         {
-            MessageBox messageBox =
-                driver.GetMessageBoxCore(string.Empty, false, icon, string.Empty, timeoutInSeconds);
+            MessageBox messageBox = driver.GetMessageBoxCore(string.Empty, false, icon, string.Empty, timeoutInSeconds);
 
             if (assertIsEnabled)
                 Assert.IsTrue(messageBox.Enabled,
@@ -225,9 +224,9 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The MessageBoxIcon to look for.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 0).</param>
         public static void MessageBoxWithIconAssertNotExists(this WisejWebDriver driver, MessageBoxIcon icon,
-            long timeoutInSeconds = 5)
+            long timeoutInSeconds = 0)
         {
             driver.MessageBoxAssertNotExistCore(string.Empty, false, icon, string.Empty, timeoutInSeconds);
         }
@@ -238,7 +237,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The MessageBoxIcon to look for.</param>
         /// <param name="resultButton">The result button to click.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 5).</param>
         public static void MessageBoxWithIconButtonClick(this WisejWebDriver driver, MessageBoxIcon icon,
             DialogResult resultButton, long timeoutInSeconds = 5)
         {
@@ -259,8 +258,8 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="ignoreIcon">If set to <c>true</c> ignores the MessageBox icon parameter.</param>
         /// <param name="icon">The MessageBox icon to look for.</param>
         /// <param name="message">The message to search for.</param>
-        /// <param name="assertIsEnabled">If set to <c>true</c>, asserts the MessageBox is enabled.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="assertIsEnabled">If set to <c>true</c>, asserts the MessageBox is enabled (default is <c>true</c>).</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 5).</param>
         /// <returns>The first matching MessageBox.</returns>
         public static MessageBox GetMessageBox(this WisejWebDriver driver, string title, bool ignoreIcon,
             MessageBoxIcon icon, string message, bool assertIsEnabled = true, long timeoutInSeconds = 5)
@@ -281,9 +280,9 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="ignoreIcon">If set to <c>true</c> ignores the MessageBox icon parameter.</param>
         /// <param name="icon">The MessageBox icon to look for.</param>
         /// <param name="message">The message to search for.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 0).</param>
         public static void MessageBoxAssertNotExists(this WisejWebDriver driver, string title, bool ignoreIcon,
-            MessageBoxIcon icon, string message, long timeoutInSeconds = 5)
+            MessageBoxIcon icon, string message, long timeoutInSeconds = 0)
         {
             driver.MessageBoxAssertNotExistCore(title, ignoreIcon, icon, message, timeoutInSeconds);
         }
@@ -297,7 +296,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="icon">The MessageBox icon to look for.</param>
         /// <param name="message">The message to search for.</param>
         /// <param name="resultButton">The result button to click.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the MessageBox (default is 5).</param>
         public static void MessageBoxButtonClick(this WisejWebDriver driver, string title, bool ignoreIcon,
             MessageBoxIcon icon, string message, DialogResult resultButton, long timeoutInSeconds = 5)
         {

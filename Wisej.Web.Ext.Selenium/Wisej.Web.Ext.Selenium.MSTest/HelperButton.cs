@@ -14,7 +14,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the Button.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the Button (default is 5).</param>
         public static void ButtonClick(this WisejWebDriver driver, string path, long timeoutInSeconds = 5)
         {
             Button button = driver.WidgetGet<Button>(path, timeoutInSeconds);
@@ -27,7 +27,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the Button.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the Button (default is 5).</param>
         public static void ButtonClick(this IWidget parent, string path, long timeoutInSeconds = 5)
         {
             Button button = parent.WidgetGet<Button>(path, timeoutInSeconds);

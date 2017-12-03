@@ -303,9 +303,9 @@ namespace Qooxdoo.WebDriver
         /// <summary>
         /// Waits until the specified condition is true.
         /// </summary>
-        /// <param name="throwException">Throws the <see cref="WebDriverTimeoutException"/>.</param>
+        /// <param name="throwException">If <c>true</c>, throws the <see cref="WebDriverTimeoutException"/> (default is <c>false</c>).</param>
         /// <param name="condition">Callback condition function.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the condition.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the condition (default is 5).</param>
         public void Wait(Func<bool> condition, bool throwException = false, long timeoutInSeconds = 5)
         {
             if (condition == null)

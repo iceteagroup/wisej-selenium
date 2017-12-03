@@ -34,7 +34,7 @@ namespace SeleniumDemo.Tests
             messageBox.ButtonClick(DialogResult.No);
 
             // check messageBox doesn't exist
-            TestDriver.MessageBoxAssertNotExists(title, false, icon, message, 0);
+            TestDriver.MessageBoxAssertNotExists(title, false, icon, message);
         }
 
         [TestMethod]
@@ -530,9 +530,9 @@ namespace SeleniumDemo.Tests
             TestDriver.AlertBoxClose("Supplier Editor should be implemented");
             TestDriver.AlertBoxClose(MessageBoxIcon.Information);
 
-            TestDriver.AlertBoxAssertNotExists(MessageBoxIcon.Error, "Supplier Editor must be implemented", 0);
-            TestDriver.AlertBoxAssertNotExists("Supplier Editor should be implemented", 0);
-            TestDriver.AlertBoxAssertNotExists(MessageBoxIcon.Information, 0);
+            TestDriver.AlertBoxAssertNotExists(MessageBoxIcon.Error, "Supplier Editor must be implemented");
+            TestDriver.AlertBoxAssertNotExists("Supplier Editor should be implemented");
+            TestDriver.AlertBoxAssertNotExists(MessageBoxIcon.Information);
         }
 
         [TestMethod]
