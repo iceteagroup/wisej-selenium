@@ -23,15 +23,18 @@ namespace SeleniumDemo.Tests
             // click sayGoodBye on MainPage
             mainPage.ButtonClick("sayGoodBye", 10);
 
-            //TestDriver.SleepDebugTest();
-
-            // get MessageBox "Polite Question" and check it's enabled
             var title = "Polite Question";
-            MessageBox messageBox = TestDriver.GetMessageBoxWithTitle(title);
+            var message = "Do you want to say good-bye now?";
+            var icon = MessageBoxIcon.Question;
+
+            // get MessageBox using all parameters check it's enabled
+            MessageBox messageBox = TestDriver.GetMessageBox(title, false, icon, message);
+
+            // click "No"
             messageBox.ButtonClick(DialogResult.No);
 
-            // check MesageBox "Polite Question" doesn't exist
-            TestDriver.MessageBoxWithTitleAssertNotExists(title, 0);
+            // check messageBox doesn't exist
+            TestDriver.MessageBoxAssertNotExists(title, false, icon, message, 0);
         }
 
         [TestMethod]
@@ -141,7 +144,7 @@ namespace SeleniumDemo.Tests
             // get firstName TextBox
             TextBox firstName = customerEditor.WidgetGet<TextBox>("firstName");
             // check firstName
-            firstName.AssertText("Mudy");
+            firstName.AssertTextIs("Mudy");
 
             #region THIS DOES NOT WORK RELIABLY
 
@@ -152,7 +155,7 @@ namespace SeleniumDemo.Tests
             action.KeyDown(Keys.Shift).SendKeys(Keys.Home).KeyUp(Keys.Shift).SendKeys(Keys.Delete).Perform();
 
             // check firstName is empty
-            firstName.AssertText(string.Empty);
+            firstName.AssertTextIs(string.Empty);
 
             // move back so firstName looses the focus
             firstName.SendKeys(Keys.Shift + Keys.Tab);
@@ -177,7 +180,7 @@ namespace SeleniumDemo.Tests
             var lastName = fullName.Text.Split(' ')[1];
 
             // check fullName for changed firstName
-            fullName.AssertText("Muddy " + lastName);
+            fullName.AssertTextIs("Muddy " + lastName);
         }
 
         [TestMethod]
@@ -195,7 +198,7 @@ namespace SeleniumDemo.Tests
             // get lastName TextBox
             TextBox lastName = customerEditor.WidgetGet<TextBox>("lastName");
             // check lastName
-            lastName.AssertText("WATTERS");
+            lastName.AssertTextIs("WATTERS");
 
             #region THIS DOES NOT WORK RELIABLY
 
@@ -206,7 +209,7 @@ namespace SeleniumDemo.Tests
             action.KeyDown(Keys.Shift).SendKeys(Keys.Home).KeyUp(Keys.Shift).SendKeys(Keys.Delete).Perform();
 
             // check lastName is empty
-            lastName.AssertText(string.Empty);
+            lastName.AssertTextIs(string.Empty);
 
             // move back so lastName looses the focus
             lastName.SendKeys(Keys.Shift + Keys.Tab);
@@ -230,7 +233,7 @@ namespace SeleniumDemo.Tests
             var firstName = fullName.Text.Split(' ')[0];
 
             // check fullName for changed lastName
-            fullName.AssertText(firstName + " WATERS");
+            fullName.AssertTextIs(firstName + " WATERS");
         }
 
         [TestMethod]
@@ -250,7 +253,7 @@ namespace SeleniumDemo.Tests
             // get state ComboBox
             ComboBox state = customerEditor.WidgetGet<ComboBox>("state");
             // check state
-            state.AssertText("Florida");
+            state.AssertTextIs("Florida");
 
             // change state
             state.SelectItem(25);
@@ -262,7 +265,7 @@ namespace SeleniumDemo.Tests
             customerEditor.ButtonClick("saveButton");
 
             // check changed lastName
-            state.AssertText("Mississippi");
+            state.AssertTextIs("Mississippi");
 
             TestDriver.Sleep(Waiter.Duration);
         }
@@ -280,7 +283,7 @@ namespace SeleniumDemo.Tests
             // get a refreshed firstName TextBox
             TextBox firstName = customerEditor.WidgetRefresh<TextBox>("firstName");
             // check firstName is empty
-            firstName.AssertText(string.Empty);
+            firstName.AssertTextIs(string.Empty);
 
             // insert firstName
             firstName.SendKeys("B. B.");
@@ -294,12 +297,12 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // check saved firstName
-            firstName.AssertText("B. B.");
+            firstName.AssertTextIs("B. B.");
 
             // get a refreshed lastName TextBox
             TextBox lastName = customerEditor.WidgetRefresh<TextBox>("lastName");
             // check lastName is empty
-            lastName.AssertText(string.Empty);
+            lastName.AssertTextIs(string.Empty);
 
             // insert lastName
             lastName.SendKeys("king");
@@ -313,7 +316,7 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // check saved lastName
-            lastName.AssertText("KING");
+            lastName.AssertTextIs("KING");
 
             // get a refreshed state ComboBox
             ComboBox state = customerEditor.WidgetRefresh<ComboBox>("state");
@@ -387,7 +390,7 @@ namespace SeleniumDemo.Tests
             dataGridView.SelectRow(1);
             // check id
             Label id = customerEditor.WidgetGet<Label>("id");
-            id.AssertText("2");
+            id.AssertTextIs("2");
 
             // Remove the row
             customerEditor.ButtonClick("removeButton");
@@ -520,6 +523,9 @@ namespace SeleniumDemo.Tests
             // click supplierEditor on buttonsPanel (LayoutPanel) of ButtonsWindow
             TestDriver.ButtonClick("ButtonsWindow.buttonsPanel.supplierEditor");
 
+            // give enough time so YOU can see the alert boxes
+            TestDriver.Sleep(Waiter.Duration);
+
             TestDriver.AlertBoxClose(MessageBoxIcon.Error, "Supplier Editor must be implemented");
             TestDriver.AlertBoxClose("Supplier Editor should be implemented");
             TestDriver.AlertBoxClose(MessageBoxIcon.Information);
@@ -545,10 +551,8 @@ namespace SeleniumDemo.Tests
             // click sayGoodBye on MainPage (presume MainPage exists and is visible)
             TestDriver.ButtonClick("MainPage.sayGoodBye");
 
-            //TestDriver.SleepDebugTest();
-
-            // click Yes on MessageBox "Polite Question"
-            TestDriver.MessageBoxWithMessageButtonClick("Do you want to say good-bye now?", DialogResult.Yes);
+            // click Yes on MessageBox
+            TestDriver.MessageBoxButtonClick(DialogResult.Yes);
 
             // give enough time so YOU can see the root Page before the browser shows an empty screen
             TestDriver.Sleep(Waiter.Duration * 2);
