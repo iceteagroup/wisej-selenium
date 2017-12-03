@@ -24,7 +24,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="value">The value to check.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         public static void AssertValueIs(this WisejWebDriver driver, string path, string value,
             long timeoutInSeconds = 5)
         {
@@ -38,7 +38,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="value">The value to check.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         public static void AssertValueIs(this IWidget parent, string path, string value,
             long timeoutInSeconds = 5)
         {
@@ -60,7 +60,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>A <see cref="string"/> with the widget value.</returns>
         public static string GetValue(this WisejWebDriver driver, string path, long timeoutInSeconds = 5)
         {
@@ -73,7 +73,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>A <see cref="string"/> with the widget value.</returns>
         public static string GetValue(this IWidget parent, string path, long timeoutInSeconds = 5)
         {

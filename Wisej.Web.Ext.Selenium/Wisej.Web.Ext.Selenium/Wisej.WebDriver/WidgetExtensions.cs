@@ -31,7 +31,7 @@ namespace Wisej.Web.Ext.Selenium
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The path string.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>The <see cref="IWidget"/> that matches the <para>path</para>.</returns>
         public static IWidget FindWidget(this IWidget parent, string path, long timeoutInSeconds = 5)
         {
@@ -44,7 +44,7 @@ namespace Wisej.Web.Ext.Selenium
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The path string.</param>
-        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>The child <see cref="IWidget"/> that matches the <para>path</para>.</returns>
         public static IWidget RefreshWidget(this IWidget parent, string path, long timeoutInSeconds = 5)
         {
