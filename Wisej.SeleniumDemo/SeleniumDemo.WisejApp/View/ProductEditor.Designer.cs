@@ -170,7 +170,7 @@
             this.productTypeId.DataPropertyName = "ProductTypeId";
             this.productTypeId.DataSource = this.productTypesBindingSource;
             this.productTypeId.DisplayMember = "ProductTypeName";
-            this.productTypeId.HeaderText = "Model Type";
+            this.productTypeId.HeaderText = "Product Type";
             this.productTypeId.Name = "productTypeId";
             this.productTypeId.ValueMember = "ProductTypeId";
             // 
