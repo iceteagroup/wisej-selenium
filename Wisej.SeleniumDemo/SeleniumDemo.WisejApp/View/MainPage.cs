@@ -7,6 +7,8 @@ namespace SeleniumDemo.WisejApp.View
 {
     public partial class MainPage : Page
     {
+        private HelperWindow _helperForm;
+
         public MainPage()
         {
             InitializeComponent();
@@ -36,9 +38,9 @@ namespace SeleniumDemo.WisejApp.View
         private void helper_Click(object sender, EventArgs e)
         {
             var positionX = ClientSize.Width - 300;
-            var helperForm = new HelperWindow();
-            helperForm.Location = new Point(positionX, 0);
-            helperForm.Show();
+            _helperForm = new HelperWindow();
+            _helperForm.Location = new Point(positionX, 0);
+            _helperForm.Show();
         }
     }
 }
