@@ -52,7 +52,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region AlertBox Get
 
         /// <summary>
-        /// Returns a <see cref="AlertBox"/> matching the specifyed icon and message.
+        /// Returns a <see cref="AlertBox"/> matching the specified icon and message.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The AlertBox icon to look for.</param>
@@ -66,7 +66,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Returns a <see cref="AlertBox"/> matching the specifyed icon.
+        /// Returns a <see cref="AlertBox"/> matching the specified icon.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The AlertBox icon to look for.</param>
@@ -78,7 +78,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Returns a <see cref="AlertBox"/> matching the specifyed message.
+        /// Returns a <see cref="AlertBox"/> matching the specified message.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The AlertBox message to search for (default is an empty string).</param>
@@ -107,7 +107,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Asserts an <see cref="AlertBox"/> matching the specifyed icon does not exist.
+        /// Asserts an <see cref="AlertBox"/> matching the specified icon does not exist.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The AlertBox icon to look for.</param>
@@ -119,7 +119,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Asserts an <see cref="AlertBox"/> matching the specifyed message does not exist.
+        /// Asserts an <see cref="AlertBox"/> matching the specified message does not exist.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The AlertBox message to search for (default is an empty string).</param>
@@ -135,7 +135,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region AlertBox close
 
         /// <summary>
-        /// Closed an <see cref="AlertBox"/> matching the specifyed icon and message.
+        /// Closed an <see cref="AlertBox"/> matching the specified icon and message.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The AlertBox icon to look for.</param>
@@ -148,7 +148,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Closed an <see cref="AlertBox"/> matching the specifyed icon.
+        /// Closed an <see cref="AlertBox"/> matching the specified icon.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The AlertBox icon to look for.</param>
@@ -159,7 +159,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Closed an <see cref="AlertBox"/> matching the specifyed message.
+        /// Closed an <see cref="AlertBox"/> matching the specified message.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The AlertBox message to search for (default is an empty string).</param>

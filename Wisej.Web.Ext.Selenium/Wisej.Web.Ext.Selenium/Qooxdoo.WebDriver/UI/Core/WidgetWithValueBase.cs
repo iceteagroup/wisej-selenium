@@ -67,8 +67,8 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Gets the value of a TextBox's value </summary>
-        /// <returns>The TextBox value.</returns>
+        /// Gets the value of a IHaveValue widget.</summary>
+        /// <returns>The value.</returns>
         public virtual string Value
         {
             get
