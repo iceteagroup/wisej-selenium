@@ -12,18 +12,18 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region WidgetGet
 
         /// <summary>
-        /// Returns an <see cref="IWidget"/> matching the specifyed parameters.
+        /// Returns an <see cref="IWidget"/> matching the specified parameters.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="widgetType">The widget type name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed (default is <c>true</c>).</param>
-        /// <returns>An <see cref="IWidget"/> that matches the specifyed search parameters.</returns>
+        /// <returns>An <see cref="IWidget"/> that matches the specified search parameters.</returns>
         public static IWidget WidgetGet(this WisejWebDriver driver, string path, string widgetType,
             long timeoutInSeconds = 5, bool assertIsDisplayed = true)
         {
-            IWidget widget = driver.FindWidget(path);
+            IWidget widget = driver.FindWidget(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", widgetType, path));
             if (assertIsDisplayed)
                 widget.AssertIsDisplayed("ButtonsWindow");
@@ -31,18 +31,18 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Returns an <see cref="IWidget"/> matching the specifyed parameters.
+        /// Returns an <see cref="IWidget"/> matching the specified parameters.
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="widgetType">The widget type name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed (default is <c>true</c>).</param>
-        /// <returns>An <see cref="IWidget"/> that matches the specifyed search parameters.</returns>
+        /// <returns>An <see cref="IWidget"/> that matches the specified search parameters.</returns>
         public static IWidget WidgetGet(this IWidget parent, string path, string widgetType, long timeoutInSeconds = 5,
             bool assertIsDisplayed = true)
         {
-            IWidget widget = parent.FindWidget(path);
+            IWidget widget = parent.FindWidget(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", widgetType, path));
             if (assertIsDisplayed)
                 widget.AssertIsDisplayed("ButtonsWindow");
@@ -50,18 +50,18 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Returns a widget of type <typeparamref name="T"/> that matches the specifyed parameters.
+        /// Returns a widget of type <typeparamref name="T"/> that matches the specified parameters.
         /// </summary>
         /// <typeparam name="T">The type of the widget to return.</typeparam>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed (default is <c>true</c>).</param>
-        /// <returns>A widget of type <typeparamref name="T"/> that matches the specifyed parameters.</returns>
+        /// <returns>A widget of type <typeparamref name="T"/> that matches the specified parameters.</returns>
         public static T WidgetGet<T>(this WisejWebDriver driver, string path, long timeoutInSeconds = 5,
             bool assertIsDisplayed = true)
         {
-            T widget = (T) driver.FindWidget(path);
+            T widget = (T) driver.FindWidget(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", typeof(T).Name, path));
             if (assertIsDisplayed && widget is IWidget)
                 ((IWidget) widget).AssertIsDisplayed("ButtonsWindow");
@@ -69,18 +69,18 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Returns a widget of type <typeparamref name="T"/> that matches the specifyed parameters.
+        /// Returns a widget of type <typeparamref name="T"/> that matches the specified parameters.
         /// </summary>
         /// <typeparam name="T">The type of the widget to return.</typeparam>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed (default is <c>true</c>).</param>
-        /// <returns>A widget of type <typeparamref name="T"/> that matches the specifyed parameters.</returns>
+        /// <returns>A widget of type <typeparamref name="T"/> that matches the specified parameters.</returns>
         public static T WidgetGet<T>(this IWidget parent, string path, long timeoutInSeconds = 5,
             bool assertIsDisplayed = true)
         {
-            T widget = (T) parent.FindWidget(path);
+            T widget = (T) parent.FindWidget(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", typeof(T).Name, path));
             if (assertIsDisplayed && widget is IWidget)
                 ((IWidget) widget).AssertIsDisplayed("ButtonsWindow");
@@ -105,7 +105,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         public static IWidget WidgetRefresh(this WisejWebDriver driver, string path, string widgetType,
             long timeoutInSeconds = 5)
         {
-            IWidget widget = driver.Refresh(path);
+            IWidget widget = driver.Refresh(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", widgetType, path));
             return widget;
         }
@@ -124,7 +124,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         public static IWidget WidgetRefresh(this IWidget parent, string path, string widgetType,
             long timeoutInSeconds = 5)
         {
-            IWidget widget = parent.RefreshWidget(path);
+            IWidget widget = parent.RefreshWidget(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", widgetType, path));
             return widget;
         }
@@ -142,7 +142,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </remarks>
         public static T WidgetRefresh<T>(this WisejWebDriver driver, string path, long timeoutInSeconds = 5)
         {
-            T widget = (T) driver.Refresh(path);
+            T widget = (T) driver.Refresh(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", typeof(T).Name, path));
             return widget;
         }
@@ -160,7 +160,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// </remarks>
         public static T WidgetRefresh<T>(this IWidget parent, string path, long timeoutInSeconds = 5)
         {
-            T widget = (T) parent.RefreshWidget(path);
+            T widget = (T) parent.RefreshWidget(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", typeof(T).Name, path));
             return widget;
         }
@@ -170,7 +170,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region Text
 
         /// <summary>
-        /// Asserts the widget text matches the specifyed string.
+        /// Asserts the widget text matches the specified string.
         /// </summary>
         /// <param name="widget">The target widget.</param>
         /// <param name="text">The text to match.</param>
@@ -180,7 +180,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Asserts the text of the widget with the given path, matches the specifyed string.
+        /// Asserts the text of the widget with the given path, matches the specified string.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
@@ -195,7 +195,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Asserts the text of the widget with the given parent and path, matches the specifyed string.
+        /// Asserts the text of the widget with the given parent and path, matches the specified string.
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
@@ -339,14 +339,14 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region ClassName
 
         /// <summary>
-        /// Asserts the widget class name matches the specifyed string.
+        /// Asserts the widget class name matches the specified string.
         /// </summary>
         /// <param name="widget">The target widget.</param>
         /// <param name="className">The class name to match.</param>
         public static void AssertClassNameIs(this IWidget widget, string className)
         {
             /*Assert.AreEqual(widget.ClassName, className,
-                string.Format("{0}: expected {1} and actual is {2}.", widget.GetType().Name, className, 
+                string.Format("{0}: expected {1} and actual is {2}.", widget.GetType().Name, className,
                     widget.ClassName));*/
             Assert.AreEqual(widget.ClassName, className);
         }
@@ -356,7 +356,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region Location
 
         /// <summary>
-        /// Asserts the widget location matches the specifyed location.
+        /// Asserts the widget location matches the specified location.
         /// </summary>
         /// <param name="widget">The target widget.</param>
         /// <param name="location">The location to match.</param>
@@ -375,7 +375,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region Size
 
         /// <summary>
-        /// Asserts the widget size matches the specifyed size.
+        /// Asserts the widget size matches the specified size.
         /// </summary>
         /// <param name="widget">The target widget.</param>
         /// <param name="size">The size to match.</param>
