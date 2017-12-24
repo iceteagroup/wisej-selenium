@@ -116,6 +116,7 @@
     <Compile Include="Wisej.WebDriver\UI\LinkLabel.cs" />
     <Compile Include="Wisej.WebDriver\UI\ListBox.cs" />
     <Compile Include="Wisej.WebDriver\UI\ListView.cs" />
+    <Compile Include="Wisej.WebDriver\UI\List\ListItem.cs" />
     <Compile Include="Wisej.WebDriver\UI\MenuBar.cs" />
     <Compile Include="Wisej.WebDriver\UI\MessageBox.cs" />
     <Compile Include="Wisej.WebDriver\UI\MonthCalendar.cs" />
@@ -144,7 +145,9 @@
     <EmbeddedResource Include="JavaScript\callMethod.js" />
     <EmbeddedResource Include="JavaScript\create_qxwebdriver.js" />
     <EmbeddedResource Include="JavaScript\findByQxh.js" />
+    <EmbeddedResource Include="JavaScript\getAllAlertBoxes.js" />
     <EmbeddedResource Include="JavaScript\getAllLogEvents.js" />
+    <EmbeddedResource Include="JavaScript\getAllMessageBoxes.js" />
     <EmbeddedResource Include="JavaScript\getCaughtErrors.js" />
     <EmbeddedResource Include="JavaScript\getChildControl.js" />
     <EmbeddedResource Include="JavaScript\getChildrenElements.js" />
@@ -177,12 +180,6 @@
     <EmbeddedResource Include="JavaScript\selectTableRow.js" />
     <EmbeddedResource Include="JavaScript\setPropertyValue.js" />
     <EmbeddedResource Include="JavaScript\setTreeNodeOpened.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="JavaScript\getAllAlertBoxes.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="JavaScript\getAllMessageBoxes.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

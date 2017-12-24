@@ -62,6 +62,7 @@ namespace Wisej.Web.Ext.Selenium.UI
             _classMapper.Add("wisej.web.ScrollablePage", "wisej.web.Page");
             _classMapper.Add("wisej.web.tabcontrol.TabPage", "wisej.web.TabPage");
             _classMapper.Add("wisej.web.toolbar.Button", "wisej.web.ToolBarButton");
+            _classMapper.Add("wisej.web.list.ListItem", "wisej.web.List.ListItem");
         }
 
         /// <summary>

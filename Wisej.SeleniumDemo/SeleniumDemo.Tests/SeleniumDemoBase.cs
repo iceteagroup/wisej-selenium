@@ -1,9 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using Wisej.Web.Ext.Selenium;
 using Wisej.Web.Ext.Selenium.Tests;
 using Wisej.Web.Ext.Selenium.UI;
-using By = Qooxdoo.WebDriver.By;
+using Wisej.Web.Ext.Selenium.UI.List;
 
 namespace SeleniumDemo.Tests
 {
@@ -17,14 +18,14 @@ namespace SeleniumDemo.Tests
         {
             TestDriver.SleepDebugTest(2000);
 
-            // get MainPage and check it's visibble
+            // get MainPage and check it's visible
             Page mainPage = TestDriver.WidgetGet<Page>("MainPage", 10);
 
-            // click sayGoodBye on MainPage
-            mainPage.ButtonClick("sayGoodBye", 10);
+            // click exit on MainPage
+            mainPage.ButtonClick("exit", 10);
 
-            var title = "Polite Question";
-            var message = "Do you want to say good-bye now?";
+            var title = "Exit Application";
+            var message = "Do you want to exit now?";
             var icon = MessageBoxIcon.Question;
 
             // get MessageBox using all parameters check it's enabled
@@ -40,7 +41,7 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W020_ButtonsWindow_helper_Click()
         {
-            // get MainPage and check it's visibble
+            // get MainPage and check it's visible
             Page mainPage = TestDriver.WidgetGet<Page>("MainPage", 10);
 
             // click helper on ButtonsWindow
@@ -168,8 +169,7 @@ namespace SeleniumDemo.Tests
             // change firstName
             firstName.Value = "Muddy";
 
-            if (CurrentBrowser == Browser.Edge)
-                TestDriver.Sleep(Waiter.BrowserUpdate);
+            TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // Save it
             customerEditor.ButtonClick("saveButton");
@@ -186,7 +186,7 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W052_CustomerEditor_EditRegisterOne_lastName()
         {
-            // get CustomerEditor anc check it's visible
+            // get CustomerEditor and check it's visible
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
 
             // get DataGridView
@@ -324,7 +324,6 @@ namespace SeleniumDemo.Tests
             // change state
             state.SelectItem(20);
 
-
             if (CurrentBrowser == Browser.Edge)
                 TestDriver.Sleep(Waiter.BrowserUpdate);
 
@@ -338,40 +337,45 @@ namespace SeleniumDemo.Tests
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
             // get DataGridView
             DataGridView dataGridView = customerEditor.WidgetGet<DataGridView>("dataGridView");
-            // check DataGridView has two rows
+            // check DataGridView has three rows
             Assert.IsTrue(dataGridView.RowCount == 3,
                 string.Format("dataGridView row count: expected 3 and actual is {0}.", dataGridView.RowCount));
 
-            // check row 0 is selected
-            int selectedRow = -1;
-            for (int row = 0; row < dataGridView.RowCount; row++)
-            {
-                if (dataGridView.Children[row].Selected) // TODO This should return a row...
-                    selectedRow = row;
-            }
-            Assert.AreEqual(selectedRow, 0);
+            // select row 0
+            dataGridView.SelectRow(0);
 
-            // select row 1
+            // check row 0 is selected
+            int[] selectedIndices = dataGridView.SelectedIndices;
+            int selectedRow = selectedIndices[0];
+            Assert.IsTrue(selectedIndices.Length == 1 && selectedRow == 0);
+
+            // check the values of row 0
+            dataGridView.AssertRowTextIs(
+                new[] {"1", "Muddy", "WATERS", "Mississippi", "Muddy WATERS"}, selectedRow);
+
+            // select row 1 with arrow key
             dataGridView.SendKeys(Keys.ArrowDown);
-            // check row 2 is selected
-            selectedRow = -1;
-            for (int row = 0; row < dataGridView.RowCount; row++)
-            {
-                if (dataGridView.Children[row].Selected) // TODO This should return a row...
-                    selectedRow = row;
-            }
-            Assert.AreEqual(selectedRow, 1);
+
+            // check row 1 is selected
+            selectedIndices = dataGridView.SelectedIndices;
+            selectedRow = selectedIndices[0];
+            Assert.IsTrue(selectedIndices.Length == 1 && selectedRow == 1);
+
+            // check the values of row 1
+            dataGridView.AssertRowTextIs(
+                new List<string> {"2", "Louis", "ARMSTRONG", "Louisiana", "Louis ARMSTRONG"}, 0, selectedRow);
 
             // select row 2
             dataGridView.SelectRow(2);
+
             // check row 2 is selected
-            selectedRow = -1;
-            for (int row = 0; row < dataGridView.RowCount; row++)
-            {
-                if (dataGridView.Children[row].Selected) // TODO This should return a row...
-                    selectedRow = row;
-            }
-            Assert.AreEqual(selectedRow, 2);
+            selectedIndices = dataGridView.SelectedIndices;
+            selectedRow = selectedIndices[0];
+            Assert.IsTrue(selectedIndices.Length == 1 && selectedRow == 2);
+
+            // check the values of row 2
+            dataGridView.AssertRowTextIs(
+                new[] {"B. B.", "Maryland", "3", "KING", "B. B. KING"}, new List<int> {1, 3, 0, 2, 4}, selectedRow);
         }
 
         [TestMethod]
@@ -381,14 +385,23 @@ namespace SeleniumDemo.Tests
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor", 10);
             // get DataGridView
             DataGridView dataGridView = customerEditor.WidgetGet<DataGridView>("dataGridView");
-            // check DataGridView has two rows
+            // check DataGridView has three rows
             Assert.IsTrue(dataGridView.RowCount == 3,
                 string.Format("dataGridView row count: expected 3 and actual is {0}.", dataGridView.RowCount));
 
-
-            // select row with id 2
+            // select row 1 (with id 2)
             dataGridView.SelectRow(1);
-            // check id
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            // check row 1 is selected
+            int[] selectedIndices = dataGridView.SelectedIndices;
+            int selectedRow = selectedIndices[0];
+            Assert.IsTrue(selectedIndices.Length == 1 && selectedRow == 1);
+
+            // check the id column of row 1
+            Assert.AreEqual("2", dataGridView.GetCellText(0, selectedRow));
+            // check id label
             Label id = customerEditor.WidgetGet<Label>("id");
             id.AssertTextIs("2");
 
@@ -434,14 +447,14 @@ namespace SeleniumDemo.Tests
         }
 
         [TestMethod]
-        public void W066_ProductEditor_tabControl()
+        public void W065_ProductEditor_tabControl()
         {
             // get tabControl and check it's visible
             TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl", 10);
         }
 
         [TestMethod]
-        public void W068_ProductEditor_tabControl_brands()
+        public void W066_ProductEditor_tabControl_brands()
         {
             // get tabControl and check it's visible
             TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl", 10);
@@ -451,14 +464,128 @@ namespace SeleniumDemo.Tests
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
-            var brands = tabControl.Current;
+            // get brands TabPage
+            TabPage brands = tabControl.Current;
 
             // check brands exists and is visible
             Assert.IsNotNull(brands);
             brands.AssertIsDisplayed("brands");
+        }
+
+        [TestMethod]
+        public void W067_ProductEditor_brandsListBox_edit()
+        {
+            // get brandsListBox and check it's visible
+            ListBox brandsListBox = TestDriver.WidgetGet<ListBox>("ProductEditor.tabControl.brands.brandsListBox", 10);
+
+            // check there are 9 items total
+            Assert.AreEqual(9, brandsListBox.ListItems.Count);
+
+            // check there is an item selected
+            IList<ListItem> selectedItems = brandsListBox.SelectedItems;
+            Assert.AreEqual(1, selectedItems.Count);
+            // check item selected is "Candy"
+            ListItem listItem = selectedItems[0];
+            // TODO: pending fix in this property
+            //Assert.IsTrue(listItem.Selected);
+            Assert.AreEqual("Candy", listItem.Value);
+
+            brandsListBox.SelectItem(1);
+            // check there is an item selected
+            selectedItems = brandsListBox.SelectedItems;
+            Assert.AreEqual(1, selectedItems.Count);
+            // check item selected is "Electroluz"
+            listItem = selectedItems[0]; // TODO: always item 0 (zero)
+            listItem = brandsListBox.ListItems[1]; // workaround for above issue
+            // TODO: pending fix in this property
+            //Assert.IsTrue(listItem.Selected);
+            Assert.AreEqual("Electroluz", listItem.Value);
+            // open BrandEditor
+            listItem.DoubleClick();
+
+            TestDriver.SleepDebugTest();
+            TestDriver.SleepDebugTest();
+
+            // get BrandEditor and check it's visible
+            Form brandEditor = TestDriver.WidgetGet<Form>("BrandEditor", 20);
+            // get brandNameTextBox and check it's visible
+            TextBox brandNameTextBox = brandEditor.WidgetGet<TextBox>("brandNameTextBox");
+            brandNameTextBox.Value = "Electrolux";
+            // get saveButton, check it's visible and click it
+            Button saveButton = brandEditor.WidgetGet<Button>("saveButton");
+            saveButton.Click();
+
+            // re-check ListItem 1 value
+            Assert.AreEqual("Electrolux", listItem.Value);
+
+            // give enough time so YOU can see the all the changes
+            TestDriver.Sleep(Waiter.Duration);
+        }
+
+        [TestMethod]
+        public void W068_ProductEditor_brandsListBox_new()
+        {
+            // get newButton, check it's visible and click it
+            Button newButton = TestDriver.WidgetGet<Button>("ProductEditor.newButton");
+            newButton.Click();
+
+            TestDriver.SleepDebugTest();
+            TestDriver.SleepDebugTest();
+
+            // get brandNameTextBox and check it's visible
+            TextBox brandNameTextBox = TestDriver.WidgetGet<TextBox>("BrandEditor.brandNameTextBox");
+            brandNameTextBox.Value = "Huawei";
+            // get saveButton, check it's visible and click it
+            Button saveButton = TestDriver.WidgetGet<Button>("BrandEditor.saveButton");
+            saveButton.Click();
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            // refresh and get brandsListBox and check it's visible
+            ListBox brandsListBox =
+                TestDriver.WidgetRefresh<ListBox>("ProductEditor.tabControl.brands.brandsListBox", 10);
+
+            // check there are 10 items total
+            Assert.AreEqual(10, brandsListBox.ListItems.Count);
+
+            // get ListItem 9 and check it's visible
+            ListItem listItem = brandsListBox.ListItems[9];
+            // check ListItem 9 value
+            Assert.AreEqual("Huawei", listItem.Value);
+
+            // give enough time so YOU can see the all the changes
+            TestDriver.Sleep(Waiter.Duration);
+        }
+
+        [TestMethod]
+        public void W069_ProductEditor_brandsListBox_remove()
+        {
+            // get brands TabPage and check it's visible
+            TabPage brands = TestDriver.WidgetGet<TabPage>("ProductEditor.tabControl.brands", 20);
 
             // get brandsListBox and check it's visible
             ListBox brandsListBox = brands.WidgetGet<ListBox>("brandsListBox", 10);
+
+            brandsListBox.SelectItem(4);
+            // get ListItem 4 and check it's visible
+            ListItem listItem = brandsListBox.ListItems[4];
+            // check ListItem 4 value
+            Assert.AreEqual("LG", listItem.Value);
+
+            // get removeButton, check it's visible and click it
+            Button removeButton = TestDriver.WidgetGet<Button>("ProductEditor.removeButton");
+            removeButton.Click();
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            // refresh and get brandsListBox and check it's visible
+            brandsListBox = brands.WidgetRefresh<ListBox>("brandsListBox", 10);
+
+            // check there are 9 items total
+            Assert.AreEqual(9, brandsListBox.ListItems.Count);
+
+            // give enough time so YOU can see the all the changes
+            TestDriver.Sleep(Waiter.Duration);
         }
 
         [TestMethod]
@@ -472,18 +599,73 @@ namespace SeleniumDemo.Tests
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
-            var models = tabControl.Current;
+            // get productTypes TabPage
+            TabPage productTypes = tabControl.Current;
 
-            // check models exists and is visible
-            Assert.IsNotNull(models);
-            models.AssertIsDisplayed("productTypes");
-
-            // get productTypesTreeView and check it's visible
-            TreeView productTypesTreeView = models.WidgetGet<TreeView>("productTypesTreeView", 10);
+            // check productTypes exists and is visible
+            Assert.IsNotNull(productTypes);
+            productTypes.AssertIsDisplayed("productTypes");
         }
 
         [TestMethod]
-        public void W072_ProductEditor_tabControl_models()
+        public void W072_ProductEditor_productTypesTreeView_edit()
+        {
+            // get productTypesTreeView and check it's visible
+            TreeView productTypesTreeView =
+                TestDriver.WidgetGet<TreeView>("ProductEditor.tabControl.productTypes.productTypesTreeView", 10);
+
+            /*// check there is an item selected
+            IList<TreeNode> selectedItems = productTypesTreeView.SelectedItems;
+            Assert.AreEqual(1, selectedItems.Count);
+            // check item selected is "Candy"
+            TreeNode treeNode = selectedItems[0];
+            // TODO: pending fix in this property
+            //Assert.IsTrue(treeNode.Selected);
+            Assert.AreEqual("Candy", treeNode.Value);
+
+            productTypesTreeView.SelectItem(1);
+            // check there is an item selected
+            selectedItems = productTypesTreeView.SelectedItems;
+            Assert.AreEqual(1, selectedItems.Count);
+            // check item selected is "Electroluz"
+            treeNode = selectedItems[0]; // TODO: always item 0 (zero)
+            treeNode = productTypesTreeView.TreeNodes[1]; // workaround for above issue
+            // TODO: pending fix in this property
+            //Assert.IsTrue(treeNode.Selected);
+            Assert.AreEqual("Electroluz", treeNode.Value);
+            // open ProductTypeEditor
+            treeNode.DoubleClick();
+
+            TestDriver.SleepDebugTest();
+
+            // get ProductTypeEditor and check it's visible
+            Form productTypeEditor = TestDriver.WidgetGet<Form>("ProductTypeEditor", 20);
+            // get productTypeNameTextBox and check it's visible
+            TextBox productTypeNameTextBox = productTypeEditor.WidgetGet<TextBox>("productTypeNameTextBox");
+            productTypeNameTextBox.Value = "Electrolux";
+            // get saveButton, check it's visible and click it
+            Button saveButton = productTypeEditor.WidgetGet<Button>("saveButton");
+            saveButton.Click();
+
+            // re-check TreeNode 1 value
+            Assert.AreEqual("Electrolux", treeNode.Value);*/
+
+            // give enough time so YOU can see the all the changes
+            TestDriver.Sleep(Waiter.Duration);
+        }
+
+        [TestMethod]
+        public void W074_ProductEditor_productTypesTreeView_new()
+        {
+        }
+
+        [TestMethod]
+        public void W076_ProductEditor_productTypesTreeView_remove()
+        {
+        }
+
+        [TestMethod]
+        public void W078_ProductEditor_tabControl_models()
         {
             // get tabControl and check it's visible
             TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl", 10);
@@ -493,6 +675,7 @@ namespace SeleniumDemo.Tests
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
+            // get models TabPage
             var models = tabControl.Current;
 
             // check models exists and is visible
@@ -501,10 +684,27 @@ namespace SeleniumDemo.Tests
 
             // get modelsDataGridView and check it's visible
             DataGridView modelsDataGridView = models.WidgetGet<DataGridView>("modelsDataGridView", 10);
+
+            // select row 0
+            modelsDataGridView.SelectRow(0);
+
+            // check row 0 is selected
+            int[] selectedIndices = modelsDataGridView.SelectedIndices;
+            int selectedRow = selectedIndices[0];
+            Assert.IsTrue(selectedIndices.Length == 1 && selectedRow == 0);
+
+            // check the model name for row 0
+            Assert.AreEqual("TV 97016", modelsDataGridView.GetCellText(1, selectedRow));
+
+            // get a cell editor for column 1 of the selected row
+            var isEditing = modelsDataGridView.StartEditing("TV 97016", 1, selectedRow);
+            Assert.IsTrue(isEditing);
+            var cellEditor = modelsDataGridView.CellEditor;
+            Assert.IsNotNull(cellEditor);
         }
 
         [TestMethod]
-        public void W074_CloseProductEditor()
+        public void W080_CloseProductEditor()
         {
             // give enough time so YOU can see the open window
             TestDriver.Sleep(Waiter.Duration);
@@ -518,7 +718,7 @@ namespace SeleniumDemo.Tests
         }
 
         [TestMethod]
-        public void W080_ButtonsWindow_supplierEditor_Click()
+        public void W088_ButtonsWindow_supplierEditor_Click()
         {
             // click supplierEditor on buttonsPanel (LayoutPanel) of ButtonsWindow
             TestDriver.ButtonClick("ButtonsWindow.buttonsPanel.supplierEditor");
@@ -548,8 +748,8 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W100_AskQuitYes()
         {
-            // click sayGoodBye on MainPage (presume MainPage exists and is visible)
-            TestDriver.ButtonClick("MainPage.sayGoodBye");
+            // click exit on MainPage (presume MainPage exists and is visible)
+            TestDriver.ButtonClick("MainPage.exit");
 
             // click Yes on MessageBox
             TestDriver.MessageBoxButtonClick(DialogResult.Yes);
