@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.buttonsWindow = new Wisej.Web.Button();
-            this.sayGoodBye = new Wisej.Web.Button();
+            this.exit = new Wisej.Web.Button();
             this.helper = new Wisej.Web.Button();
             this.SuspendLayout();
             // 
@@ -42,14 +42,14 @@
             this.buttonsWindow.Text = "Open Buttons Window";
             this.buttonsWindow.Click += new System.EventHandler(this.buttonsWindow_Click);
             // 
-            // sayGoodBye
+            // exit
             // 
-            this.sayGoodBye.Location = new System.Drawing.Point(35, 130);
-            this.sayGoodBye.Name = "sayGoodBye";
-            this.sayGoodBye.Size = new System.Drawing.Size(180, 40);
-            this.sayGoodBye.TabIndex = 1;
-            this.sayGoodBye.Text = "Say Good-bye";
-            this.sayGoodBye.Click += new System.EventHandler(this.sayGoodBye_Click);
+            this.exit.Location = new System.Drawing.Point(35, 130);
+            this.exit.Name = "exit";
+            this.exit.Size = new System.Drawing.Size(180, 40);
+            this.exit.TabIndex = 1;
+            this.exit.Text = "Exit application";
+            this.exit.Click += new System.EventHandler(this.exit_Click);
             // 
             // helper
             // 
@@ -67,7 +67,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = Wisej.Web.AutoScaleMode.Font;
             this.Controls.Add(this.helper);
-            this.Controls.Add(this.sayGoodBye);
+            this.Controls.Add(this.exit);
             this.Controls.Add(this.buttonsWindow);
             this.Name = "MainPage";
             this.Size = new System.Drawing.Size(1024, 548);
@@ -79,7 +79,7 @@
         #endregion
 
         private Wisej.Web.Button buttonsWindow;
-        private Wisej.Web.Button sayGoodBye;
+        private Wisej.Web.Button exit;
         private Wisej.Web.Button helper;
     }
 }
