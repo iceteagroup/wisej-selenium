@@ -151,7 +151,7 @@ namespace Wisej.Web.Ext.Selenium
         #region WaitFor methods
 
         /// <summary>
-        /// Waits to find the first matching <see cref="AlertBox" /> using the specifyed method.
+        /// Waits to find the first matching <see cref="AlertBox" /> using the specified method.
         /// </summary>
         /// <param name="ignoreIcon">If set to <c>true</c> ignores the AlertBox icon parameter.</param>
         /// <param name="icon">The AlertBox icon to look for.</param>
@@ -231,7 +231,7 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
-        /// Waits to find the first matching <see cref="MessageBox" /> using the specifyed method.
+        /// Waits to find the first matching <see cref="MessageBox" /> using the specified method.
         /// </summary>
         /// <param name="title">The title of message box to search for.</param>
         /// <param name="ignoreIcon">If set to <c>true</c> ignores the MessageBox icon parameter.</param>

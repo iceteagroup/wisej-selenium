@@ -209,7 +209,7 @@ namespace Qooxdoo.WebDriver
                         {
                             result = Driver.JsRunner.RunScript("findByQxh", Locator, OnlySeeable, contextElement);
                         }
-                        //todo: catch (com.opera.Core.systems.scope.exceptions.ScopeException)
+                        // TODO: catch (com.opera.Core.systems.scope.exceptions.ScopeException)
                         catch (Exception)
                         {
                             // OperaDriver will sometimes throw a ScopeException if ExecuteScript is called

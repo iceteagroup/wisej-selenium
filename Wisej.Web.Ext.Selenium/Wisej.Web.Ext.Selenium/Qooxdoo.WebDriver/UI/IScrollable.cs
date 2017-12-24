@@ -26,14 +26,14 @@ namespace Qooxdoo.WebDriver.UI
     public interface IScrollable : IWidget
     {
         /// <summary>
-        /// Scrolls the widget to the specifyed position
+        /// Scrolls the widget to the specified position
         /// </summary>
         /// <param name="direction"> "x" or "y" for horizontal/vertical scrolling </param>
         /// <param name="position"> Position (in pixels) to scroll to </param>
         void ScrollTo(string direction, int? position);
 
         /// <summary>
-        /// Scrolls the area in the specifyed direction until the locator finds a child
+        /// Scrolls the area in the specified direction until the locator finds a child
         /// widget. The locator will be executed in the scroll area's context, so
         /// a relative locator should be used, e.g. <code>By.Qxh("*\/[@label=Foo]")</code>
         /// </summary>

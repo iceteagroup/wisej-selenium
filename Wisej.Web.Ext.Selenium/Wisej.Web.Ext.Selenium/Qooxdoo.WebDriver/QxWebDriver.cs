@@ -258,7 +258,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Find the first matching <see cref="IWidget"/> using the specifyed method.
+        /// Find the first matching <see cref="IWidget"/> using the specified method.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
@@ -282,7 +282,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Find the first matching <see cref="IWidget"/> using the specifyed method. Retry for up to <see cref="ITimeouts.ImplicitWait"/> seconds
+        /// Find the first matching <see cref="IWidget"/> using the specified method. Retry for up to <see cref="ITimeouts.ImplicitWait"/> seconds
         /// before throwing.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
@@ -325,7 +325,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Waits to find the first matching <see cref="IWidget"/> using the specifyed locator.
+        /// Waits to find the first matching <see cref="IWidget"/> using the specified locator.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
@@ -339,7 +339,7 @@ namespace Qooxdoo.WebDriver
 
         /// <summary>
         /// Returns an instance of <see cref="IWidget"/> or one of its subclasses that
-        /// represents the qooxdoo widget containing the specifyed element. </summary>
+        /// represents the qooxdoo widget containing the specified element. </summary>
         /// <param name="element"> A <see cref="IWebElement"/> representing a DOM element that is part of a
         /// qooxdoo widget </param>
         /// <returns>Widget object.</returns>
@@ -419,7 +419,7 @@ namespace Qooxdoo.WebDriver
         }
 
         /// <summary>
-        /// Finds the first <see cref="IWebElement" /> using the specifyed method.
+        /// Finds the first <see cref="IWebElement" /> using the specified method.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
         /// <returns>The first matching <see cref="IWebElement" /> on the current context.</returns>
@@ -431,7 +431,7 @@ namespace Qooxdoo.WebDriver
 
         /// <summary>
         /// Finds all <see cref="IWebElement"/> within the current context
-        /// using the specifyed mechanism.
+        /// using the specified mechanism.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
         /// <returns>A <see cref="ReadOnlyCollection{IWebElement}"/> of all <see cref="IWebElement"/>
@@ -545,7 +545,7 @@ namespace Qooxdoo.WebDriver
         /// Instructs the driver to navigate the browser to another location.
         /// </summary>
         /// <returns>An <see cref="OpenQA.Selenium.INavigation" /> object allowing the user to access
-        /// the browser's history and to navigate to the specifyed URL.</returns>
+        /// the browser's history and to navigate to the specified URL.</returns>
         public INavigation Navigate()
         {
             return _driver.Navigate();
@@ -600,7 +600,7 @@ namespace Qooxdoo.WebDriver
         ///                 <description>For all other cases a <see cref="string" /> is returned.</description>
         ///             </item>
         ///             <item>
-        ///                 <description>For an array, we check the first element, and attempt to return a List of that type, 
+        ///                 <description>For an array, we check the first element, and attempt to return a List of that type,
         /// following the rules above. Nested lists are not supported.</description>
         ///             </item>
         ///             <item>

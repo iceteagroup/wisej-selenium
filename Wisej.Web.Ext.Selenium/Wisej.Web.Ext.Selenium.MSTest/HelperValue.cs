@@ -9,7 +9,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
     public static class HelperValue
     {
         /// <summary>
-        /// Asserts the widget value matches the specifyed string.
+        /// Asserts the widget value matches the specified string.
         /// </summary>
         /// <param name="iHaveValue">The <see cref="IHaveValue"/> widget.</param>
         /// <param name="value">The value to check.</param>
@@ -19,7 +19,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Asserts the widget value matches the specifyed string.
+        /// Asserts the widget value matches the specified string.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
@@ -33,7 +33,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Asserts the widget value matches the specifyed string.
+        /// Asserts the widget value matches the specified string.
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>

@@ -25,9 +25,9 @@ namespace SeleniumDemo.WisejApp.View
             }
         }
 
-        private void sayGoodBye_Click(object sender, EventArgs e)
+        private void exit_Click(object sender, EventArgs e)
         {
-            var dialogResult = MessageBox.Show("Do you want to say good-bye now?", "Polite Question",
+            var dialogResult = MessageBox.Show("Do you want to exit now?", "Exit Application",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 

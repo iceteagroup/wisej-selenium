@@ -24,11 +24,6 @@ using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
 using Qooxdoo.WebDriver.UI.Core;
 
-/*using JSONArray = org.json.simple.JSONArray;
-using JSONObject = org.json.simple.JSONObject;
-using JSONParser = org.json.simple.parser.JSONParser;
-using ParseException = org.json.simple.parser.ParseException;*/
-
 namespace Qooxdoo.WebDriver.UI.Table
 {
     /// <summary>
@@ -181,7 +176,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         }
 
         /// <summary>
-        /// Scrolls the widget to the specifyed position
+        /// Scrolls the widget to the specified position
         /// </summary>
         /// <param name="direction"> "x" or "y" for horizontal/vertical scrolling </param>
         /// <param name="position"> Position (in pixels) to scroll to </param>
@@ -191,7 +186,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         }
 
         /// <summary>
-        /// Scrolls the area in the specifyed direction until the locator finds a child
+        /// Scrolls the area in the specified direction until the locator finds a child
         /// widget. The locator will be executed in the scroll area's context, so
         /// a relative locator should be used, e.g. <code>By.Qxh("*\/[@label=Foo]")</code>
         /// </summary>
@@ -246,23 +241,23 @@ namespace Qooxdoo.WebDriver.UI.Table
         }
 
         /// <summary>
-        /// Return the text in the specifyed cell of the table.
+        /// Returns the text in the specified cell of the table.
         /// </summary>
-        /// <param name="rowIdx"> Row index (from 0) </param>
-        /// <param name="colIdx"> Column index (from 0) </param>
+        /// <param name="colIdx"> Column index from 0 </param>
+        /// <param name="rowIdx"> Row index from 0 </param>
         /// <returns>Text in cell.</returns>
-        public virtual string GetCellText(long rowIdx, long colIdx)
+        public virtual string GetCellText(long colIdx, long rowIdx)
         {
-            return GetCellElement(rowIdx, colIdx).Text;
+            return GetCellElement(colIdx, rowIdx).Text;
         }
 
         /// <summary>
         /// Returns the cell element.
         /// </summary>
-        /// <param name="rowIdx">Index of the row.</param>
-        /// <param name="colIdx">Index of the col.</param>
+        /// <param name="colIdx">Column index from 0</param>
+        /// <param name="rowIdx">Row index from 0</param>
         /// <returns>The found cell.</returns>
-        public virtual IWebElement GetCellElement(long rowIdx, long colIdx)
+        public virtual IWebElement GetCellElement(long colIdx, long rowIdx)
         {
             string cellPath;
             if (ClassName.Equals("qx.ui.treevirtual.TreeVirtual"))
@@ -305,16 +300,17 @@ namespace Qooxdoo.WebDriver.UI.Table
                            "parent::div[count(preceding-sibling::div) = " + (rowIdx) + "]/" + "div[position() = " +
                            (colIdx + 1) + "]";
             }
+
             return FindElement(OpenQA.Selenium.By.XPath(cellPath));
         }
 
         /// <summary>
-        /// Return the index of the row containing the supplied text <code>text</code>
+        /// Returns the index of the row containing the supplied text <code>text</code>
         /// at column <code>colIdx</code>.
         /// </summary>
-        /// <param name="colIdx"> Index of column (from 0) that should contain the text </param>
+        /// <param name="colIdx"> Index of column from 0, that should contain the text </param>
         /// <param name="text"> Text to search for </param>
-        /// <returns>The row index (from 0) or -1 if the text was not found.</returns>
+        /// <returns>The row index from 0, or -1 if the text was not found.</returns>
         public virtual long GetRowIndexForCellText(long colIdx, string text)
         {
             string cellPath;
@@ -353,6 +349,7 @@ namespace Qooxdoo.WebDriver.UI.Table
             {
                 cellPath = ".//div[contains(@class, 'qooxdoo-table-cell') and position() = " + (colIdx + 1) + "]";
             }
+
             IList<IWebElement> els = FindElements(OpenQA.Selenium.By.XPath(cellPath));
 
             for (int rowIdx = 0; rowIdx < els.Count; rowIdx++)
@@ -363,14 +360,15 @@ namespace Qooxdoo.WebDriver.UI.Table
                     return rowIdx;
                 }
             }
+
             return -1L;
         }
 
         /// <summary>
-        /// Return a list of indexes of rows containing the supplied text <code>text</code>
+        /// Returns a list of indexes of rows containing the supplied text <code>text</code>
         /// at column <code>colIdx</code>.
         /// </summary>
-        /// <param name="colIdx"> Index of column (from 0) that should contain the text </param>
+        /// <param name="colIdx"> Index of column from 0, that should contain the text </param>
         /// <param name="text"> Text to search for </param>
         /// <returns>The a list of row indexes containing the text.</returns>
         public virtual IList<long?> GetRowIndexesForCellText(long colIdx, string text)
@@ -411,6 +409,7 @@ namespace Qooxdoo.WebDriver.UI.Table
             {
                 cellPath = ".//div[contains(@class, 'qooxdoo-table-cell') and position() = " + (colIdx + 1) + "]";
             }
+
             IList<IWebElement> els = FindElements(OpenQA.Selenium.By.XPath(cellPath));
             IList<long?> rowIdxs = new List<long?>();
             for (int rowIdx = 0; rowIdx < els.Count; rowIdx++)
@@ -421,6 +420,7 @@ namespace Qooxdoo.WebDriver.UI.Table
                     rowIdxs.Add((long) rowIdx);
                 }
             }
+
             return rowIdxs;
         }
 
@@ -430,17 +430,16 @@ namespace Qooxdoo.WebDriver.UI.Table
         /// <value>
         /// The selected ranges.
         /// </value>
-        public virtual IList<Dictionary<string, long?>> SelectedRanges
+        public virtual IList<Dictionary<string, int>> SelectedRanges
         {
             get
             {
                 string json = (string) JsRunner.RunScript("getTableSelectedRanges", ContentElement);
-                //JSONParser parser = new JSONParser();
-                IList<Dictionary<string, long?>> ranges = null;
+                IList<Dictionary<string, int>> ranges = null;
 
                 try
                 {
-                    ranges = new List<Dictionary<string, long?>>();
+                    ranges = new List<Dictionary<string, int>>();
 
                     JArray jArray = JArray.Parse(json);
                     using (IEnumerator<JToken> itr = jArray.GetEnumerator())
@@ -448,34 +447,16 @@ namespace Qooxdoo.WebDriver.UI.Table
                         while (itr.MoveNext())
                         {
                             var rangeMap = itr.Current;
-                            var range = new Dictionary<string, long?>();
+                            var range = new Dictionary<string, int>();
                             if (rangeMap != null)
                             {
-                                range["minIndex"] = (long?) rangeMap["minIndex"];
-                                range["maxIndex"] = (long?) rangeMap["maxIndex"];
+                                range["minIndex"] = (int) rangeMap["minIndex"];
+                                range["maxIndex"] = (int) rangeMap["maxIndex"];
                                 ranges.Add(range);
                             }
                         }
                     }
-
-                    // Java converted code
-                    /*object obj;
-                    JObject jObject = JObject.Parse(json);
-                    obj = parser.parse(json);
-                    JSONArray array = (JSONArray) obj;
-                    using (IEnumerator<JSONObject> itr = array.GetEnumerator())
-                    {
-                        while (itr.MoveNext())
-                        {
-                            JSONObject rangeMap = itr.Current;
-                            Dictionary<string, long?> range = new Dictionary<string, long?>();
-                            range["minIndex"] = (long?) rangeMap.get("minIndex");
-                            range["maxIndex"] = (long?) rangeMap.get("maxIndex");
-                            ranges.Add(range);
-                        }
-                    }*/
                 }
-                //catch (ParseException e)
                 catch (JsonException e)
                 {
                     // TODO Auto-generated catch block

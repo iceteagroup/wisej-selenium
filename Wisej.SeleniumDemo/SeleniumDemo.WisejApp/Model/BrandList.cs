@@ -26,7 +26,7 @@ namespace SeleniumDemo.WisejApp.Model
                 Brand.ClearCounter();
 
                 new Brand {BrandName = "Candy"}.Save();
-                new Brand {BrandName = "Electrolux"}.Save();
+                new Brand {BrandName = "Electroluz"}.Save();
                 new Brand {BrandName = "Hoover"}.Save();
                 new Brand {BrandName = "Kunft"}.Save();
                 new Brand {BrandName = "LG"}.Save();

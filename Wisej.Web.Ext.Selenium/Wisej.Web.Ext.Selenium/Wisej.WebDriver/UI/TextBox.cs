@@ -37,7 +37,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Gets or sets the value of a TextBox's value </summary>
+        /// Gets or sets the value of a TextBox value.</summary>
         /// <returns>The TextBox value.</returns>
         public new virtual string Value
         {
