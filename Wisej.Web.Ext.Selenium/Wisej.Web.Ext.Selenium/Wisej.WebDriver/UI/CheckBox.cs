@@ -37,7 +37,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Gets or sets the value of a CheckBox's value </summary>
+        /// Gets or sets the value of a CheckBox value.</summary>
         /// <returns>The CheckBox value.</returns>
         public new virtual string Value
         {

@@ -80,7 +80,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Clicks the specifyed button on the <see cref="MessageBox"/>.
+        /// Clicks the specified button on the <see cref="MessageBox"/>.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="resultButton">The result button to click.</param>
@@ -98,7 +98,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region MessageBox with Title
 
         /// <summary>
-        /// Returns a <see cref="MessageBox"/> with the specifyed title.
+        /// Returns a <see cref="MessageBox"/> with the specified title.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="title">The MessageBox title to search for.</param>
@@ -118,7 +118,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Asserts a <see cref="MessageBox"/> with the specifyed title does not exist.
+        /// Asserts a <see cref="MessageBox"/> with the specified title does not exist.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="title">The MessageBox title to search for.</param>
@@ -130,7 +130,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Clicks the specifyed button on the <see cref="MessageBox"/> with the specifyed title.
+        /// Clicks the specified button on the <see cref="MessageBox"/> with the specified title.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="title">The MessageBox title to search for.</param>
@@ -149,7 +149,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region MessageBox with message
 
         /// <summary>
-        /// Returns a <see cref="MessageBox"/> with the specifyed message.
+        /// Returns a <see cref="MessageBox"/> with the specified message.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The MessageBox message to search for.</param>
@@ -169,7 +169,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Asserts a <see cref="MessageBox"/> with the specifyed message does not exist.
+        /// Asserts a <see cref="MessageBox"/> with the specified message does not exist.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The MessageBox message to search for.</param>
@@ -181,7 +181,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Clicks the specifyed button on the <see cref="MessageBox"/> with the specifyed message.
+        /// Clicks the specified button on the <see cref="MessageBox"/> with the specified message.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The MessageBox message to search for.</param>
@@ -200,7 +200,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region MessageBox with icon
 
         /// <summary>
-        /// Returns a <see cref="MessageBox"/> with the specifyed icon.
+        /// Returns a <see cref="MessageBox"/> with the specified icon.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The MessageBoxIcon to look for.</param>
@@ -220,7 +220,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Asserts a <see cref="MessageBox"/> with the specifyed icon does not exist.
+        /// Asserts a <see cref="MessageBox"/> with the specified icon does not exist.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The MessageBoxIcon to look for.</param>
@@ -232,7 +232,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Clicks the specifyed button on the <see cref="MessageBox"/> with the specifyed icon.
+        /// Clicks the specified button on the <see cref="MessageBox"/> with the specified icon.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The MessageBoxIcon to look for.</param>
@@ -251,7 +251,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region MessageBox with all parameters
 
         /// <summary>
-        /// Returns a <see cref="MessageBox"/> with the specifyed parameters.
+        /// Returns a <see cref="MessageBox"/> with the specified parameters.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="title">The title of message box to search for.</param>
@@ -273,7 +273,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Asserts a <see cref="MessageBox"/> with the specifyed parameters does not exist.
+        /// Asserts a <see cref="MessageBox"/> with the specified parameters does not exist.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="title">The title of message box to search for.</param>
@@ -288,7 +288,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         /// <summary>
-        /// Clicks the specifyed button on the <see cref="MessageBox"/> with the specifyed parameters.
+        /// Clicks the specified button on the <see cref="MessageBox"/> with the specified parameters.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="title">The title of message box to search for.</param>
@@ -310,7 +310,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region ButtonClick
 
         /// <summary>
-        /// Clicks the specifyed button on the <see cref="MessageBox"/>.
+        /// Clicks the specified button on the <see cref="MessageBox"/>.
         /// </summary>
         /// <param name="messageBox">The message box.</param>
         /// <param name="resultButton">The result button to click.</param>

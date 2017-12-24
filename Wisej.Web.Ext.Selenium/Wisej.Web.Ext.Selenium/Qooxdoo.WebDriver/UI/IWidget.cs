@@ -92,7 +92,7 @@ namespace Qooxdoo.WebDriver.UI
         IWidget GetChildControl(string childControlId);
 
         /// <summary>
-        /// Repeatedly checks if the child control with the specifyed id is visible.
+        /// Repeatedly checks if the child control with the specified id is visible.
         /// Returns the child control if successful.
         /// </summary>
         /// <param name="childControlId">The child control identifier.</param>

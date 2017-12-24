@@ -138,7 +138,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
         }
 
         /// <summary>
-        /// Returns the center of the specifyed element.
+        /// Returns the center of the specified element.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>The center of the element.</returns>
@@ -157,7 +157,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
         }
 
         /// <summary>
-        /// Tracks this widget by the specifyed offsets
+        /// Tracks this widget by the specified offsets
         /// </summary>
         /// <param name="x">Amount of pixels to move horizontally</param>
         /// <param name="y">Amount of pixels to move vertically</param>
@@ -168,7 +168,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
         }
 
         /// <summary>
-        /// Tracks the element of the specified driver by the specifyed offsets
+        /// Tracks the element of the specified driver by the specified offsets
         /// </summary>
         /// <param name="driver">The driver to use.</param>
         /// <param name="element">The element to track.</param>
@@ -259,7 +259,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
         }
 
         /// <summary>
-        /// Scrolls the widget to the specifyed position
+        /// Scrolls the widget to the specified position
         /// </summary>
         /// <param name="x">The x position (in pixels) to scroll to </param>
         /// <param name="y">The y position (in pixels) to scroll to </param>

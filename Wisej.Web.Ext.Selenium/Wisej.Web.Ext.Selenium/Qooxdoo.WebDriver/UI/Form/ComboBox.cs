@@ -54,7 +54,6 @@ namespace Qooxdoo.WebDriver.UI.Form
             }
         }
 
-
         /// <summary>
         /// Clears the content of this element.
         /// </summary>

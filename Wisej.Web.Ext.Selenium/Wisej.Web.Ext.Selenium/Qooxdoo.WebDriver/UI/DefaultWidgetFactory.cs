@@ -47,7 +47,6 @@ namespace Qooxdoo.WebDriver.UI
             Driver = qxWebDriver;
         }
 
-
         private const string Namespace = "Qooxdoo.WebDriver.UI";
         private readonly Dictionary<IWebElement, IWidget> _elements = new Dictionary<IWebElement, IWidget>();
         private QxWebDriver _driver;
@@ -68,7 +67,7 @@ namespace Qooxdoo.WebDriver.UI
 
         /// <summary>
         /// Returns a list of qooxdoo interfaces implemented by the widget containing
-        /// the specifyed element.
+        /// the specified element.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>.</returns>
@@ -81,7 +80,7 @@ namespace Qooxdoo.WebDriver.UI
         }
 
         /// <summary>
-        /// Returns the inheritance hierarchy of the widget containing the specifyed element.
+        /// Returns the inheritance hierarchy of the widget containing the specified element.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>.</returns>
@@ -95,7 +94,7 @@ namespace Qooxdoo.WebDriver.UI
 
         /// <summary>
         /// Returns an instance of <seealso cref="IWidget" /> or one of its subclasses that
-        /// represents the qooxdoo widget containing the specifyed element.
+        /// represents the qooxdoo widget containing the specified element.
         /// </summary>
         /// <param name="element">A IWebElement representing a DOM element
         /// that is part of a qooxdoo widget</param>

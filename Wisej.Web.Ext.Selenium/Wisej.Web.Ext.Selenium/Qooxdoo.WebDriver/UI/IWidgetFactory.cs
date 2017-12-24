@@ -27,7 +27,7 @@ namespace Qooxdoo.WebDriver.UI
     public interface IWidgetFactory
     {
         /// <summary> Returns an instance of <seealso cref="IWidget"/> or one of its subclasses that
-        /// represents the qooxdoo widget containing the specifyed element. </summary>
+        /// represents the qooxdoo widget containing the specified element. </summary>
         /// <param name="element"> A IWebElement representing a DOM element
         /// that is part of a qooxdoo widget </param>
         /// <returns>The Widget object.</returns>

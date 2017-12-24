@@ -38,7 +38,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Gets the value of a ComboBox's value </summary>
+        /// Gets the value of a ComboBox value.</summary>
         /// <returns>The ComboBox value.</returns>
         public virtual string Value
         {
