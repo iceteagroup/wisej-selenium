@@ -151,6 +151,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         {
             get
             {
+                // TODO: this fails to return from JavaScript
                 var obj = JsExecutor.ExecuteScript(
                     "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
                     "return widget.getCellEditor();",
@@ -158,16 +159,6 @@ namespace Wisej.Web.Ext.Selenium.UI
 
                 return obj as IWidget;
             }
-        }
-
-        /// <summary>
-        /// Returns the cell editor for a specified column of the selectd row.
-        /// </summary>
-        /// <param name="colIdx"> Column index from 0 </param>
-        public virtual IWidget GetCellEditor(int colIdx)
-        {
-            FocusCell(colIdx);
-            return CellEditor;
         }
 
         /// <summary>
@@ -186,41 +177,32 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Sets the value in the specified column of the selectd row.
-        /// </summary>
-        /// <param name="colIdx"> Column index from 0 </param>
-        public virtual void FocusCell(int colIdx)
-        {
-            colIdx++;
-
-            JsExecutor.ExecuteScript(
-                "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
-                "widget.setFocusedCell(arguments[1], arguments[2], arguments[3]);",
-                ContentElement, colIdx, null, true);
-        }
-
-        /// <summary>
         /// Gets the column of currently focused cell.
         /// </summary>
         /// <returns>The index of the focused cell's column</returns>
-        public virtual int? GetFocusedColumn()
+        public virtual long? GetFocusedColumn()
         {
-            return JsExecutor.ExecuteScript(
+            var value = (long?) JsExecutor.ExecuteScript(
                 "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
                 "return widget.getFocusedColumn();",
-                ContentElement) as int?;
+                ContentElement);
+
+            if (value.HasValue)
+                return value - 1;
+
+            return null;
         }
 
         /// <summary>
         /// Gets the row of the currently focused cell.
         /// </summary>
         /// <returns>The index of the focused cell's row.</returns>
-        public virtual int? GetFocusedRow()
+        public virtual long? GetFocusedRow()
         {
-            return JsExecutor.ExecuteScript(
+            return (long?) JsExecutor.ExecuteScript(
                 "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
                 "return widget.getFocusedRow();",
-                ContentElement) as int?;
+                ContentElement);
         }
 
         /// <summary>

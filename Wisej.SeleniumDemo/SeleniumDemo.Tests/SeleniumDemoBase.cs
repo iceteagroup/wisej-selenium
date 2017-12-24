@@ -696,11 +696,17 @@ namespace SeleniumDemo.Tests
             // check the model name for row 0
             Assert.AreEqual("TV 97016", modelsDataGridView.GetCellText(1, selectedRow));
 
-            // get a cell editor for column 1 of the selected row
-            var isEditing = modelsDataGridView.StartEditing("TV 97016", 1, selectedRow);
+            modelsDataGridView.FocusCell(1, selectedRow);
+
+            Assert.AreEqual(1, modelsDataGridView.GetFocusedColumn());
+            Assert.AreEqual(selectedRow, modelsDataGridView.GetFocusedRow());
+
+            // get a cell editor for current focused cell
+            var isEditing = modelsDataGridView.StartEditing();
             Assert.IsTrue(isEditing);
-            //var cellEditor = modelsDataGridView.CellEditor;
-            //Assert.IsNotNull(cellEditor);
+
+            var cellEditor = modelsDataGridView.CellEditor; // TODO: this fails to return from JavaScript
+            Assert.IsNotNull(cellEditor);
         }
 
         [TestMethod]
