@@ -247,6 +247,33 @@ namespace Qooxdoo.WebDriver.UI.Core
             actions.Perform();
         }
 
+        /// <summary>
+        /// Double clicks this element.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Double click this element. If this causes a new page to load, the <see cref="IWebElement.Click" />
+        /// method will attempt to block until the page has loaded. After calling the
+        /// <see cref="IWebElement.Click" /> method, you should discard all references to this
+        /// element unless you know that the element and the page will still be present.
+        /// Otherwise, any further operations performed on this element will have an undefined.
+        /// behavior.
+        /// </para>
+        /// <para>
+        /// If this element is not clickable, then this operation is ignored. This allows you to
+        /// simulate a users to accidentally missing the target when clicking.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="ElementNotVisibleException">Thrown when the target element is not visible.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        public virtual void DoubleClick()
+        {
+            Actions actions = new Actions(Driver.WebDriver);
+            actions.MoveToElement(ContentElement);
+            actions.DoubleClick();
+            actions.Perform();
+        }
+
         /// <summary>Simulates typing text into the element.</summary>
         /// <param name="text">The text to type into the element.</param>
         /// <remarks>The text to be typed may include special characters like arrow keys,
@@ -264,13 +291,13 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Repeatedly checks if the child control with the specifyed id is visible.
+        /// Repeatedly checks if the child control with the specified id is visible.
         /// Returns the child control if successful.
         /// </summary>
         /// <param name="childControlId">The child control identifier.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the child control.</param>
         /// <returns>The matching child widget.</returns>
-        public IWidget WaitForChildControl(String childControlId, int? timeoutInSeconds)
+        public IWidget WaitForChildControl(string childControlId, int? timeoutInSeconds)
         {
             if (childControlId == null)
                 throw new ArgumentNullException(nameof(childControlId));
@@ -498,7 +525,10 @@ namespace Qooxdoo.WebDriver.UI.Core
             return widgets;
         }
 
-        private IList<IWebElement> ChildrenElements
+        /// <summary>
+        /// Gets a list of <seealso cref="IWebElement" /> objects representing this widget children elements.
+        /// </summary>
+        protected internal IList<IWebElement> ChildrenElements
         {
             get
             {
@@ -544,7 +574,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Finds the first <see cref="OpenQA.Selenium.IWebElement" /> using the specifyed method.
+        /// Finds the first <see cref="OpenQA.Selenium.IWebElement" /> using the specified method.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
         /// <returns>The first matching <see cref="OpenQA.Selenium.IWebElement" /> on the current context.</returns>
@@ -697,7 +727,7 @@ namespace Qooxdoo.WebDriver.UI.Core
 
         /// <summary>
         /// Finds all <see cref="IWebElement"/> within the current context
-        /// using the specifyed mechanism.
+        /// using the specified mechanism.
         /// </summary>
         /// <param name="by">The locating mechanism to use.</param>
         /// <returns>A <see cref="ReadOnlyCollection{IWebElement}" /> of all <see cref="IWebElement"/>
