@@ -478,28 +478,21 @@ namespace SeleniumDemo.Tests
             // get brandsListBox and check it's visible
             ListBox brandsListBox = TestDriver.WidgetGet<ListBox>("ProductEditor.tabControl.brands.brandsListBox", 10);
 
-            // check there are 9 items total
-            Assert.AreEqual(9, brandsListBox.ListItems.Count);
+            // check there are 10 items total
+            Assert.AreEqual(10, brandsListBox.ListItems.Count);
+
+            // select item 1
+            brandsListBox.SelectItem(1);
 
             // check there is an item selected
             IList<ListItem> selectedItems = brandsListBox.SelectedItems;
             Assert.AreEqual(1, selectedItems.Count);
-            // check item selected is "Candy"
-            ListItem listItem = selectedItems[0];
-            // TODO: pending fix in this property
-            //Assert.IsTrue(listItem.Selected);
-            Assert.AreEqual("Candy", listItem.Value);
 
-            brandsListBox.SelectItem(1);
-            // check there is an item selected
-            selectedItems = brandsListBox.SelectedItems;
-            Assert.AreEqual(1, selectedItems.Count);
-            // check item selected is "Electroluz"
-            listItem = selectedItems[0]; // TODO: always item 0 (zero)
-            listItem = brandsListBox.ListItems[1]; // workaround for above issue
-            // TODO: pending fix in this property
-            //Assert.IsTrue(listItem.Selected);
+            //ListItem listItem = selectedItems[0]; // TODO: always item 0 (zero)
+            ListItem listItem = brandsListBox.ListItems[1]; // workaround for above issue
+            // check item 0 is "Electroluz"
             Assert.AreEqual("Electroluz", listItem.Value);
+
             // open BrandEditor
             listItem.DoubleClick();
 
@@ -514,6 +507,8 @@ namespace SeleniumDemo.Tests
             // get saveButton, check it's visible and click it
             Button saveButton = brandEditor.WidgetGet<Button>("saveButton");
             saveButton.Click();
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // re-check ListItem 1 value
             Assert.AreEqual("Electrolux", listItem.Value);
@@ -545,12 +540,12 @@ namespace SeleniumDemo.Tests
             ListBox brandsListBox =
                 TestDriver.WidgetRefresh<ListBox>("ProductEditor.tabControl.brands.brandsListBox", 10);
 
-            // check there are 10 items total
-            Assert.AreEqual(10, brandsListBox.ListItems.Count);
+            // check there are 11 items total
+            Assert.AreEqual(11, brandsListBox.ListItems.Count);
 
             // get ListItem 9 and check it's visible
-            ListItem listItem = brandsListBox.ListItems[9];
-            // check ListItem 9 value
+            ListItem listItem = brandsListBox.ListItems[10];
+            // check ListItem 10 value
             Assert.AreEqual("Huawei", listItem.Value);
 
             // give enough time so YOU can see the all the changes
@@ -570,7 +565,7 @@ namespace SeleniumDemo.Tests
             // get ListItem 4 and check it's visible
             ListItem listItem = brandsListBox.ListItems[4];
             // check ListItem 4 value
-            Assert.AreEqual("LG", listItem.Value);
+            Assert.AreEqual("LLG", listItem.Value);
 
             // get removeButton, check it's visible and click it
             Button removeButton = TestDriver.WidgetGet<Button>("ProductEditor.removeButton");
@@ -581,8 +576,8 @@ namespace SeleniumDemo.Tests
             // refresh and get brandsListBox and check it's visible
             brandsListBox = brands.WidgetRefresh<ListBox>("brandsListBox", 10);
 
-            // check there are 9 items total
-            Assert.AreEqual(9, brandsListBox.ListItems.Count);
+            // check there are 10 items total
+            Assert.AreEqual(10, brandsListBox.ListItems.Count);
 
             // give enough time so YOU can see the all the changes
             TestDriver.Sleep(Waiter.Duration);
@@ -614,41 +609,46 @@ namespace SeleniumDemo.Tests
             TreeView productTypesTreeView =
                 TestDriver.WidgetGet<TreeView>("ProductEditor.tabControl.productTypes.productTypesTreeView", 10);
 
-            /*// check there is an item selected
-            IList<TreeNode> selectedItems = productTypesTreeView.SelectedItems;
-            Assert.AreEqual(1, selectedItems.Count);
-            // check item selected is "Candy"
-            TreeNode treeNode = selectedItems[0];
-            // TODO: pending fix in this property
-            //Assert.IsTrue(treeNode.Selected);
-            Assert.AreEqual("Candy", treeNode.Value);
+            // check there are 9 nodes total
+            Assert.AreEqual(9, productTypesTreeView.Nodes.Length);
 
-            productTypesTreeView.SelectItem(1);
-            // check there is an item selected
-            selectedItems = productTypesTreeView.SelectedItems;
-            Assert.AreEqual(1, selectedItems.Count);
-            // check item selected is "Electroluz"
-            treeNode = selectedItems[0]; // TODO: always item 0 (zero)
-            treeNode = productTypesTreeView.TreeNodes[1]; // workaround for above issue
-            // TODO: pending fix in this property
-            //Assert.IsTrue(treeNode.Selected);
-            Assert.AreEqual("Electroluz", treeNode.Value);
+            // select TreeNode 5
+            productTypesTreeView.SelectItem(5);
+
+            // check there is a TreeNode selected
+            TreeNode[] selectedNodes = productTypesTreeView.WaitForSelectedNodes(1);
+            Assert.AreEqual(1, selectedNodes.Length);
+
+            // select TreeNode 5 and check it's label is "Washers/Dryer"
+            TreeNode treeNode = selectedNodes[0];
+            // select TreeNode 5 and check it's label is "Washers/Dryer"
+            Qooxdoo.WebDriver.UI.Basic.Label label = treeNode.Label;
+            Assert.AreEqual("Washers/Dryer", label.Text);
+
             // open ProductTypeEditor
             treeNode.DoubleClick();
 
             TestDriver.SleepDebugTest();
+            TestDriver.SleepDebugTest();
 
-            // get ProductTypeEditor and check it's visible
+            // get productTypeEditor and check it's visible
             Form productTypeEditor = TestDriver.WidgetGet<Form>("ProductTypeEditor", 20);
             // get productTypeNameTextBox and check it's visible
             TextBox productTypeNameTextBox = productTypeEditor.WidgetGet<TextBox>("productTypeNameTextBox");
-            productTypeNameTextBox.Value = "Electrolux";
+            productTypeNameTextBox.Value = "Washers+Dryers";
             // get saveButton, check it's visible and click it
             Button saveButton = productTypeEditor.WidgetGet<Button>("saveButton");
             saveButton.Click();
 
-            // re-check TreeNode 1 value
-            Assert.AreEqual("Electrolux", treeNode.Value);*/
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            // re-check TreeNode 5 value
+            productTypesTreeView.SelectItem(5);
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+            selectedNodes = productTypesTreeView.WaitForSelectedNodes(1);
+            treeNode = selectedNodes[0];
+            label = treeNode.Label;
+            Assert.AreEqual("Washers+Dryers", label.Text);
 
             // give enough time so YOU can see the all the changes
             TestDriver.Sleep(Waiter.Duration);
@@ -657,11 +657,67 @@ namespace SeleniumDemo.Tests
         [TestMethod]
         public void W074_ProductEditor_productTypesTreeView_new()
         {
+            /*// get newButton, check it's visible and click it
+            Button newButton = TestDriver.WidgetGet<Button>("ProductEditor.newButton");
+            newButton.Click();
+
+            TestDriver.SleepDebugTest();
+            TestDriver.SleepDebugTest();
+
+            // get brandNameTextBox and check it's visible
+            TextBox brandNameTextBox = TestDriver.WidgetGet<TextBox>("BrandEditor.brandNameTextBox");
+            brandNameTextBox.Value = "Huawei";
+            // get saveButton, check it's visible and click it
+            Button saveButton = TestDriver.WidgetGet<Button>("BrandEditor.saveButton");
+            saveButton.Click();
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            // refresh and get brandsListBox and check it's visible
+            ListBox brandsListBox =
+                TestDriver.WidgetRefresh<ListBox>("ProductEditor.tabControl.brands.brandsListBox", 10);
+
+            // check there are 11 items total
+            Assert.AreEqual(11, brandsListBox.ListItems.Count);
+
+            // get ListItem 9 and check it's visible
+            ListItem listItem = brandsListBox.ListItems[10];
+            // check ListItem 10 value
+            Assert.AreEqual("Huawei", listItem.Value);
+
+            // give enough time so YOU can see the all the changes
+            TestDriver.Sleep(Waiter.Duration);*/
         }
 
         [TestMethod]
         public void W076_ProductEditor_productTypesTreeView_remove()
         {
+            /*// get brands TabPage and check it's visible
+            TabPage brands = TestDriver.WidgetGet<TabPage>("ProductEditor.tabControl.brands", 20);
+
+            // get brandsListBox and check it's visible
+            ListBox brandsListBox = brands.WidgetGet<ListBox>("brandsListBox", 10);
+
+            brandsListBox.SelectItem(4);
+            // get ListItem 4 and check it's visible
+            ListItem listItem = brandsListBox.ListItems[4];
+            // check ListItem 4 value
+            Assert.AreEqual("LLG", listItem.Value);
+
+            // get removeButton, check it's visible and click it
+            Button removeButton = TestDriver.WidgetGet<Button>("ProductEditor.removeButton");
+            removeButton.Click();
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            // refresh and get brandsListBox and check it's visible
+            brandsListBox = brands.WidgetRefresh<ListBox>("brandsListBox", 10);
+
+            // check there are 10 items total
+            Assert.AreEqual(10, brandsListBox.ListItems.Count);
+
+            // give enough time so YOU can see the all the changes
+            TestDriver.Sleep(Waiter.Duration);*/
         }
 
         [TestMethod]
@@ -692,25 +748,148 @@ namespace SeleniumDemo.Tests
             int[] selectedIndices = modelsDataGridView.SelectedIndices;
             int selectedRow = selectedIndices[0];
             Assert.IsTrue(selectedIndices.Length == 1 && selectedRow == 0);
-
-            // check the model name for row 0
-            Assert.AreEqual("TV 97016", modelsDataGridView.GetCellText(1, selectedRow));
-
-            modelsDataGridView.FocusCell(1, selectedRow);
-
-            Assert.AreEqual(1, modelsDataGridView.GetFocusedColumn());
-            Assert.AreEqual(selectedRow, modelsDataGridView.GetFocusedRow());
-
-            // get a cell editor for current focused cell
-            var isEditing = modelsDataGridView.StartEditing();
-            Assert.IsTrue(isEditing);
-
-            var cellEditor = modelsDataGridView.CellEditor; // TODO: this fails to return from JavaScript
-            Assert.IsNotNull(cellEditor);
         }
 
         [TestMethod]
-        public void W080_CloseProductEditor()
+        public void W080_ProductEditor_tabControl_models_row0_Name()
+        {
+            // get modelsDataGridView and check it's visible
+            DataGridView modelsDataGridView =
+                TestDriver.WidgetGet<DataGridView>("ProductEditor.tabControl.models.modelsDataGridView", 10);
+
+            // check the name for row 0
+            int selectedRow = modelsDataGridView.SelectedIndices[0];
+            Assert.AreEqual("SMSTV 2020H", modelsDataGridView.GetCellText(1, selectedRow));
+
+            // focus column 1 and check it's focused
+            modelsDataGridView.FocusCellInColumn(1);
+            Assert.AreEqual(1, modelsDataGridView.GetFocusedColumn());
+            Assert.AreEqual(selectedRow, modelsDataGridView.GetFocusedRow());
+
+            // get the cell editor for current focused cell
+            TextBox cellEditor = modelsDataGridView.CellEditorGet<TextBox>();
+            Assert.IsNotNull(cellEditor);
+
+            // check cell editor text
+            cellEditor.AssertTextIs("SMSTV 2020H");
+
+            // edit name
+            cellEditor.Value = "PH FM208";
+            modelsDataGridView.StopEditing();
+
+            // check the name changes
+            Assert.IsTrue(modelsDataGridView.WaitForCellText("PH FM208"));
+        }
+
+        [TestMethod]
+        public void W082_ProductEditor_tabControl_models_row0_Brand()
+        {
+            // get modelsDataGridView and check it's visible
+            DataGridView modelsDataGridView =
+                TestDriver.WidgetGet<DataGridView>("ProductEditor.tabControl.models.modelsDataGridView", 10);
+
+            // check the brand for row 0
+            int selectedRow = modelsDataGridView.SelectedIndices[0];
+            Assert.AreEqual("Samsung", modelsDataGridView.GetCellText(2, selectedRow));
+
+            modelsDataGridView.FocusCellInColumn(2);
+
+            Assert.AreEqual(2, modelsDataGridView.GetFocusedColumn());
+            Assert.AreEqual(selectedRow, modelsDataGridView.GetFocusedRow());
+
+            // get the cell editor for current focused cell
+            ComboBox cellEditor = modelsDataGridView.CellEditorGet<ComboBox>();
+            Assert.IsNotNull(cellEditor);
+
+            // check cell editor text
+            cellEditor.AssertTextIs("Samsung");
+
+            // edit brand
+            cellEditor.SelectItem(5);
+            modelsDataGridView.StopEditing();
+
+            // check the brand changes
+            Assert.IsTrue(modelsDataGridView.WaitForCellText("Philips"));
+        }
+
+        [TestMethod]
+        public void W084_ProductEditor_tabControl_models_row0_ProductType()
+        {
+            // get modelsDataGridView and check it's visible
+            DataGridView modelsDataGridView =
+                TestDriver.WidgetGet<DataGridView>("ProductEditor.tabControl.models.modelsDataGridView", 10);
+
+            // check the product type for row 0
+            int selectedRow = modelsDataGridView.SelectedIndices[0];
+            Assert.AreEqual("TV", modelsDataGridView.GetCellText(3, selectedRow));
+
+            modelsDataGridView.FocusCellInColumn(3);
+
+            Assert.AreEqual(3, modelsDataGridView.GetFocusedColumn());
+            Assert.AreEqual(selectedRow, modelsDataGridView.GetFocusedRow());
+
+            // get the cell editor for current focused cell
+            ComboBox cellEditor = modelsDataGridView.CellEditorGet<ComboBox>();
+            Assert.IsNotNull(cellEditor);
+
+            // check cell editor text
+            cellEditor.AssertTextIs("TV");
+
+            // edit product type
+            cellEditor.SelectItem(2);
+            modelsDataGridView.StopEditing();
+
+            // check the product type changes
+            Assert.IsTrue(modelsDataGridView.WaitForCellText("Radio"));
+        }
+
+
+        [TestMethod]
+        public void W086_ProductEditor_tabControl_models_last_row_Name()
+        {
+            // get modelsDataGridView and check it's visible
+            DataGridView modelsDataGridView =
+                TestDriver.WidgetGet<DataGridView>("ProductEditor.tabControl.models.modelsDataGridView", 10);
+
+            // check cell text at column 1, row 11
+            var cellText = modelsDataGridView.GetCellText(1, 11);
+            Assert.AreEqual("TV 97016", cellText);
+
+            // TODO: this does not change the TextBox
+            /*// get the cell editor for current focused cell
+            TextBox cellEditor = modelsDataGridView.CellEditorGet<TextBox>(cellText, 1, 11);
+            Assert.IsNotNull(cellEditor);
+
+            // edit model name
+            cellEditor.Value = "SMSTV 97016";
+            modelsDataGridView.StopEditing();*/
+
+            // TODO: this way it works all right
+            // focus column 1 and check it's focused
+            modelsDataGridView.FocusCellInColumn(1);
+            Assert.AreEqual(1, modelsDataGridView.GetFocusedColumn());
+
+            // focus row 11 and check it's focused
+            modelsDataGridView.FocusCellInRow(11);
+            Assert.AreEqual(11, modelsDataGridView.GetFocusedRow());
+
+            // get the cell editor for current focused cell
+            TextBox cellEditor = modelsDataGridView.CellEditorGet<TextBox>();
+            Assert.IsNotNull(cellEditor);
+
+            // check cell editor text
+            cellEditor.AssertTextIs("TV 97016");
+
+            // edit name
+            cellEditor.Value = "SMSTV 97016";
+            modelsDataGridView.StopEditing();
+
+            // check the model name changes
+            Assert.IsTrue(modelsDataGridView.WaitForCellText("SMSTV 97016"));
+        }
+
+        [TestMethod]
+        public void W094_CloseProductEditor()
         {
             // give enough time so YOU can see the open window
             TestDriver.Sleep(Waiter.Duration);
@@ -724,7 +903,7 @@ namespace SeleniumDemo.Tests
         }
 
         [TestMethod]
-        public void W088_ButtonsWindow_supplierEditor_Click()
+        public void W096_ButtonsWindow_supplierEditor_Click()
         {
             // click supplierEditor on buttonsPanel (LayoutPanel) of ButtonsWindow
             TestDriver.ButtonClick("ButtonsWindow.buttonsPanel.supplierEditor");
@@ -742,7 +921,7 @@ namespace SeleniumDemo.Tests
         }
 
         [TestMethod]
-        public void W090_CloseButtonsWindow()
+        public void W098_CloseButtonsWindow()
         {
             // give enough time so YOU can follow the windows closing
             //TestDriver.Sleep(Waiter.Duration);
