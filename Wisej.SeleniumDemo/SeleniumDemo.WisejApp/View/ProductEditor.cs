@@ -52,6 +52,7 @@ namespace SeleniumDemo.WisejApp.View
             using (var productTypeEditor = new ProductTypeEditor(localProductTypeId))
             {
                 productTypeEditor.ShowDialog(this);
+                BindProductType();
             }
         }
 
