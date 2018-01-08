@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using Qooxdoo.WebDriver.UI;
 using QX = Qooxdoo.WebDriver;
 
@@ -65,80 +66,33 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Starts editing the currently focused cell. Does nothing if already editing
-        /// or if the column is not editable
+        /// Starts editing the specified cell, using the specified initial text. Does nothing if already editing
+        /// or if the column is not editable.
         /// </summary>
         /// <param name="text">The text to initialize the editor with.</param>
         /// <param name="colIdx">The index of the focused cell's column.</param>
         /// <param name="rowIdx">The index of the focused cell's row.</param>
-        /// <param name="force">if set to <c>true</c> edit mode must be started at the specified cell.</param>
-        /// <returns>Whether editing was started or not</returns>
-        public virtual bool StartEditing(string text, int colIdx, int rowIdx, bool force = true)
+        public virtual void StartEditing(string text, int colIdx, int rowIdx)
         {
-            string editMode = GetPropertyValue("editMode").ToString();
-
-            switch (editMode)
-            {
-                case "editProgrammatically":
-                    return EditProgrammatically(text, colIdx, rowIdx, force);
-                default:
-                    FocusCell(colIdx, rowIdx);
-                    return StartEditing();
-            }
+            Call("startEditing", text, colIdx + 1, rowIdx);
         }
 
         /// <summary>
         /// Starts editing the currently focused cell. Does nothing if already editing
-        /// or if the column is not editable
+        /// or if the column is not editable.
         /// </summary>
-        /// <returns>Whether editing was started or not</returns>
-        public virtual bool StartEditing()
+        public virtual void StartEditing()
         {
-            string editMode = GetPropertyValue("editMode").ToString();
-
-            switch (editMode)
-            {
-                case "editOnEnter":
-                    SendKeys(Keys.Enter);
-                    return true;
-                case "editOnKeystroke":
-                    SendKeys(Keys.Enter);
-                    return true;
-                case "editOnKeystrokeOrF2":
-                    SendKeys(Keys.F2);
-                    return true;
-                case "editOnF2":
-                    SendKeys(Keys.F2);
-                    return true;
-                case "editProgrammatically":
-                    throw new ArgumentException(
-                        "EditMode is EditProgrammatically. Must provide full set of parameters.");
-            }
-
-            return false;
+            Call("startEditing");
         }
 
-        private bool EditProgrammatically(string text, int? colIdx, int? rowIdx, bool force = true)
-        {
-            colIdx++;
-
-            var obj = JsExecutor.ExecuteScript(
-                "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
-                "return widget.startEditing(arguments[1], arguments[2], arguments[3], arguments[4]);",
-                ContentElement, text, colIdx, rowIdx, force) as bool?;
-
-            return obj.HasValue && obj.Value;
-        }
 
         /// <summary>
-        /// Stops editing and notify te server.
+        /// Stops editing the cell.
         /// </summary>
         public virtual void StopEditing()
         {
-            JsExecutor.ExecuteScript(
-                "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
-                "widget.stopEditing(true);",
-                ContentElement);
+            Call("stopEditing", true);
         }
 
         /// <summary>
@@ -149,31 +103,47 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// </value>
         public new virtual IWidget CellEditor
         {
-            get
-            {
-                // TODO: this fails to return from JavaScript
-                var obj = JsExecutor.ExecuteScript(
-                    "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
-                    "return widget.getCellEditor();",
-                    ContentElement);
-
-                return obj as IWidget;
-            }
+            get { return (IWidget) Call("getCellEditor"); }
         }
 
         /// <summary>
-        /// Focus the specified cell of the table..
+        /// Focus the specified cell.
         /// </summary>
         /// <param name="colIdx"> Column index from 0 </param>
         /// <param name="rowIdx"> Row index from 0 </param>
         public virtual void FocusCell(int colIdx, int rowIdx)
         {
-            colIdx++;
+            Call("setFocusedCell", colIdx + 1, rowIdx, true);
+        }
 
-            JsExecutor.ExecuteScript(
-                "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
-                "widget.setFocusedCell(arguments[1], arguments[2], arguments[3]);",
-                ContentElement, colIdx, rowIdx, true);
+        /// <summary>
+        /// Focus the cell in the specified column of the currently focused row.
+        /// </summary>
+        /// <param name="colIdx"> Column index from 0 </param>
+        public virtual void FocusCellInColumn(int colIdx)
+        {
+            int rowIdx = int.MinValue;
+            long? focusedRow = GetFocusedRow();
+
+            if (focusedRow != null)
+                rowIdx = (int) focusedRow.Value;
+
+            FocusCell(colIdx, rowIdx);
+        }
+
+        /// <summary>
+        /// Focus the cell in the specified row of the currently focused column.
+        /// </summary>
+        /// <param name="rowIdx"> Row index from 0 </param>
+        public virtual void FocusCellInRow(int rowIdx)
+        {
+            int colIdx = int.MinValue;
+            long? focusedColumn = GetFocusedColumn();
+
+            if (focusedColumn != null)
+                colIdx = (int) focusedColumn.Value;
+
+            FocusCell(colIdx, rowIdx);
         }
 
         /// <summary>
@@ -182,10 +152,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <returns>The index of the focused cell's column</returns>
         public virtual long? GetFocusedColumn()
         {
-            var value = (long?) JsExecutor.ExecuteScript(
-                "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
-                "return widget.getFocusedColumn();",
-                ContentElement);
+            var value = (long?) Call("getFocusedColumn");
 
             if (value.HasValue)
                 return value - 1;
@@ -199,47 +166,75 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <returns>The index of the focused cell's row.</returns>
         public virtual long? GetFocusedRow()
         {
-            return (long?) JsExecutor.ExecuteScript(
-                "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
-                "return widget.getFocusedRow();",
-                ContentElement);
+            return (long?) Call("getFocusedRow");
         }
 
         /// <summary>
-        /// Returns the value in the specified cell of the table.
+        /// Returns the value in the specified cell.
         /// </summary>
         /// <param name="colIdx"> Column index from 0 (-1 is the row header) </param>
         /// <param name="rowIdx"> Row index from 0 </param>
         /// <returns> The cell value. </returns>
         public virtual object GetCellValue(int colIdx, int rowIdx)
         {
-            colIdx++;
-
-            return JsExecutor.ExecuteScript(
-                "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
-                "return widget.getCellValue(arguments[1], arguments[2]);",
-                ContentElement, colIdx, rowIdx);
+            return Call("getCellValue", colIdx + 1, rowIdx);
         }
 
         /// <summary>
-        /// Sets the value in the specified cell of the table.
+        /// Returns the value in the focused cell.
+        /// </summary>
+        /// <returns> The cell value. </returns>
+        public virtual object GetCellValue()
+        {
+            int colIdx = int.MinValue;
+            long? focusedColumn = GetFocusedColumn();
+
+            if (focusedColumn != null)
+                colIdx = (int) focusedColumn.Value;
+
+            int rowIdx = int.MinValue;
+            long? focusedRow = GetFocusedRow();
+
+            if (focusedRow != null)
+                rowIdx = (int) focusedRow.Value;
+
+            return GetCellValue(colIdx, rowIdx);
+        }
+
+        /// <summary>
+        /// Sets the value in the specified cell.
         /// </summary>
         /// <param name="colIdx"> Column index from 0 (-1 is the row header) </param>
         /// <param name="rowIdx"> Row index from 0 </param>
         /// <param name="value"> The cell value to set. </param>
         public virtual void SetCellValue(int colIdx, int rowIdx, object value)
         {
-            colIdx++;
-
-            JsExecutor.ExecuteScript(
-                "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
-                "widget.setCellValue(arguments[1], arguments[2], arguments[3]);" +
-                "widget.fireEvent('focusin');",
-                ContentElement, colIdx, rowIdx, value);
+            Call("setCellValue", colIdx + 1, rowIdx, value);
         }
 
         /// <summary>
-        /// Returns the text in the specified cell of the table.
+        /// Sets the value in the focused cell.
+        /// </summary>
+        /// <param name="value"> The cell value to set. </param>
+        public virtual void SetCellValue(object value)
+        {
+            int colIdx = int.MinValue;
+            long? focusedColumn = GetFocusedColumn();
+
+            if (focusedColumn != null)
+                colIdx = (int) focusedColumn.Value;
+
+            int rowIdx = int.MinValue;
+            long? focusedRow = GetFocusedRow();
+
+            if (focusedRow != null)
+                rowIdx = (int) focusedRow.Value;
+
+            SetCellValue(colIdx, rowIdx, value);
+        }
+
+        /// <summary>
+        /// Returns the text in the specified cell.
         /// </summary>
         /// <param name="colIdx"> Column index from 0 (-1 is the row header) </param>
         /// <param name="rowIdx"> Row index from 0 </param>
@@ -250,7 +245,16 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Sets the text in the specified cell of the table.
+        /// Returns the text in the focused cell.
+        /// </summary>
+        /// <returns> The cell text. </returns>
+        public virtual string GetCellText()
+        {
+            return GetCellValue().ToString();
+        }
+
+        /// <summary>
+        /// Sets the text in the specified cell.
         /// </summary>
         /// <param name="colIdx"> Column index from 0 (-1 is the row header) </param>
         /// <param name="rowIdx"> Row index from 0 </param>
@@ -259,5 +263,76 @@ namespace Wisej.Web.Ext.Selenium.UI
         {
             SetCellValue(colIdx, rowIdx, text);
         }
+
+        /// <summary>
+        /// Sets the text in the focused cell.
+        /// </summary>
+        /// <param name="text"> The cell text to set. </param>
+        public virtual void SetCellText(string text)
+        {
+            SetCellValue(text);
+        }
+
+        #region Waiters
+
+        /// <summary>
+        /// Repeatedly checks the cell text at the specified position.
+        /// </summary>
+        /// <param name="colIdx">Column index from 0</param>
+        /// <param name="rowIdx">Row index from 0</param>
+        /// <param name="expectedText">The expected text.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the cell text.</param>
+        /// <returns><code>true</code> it the cell text match; otherwise <code>false</code></returns>
+        public bool WaitForCellText(int colIdx, int rowIdx, string expectedText, long timeoutInSeconds = 5)
+        {
+            Driver.Wait(() => Equals(expectedText, GetCellText(colIdx, rowIdx)), false, timeoutInSeconds);
+
+            return Equals(expectedText, GetCellText(colIdx, rowIdx));
+        }
+
+        /// <summary>
+        /// Repeatedly checks the cell text at the focused cell.
+        /// </summary>
+        /// <param name="expectedText">The expected text.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the cell text.</param>
+        /// <returns><code>true</code> it the cell text match; otherwise <code>false</code></returns>
+        public bool WaitForCellText(string expectedText, long timeoutInSeconds = 5)
+        {
+            Driver.Wait(() => Equals(expectedText, GetCellText()), false, timeoutInSeconds);
+
+            return Equals(expectedText, GetCellText());
+        }
+
+        /// <summary>
+        /// Repeatedly checks for a CellEditor to be displayed.
+        /// Returns the CellEditor if successful.
+        /// </summary>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the CellEditor.</param>
+        /// <returns>The cell editor.</returns>
+        public IWidget WaitForCellEditor(long timeoutInSeconds)
+        {
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
+            return wait.Until(CellEditorIsDisplayed());
+        }
+
+        /// <summary>
+        /// A condition that waits until a CellEditor is displayed, then returns it.
+        /// </summary>
+        /// <returns>The displayed cell editor.</returns>
+        public Func<IWebDriver, IWidget> CellEditorIsDisplayed()
+        {
+            return driver =>
+            {
+                var cellEditor = CellEditor;
+                if (cellEditor != null && cellEditor.Displayed)
+                {
+                    return cellEditor;
+                }
+
+                return null;
+            };
+        }
+
+        #endregion
     }
 }
