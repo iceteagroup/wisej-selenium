@@ -17,7 +17,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
+using Qooxdoo.WebDriver.UI;
 using QX = Qooxdoo.WebDriver;
 
 namespace Wisej.Web.Ext.Selenium.UI
@@ -34,6 +37,49 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <param name="webDriver">The web driver.</param>
         public TreeNode(IWebElement element, QX.QxWebDriver webDriver) : base(element, webDriver)
         {
+        }
+
+        /// <summary>
+        /// Gets the (non-recursve) list of <see cref="TreeNode" />.
+        /// </summary>
+        /// <value>
+        /// The list of <see cref="TreeNode" />.
+        /// </value>
+        public virtual TreeNode[] Nodes
+        {
+            get
+            {
+                IWidget[] widgets = Call("getNodes") as IWidget[];
+                IList<TreeNode> nodes = new List<TreeNode>();
+                if (widgets != null)
+                {
+                    foreach (var widget in widgets)
+                    {
+                        nodes.Add(widget as TreeNode);
+                    }
+                }
+
+                return nodes.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Gets the TreeNode label.
+        /// </summary>
+        /// <value>
+        /// The label.
+        /// </value>
+        public virtual QX.UI.Basic.Label Label
+        {
+            get { return GetChildControl("label") as QX.UI.Basic.Label; }
+        }
+
+        /// <summary>
+        /// Starts the editor on the label of this tree node.
+        /// </summary>
+        public virtual void EditLabel()
+        {
+            Call("editLabel");
         }
     }
 }
