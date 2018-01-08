@@ -26,7 +26,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
             IWidget widget = driver.FindWidget(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", widgetType, path));
             if (assertIsDisplayed)
-                widget.AssertIsDisplayed("ButtonsWindow");
+                widget.AssertIsDisplayed(path);
             return widget;
         }
 
@@ -45,7 +45,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
             IWidget widget = parent.FindWidget(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", widgetType, path));
             if (assertIsDisplayed)
-                widget.AssertIsDisplayed("ButtonsWindow");
+                widget.AssertIsDisplayed(path);
             return widget;
         }
 
@@ -64,7 +64,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
             T widget = (T) driver.FindWidget(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", typeof(T).Name, path));
             if (assertIsDisplayed && widget is IWidget)
-                ((IWidget) widget).AssertIsDisplayed("ButtonsWindow");
+                ((IWidget) widget).AssertIsDisplayed(path);
             return widget;
         }
 
@@ -83,7 +83,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
             T widget = (T) parent.FindWidget(path, timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} {1} not found.", typeof(T).Name, path));
             if (assertIsDisplayed && widget is IWidget)
-                ((IWidget) widget).AssertIsDisplayed("ButtonsWindow");
+                ((IWidget) widget).AssertIsDisplayed(path);
             return widget;
         }
 

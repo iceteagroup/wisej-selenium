@@ -104,6 +104,7 @@ namespace Wisej.Web.Ext.Selenium
                                 alertBoxes.Add(new AlertBox(el, this));
                         }
                     }
+
                     return alertBoxes.ToArray();
                 }
                 catch (InvalidCastException)

@@ -99,7 +99,7 @@ namespace Qooxdoo.WebDriver
 
         /// <summary>
         /// Searches for elements by traversing the qooxdoo application's widget
-        /// hierarchy. See the <a href="TODO">Qxh locator manual page</a> for details.
+        /// hierarchy. See the <a href="https://github.com/iceteagroup/wisej-selenium">Qxh locator manual page</a> for details.
         /// </summary>
         /// <param name="locator">Locator specification</param>
         /// <param name="onlySeeable"><code>false</code> if invisible widgets should be
@@ -115,7 +115,7 @@ namespace Qooxdoo.WebDriver
 
         /// <summary>
         /// Searches for elements by traversing the qooxdoo application's widget
-        /// hierarchy. See the <a href="TODO">Qxh locator manual page</a> for details.
+        /// hierarchy. See the <a href="https://github.com/iceteagroup/wisej-selenium">Qxh locator manual page</a> for details.
         /// </summary>
         /// <param name="locator"> Locator specification </param>
         /// <param name="onlySeeable"> <code>false</code> if invisible widgets should be

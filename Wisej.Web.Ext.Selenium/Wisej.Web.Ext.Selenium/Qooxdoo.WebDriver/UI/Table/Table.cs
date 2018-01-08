@@ -231,7 +231,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         /// <summary>
         /// Returns the cell by text.
         /// </summary>
-        /// <param name="text">The text to search for..</param>
+        /// <param name="text">The text to search for.</param>
         /// <returns>The found cell.</returns>
         public virtual IWebElement GetCellByText(string text)
         {
@@ -241,7 +241,7 @@ namespace Qooxdoo.WebDriver.UI.Table
         }
 
         /// <summary>
-        /// Returns the text in the specified cell of the table.
+        /// Returns the text in the specified cell.
         /// </summary>
         /// <param name="colIdx"> Column index from 0 </param>
         /// <param name="rowIdx"> Row index from 0 </param>

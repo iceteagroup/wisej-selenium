@@ -56,49 +56,5 @@ namespace Wisej.Web.Ext.Selenium.UI.List
         {
             get { return Label.Value; }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether this element is selected.
-        /// </summary>
-        /// <remarks>This operation only applies to input elements such as checkboxes,
-        /// options in a select element and radio buttons.</remarks>
-        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
-        public override bool Selected
-        {
-            get
-            {
-                object parent = null;
-                // TODO: one of these should get the parent ListBox
-
-                try
-                {
-                    parent = GetPropertyValue("parent");
-                }
-                catch
-                {
-                }
-
-                try
-                {
-                    parent = Call("getParent");
-                }
-                catch
-                {
-                }
-
-                var listBox = (ListBox) parent;
-                if (listBox == null)
-                    return false;
-
-                for (var index = 0; index < listBox.SelectedItems.Count; index++)
-                {
-                    ListItem listItem = listBox.SelectedItems[index];
-                    if (listItem.QxHash == QxHash)
-                        return true;
-                }
-
-                return false;
-            }
-        }
     }
 }

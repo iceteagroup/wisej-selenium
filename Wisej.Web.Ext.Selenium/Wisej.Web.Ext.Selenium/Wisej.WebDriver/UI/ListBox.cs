@@ -18,10 +18,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using OpenQA.Selenium;
+using Qooxdoo.WebDriver.UI;
 using Wisej.Web.Ext.Selenium.UI.List;
 using QX = Qooxdoo.WebDriver;
+
 
 namespace Wisej.Web.Ext.Selenium.UI
 {
@@ -69,10 +71,14 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <value>
         /// The list of selected <seealso cref="ListItem" /> indices.
         /// </value>
-        public virtual IList<int> SelectedIndices
+        public virtual int[] SelectedIndices
         {
             get
             {
+                // LUCA: Bug/features in Wisej. Some properties are wired
+                // only from the server to the client. This one now is fixed
+                // in the dev build to be always in sync.
+
                 // TODO: this always returns 1 item with value 0 (zero)
                 IList<object> objects = (IList<object>) GetPropertyValue("selectedIndices");
                 List<int> selectedIndices = new List<int>();
@@ -82,29 +88,35 @@ namespace Wisej.Web.Ext.Selenium.UI
                     selectedIndices.Add(int.Parse(o.ToString()));
                 }
 
-                return selectedIndices;
+                return selectedIndices.ToArray();
             }
         }
 
         /// <summary>
-        /// Gets a list of selected <seealso cref="ListItem" />.
+        /// Gets a list of selected <see cref="ListItem" />.
         /// </summary>
         /// <value>
-        /// The list of selected <seealso cref="ListItem" />.
+        /// The list of selected <see cref="ListItem" />.
         /// </value>
-        public virtual IList<ListItem> SelectedItems
+        public virtual ListItem[] SelectedItems
         {
             get
             {
                 IList<ListItem> selectedItems = new List<ListItem>();
-                IList<ListItem> listItems = ListItems;
 
-                foreach (var index in SelectedIndices)
+                // LUCA: Can use the existing "getSelection()" method, it returns
+                var items = Call("getSelection") as IWidget[];
+
+                // the selected items array.
+                if (items != null && items.Length > 0)
                 {
-                    selectedItems.Add(listItems[index]);
+                    foreach (var i in items)
+                    {
+                        selectedItems.Add((ListItem) i);
+                    }
                 }
 
-                return selectedItems;
+                return selectedItems.ToArray();
             }
         }
     }

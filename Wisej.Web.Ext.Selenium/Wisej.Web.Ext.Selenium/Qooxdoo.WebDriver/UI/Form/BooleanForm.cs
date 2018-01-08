@@ -23,7 +23,7 @@ using Qooxdoo.WebDriver.UI.Core;
 namespace Qooxdoo.WebDriver.UI.Form
 {
     /// <summary>
-    /// Boolena form widget
+    /// Boolean form widget
     /// </summary>
     /// <seealso cref="WidgetImpl" />
     public class BooleanForm : Core.WidgetImpl
