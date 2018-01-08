@@ -91,6 +91,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 {
                     _qxHash = (string) JsRunner.RunScript("getObjectHash", _contentElement);
                 }
+
                 return _qxHash;
             }
         }
@@ -106,6 +107,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 {
                     _className = (string) JsRunner.RunScript("getClassName", _contentElement);
                 }
+
                 return _className;
             }
         }
@@ -192,6 +194,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 {
                     i = baseDelta;
                 }
+
                 x = sourceX + deltaX * i / baseDelta * directionX;
                 y = sourceY + deltaY * i / baseDelta * directionY;
 
@@ -199,6 +202,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 //System.out.println(x +", "+ y);
                 Thread.Sleep(1);
             }
+
             // source has the same coordinates as target
             if (sourceX == targetX && sourceY == targetY)
             {
@@ -310,7 +314,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// A condition that waits until a child control has been rendered, then returns it.
         /// </summary>
         /// <param name="childControlId">The child control identifier.</param>
-        /// <returns>.</returns>
+        /// <returns>The displayed child widget.</returns>
         public Func<IWebDriver, IWidget> ChildControlIsVisible(string childControlId)
         {
             if (childControlId == null)
@@ -323,6 +327,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 {
                     return childControl;
                 }
+
                 return null;
             };
         }
@@ -345,6 +350,7 @@ namespace Qooxdoo.WebDriver.UI.Core
             {
                 return null;
             }
+
             return Driver.GetWidgetForElement(element);
         }
 
@@ -377,6 +383,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 {
                     return null;
                 }
+
                 return Driver.GetWidgetForElement(element);
             }
         }
@@ -426,6 +433,7 @@ namespace Qooxdoo.WebDriver.UI.Core
                 {
                     widgets[i++] = Driver.GetWidgetForElement(el);
                 }
+
                 result = widgets;
             }
 
@@ -508,8 +516,17 @@ namespace Qooxdoo.WebDriver.UI.Core
             if (propertyName == null)
                 throw new ArgumentNullException(nameof(propertyName));
 
-            IList<IWebElement> elements =
-                (IList<IWebElement>) JsRunner.RunScript("getElementsFromProperty", _contentElement, propertyName);
+            IList<IWebElement> elements;
+            try
+            {
+                elements =
+                    (IList<IWebElement>) JsRunner.RunScript("getElementsFromProperty", _contentElement, propertyName);
+            }
+            catch (InvalidCastException)
+            {
+                elements = new List<IWebElement>();
+            }
+
             IList<IWidget> widgets = new List<IWidget>();
 
             using (IEnumerator<IWebElement> elemIter = elements.GetEnumerator())
