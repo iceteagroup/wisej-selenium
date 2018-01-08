@@ -123,9 +123,9 @@
             // 
             this.modelsDataGridView.AllowUserToAddRows = true;
             this.modelsDataGridView.AllowUserToDeleteRows = true;
-            this.modelsDataGridView.AllowUserToResizeColumns = false;
             this.modelsDataGridView.AllowUserToResizeRows = false;
             this.modelsDataGridView.AutoGenerateColumns = false;
+            this.modelsDataGridView.AutoSizeColumnsMode = Wisej.Web.DataGridViewAutoSizeColumnsMode.Fill;
             this.modelsDataGridView.Columns.AddRange(new Wisej.Web.DataGridViewColumn[] {
             this.modelId,
             this.modelName,
@@ -145,6 +145,7 @@
             // modelId
             // 
             this.modelId.DataPropertyName = "ModelId";
+            this.modelId.FillWeight = 40F;
             this.modelId.HeaderText = "Id";
             this.modelId.Name = "modelId";
             this.modelId.ReadOnly = true;
@@ -153,8 +154,11 @@
             // modelName
             // 
             this.modelName.DataPropertyName = "ModelName";
+            this.modelName.FillWeight = 200F;
             this.modelName.HeaderText = "Name";
+            this.modelName.MinimumWidth = 80;
             this.modelName.Name = "modelName";
+            this.modelName.Width = 200;
             // 
             // brandId
             // 
@@ -162,6 +166,7 @@
             this.brandId.DataSource = this.brandsBindingSource;
             this.brandId.DisplayMember = "BrandName";
             this.brandId.HeaderText = "Brand";
+            this.brandId.MinimumWidth = 40;
             this.brandId.Name = "brandId";
             this.brandId.ValueMember = "BrandId";
             // 
@@ -170,9 +175,12 @@
             this.productTypeId.DataPropertyName = "ProductTypeId";
             this.productTypeId.DataSource = this.productTypesBindingSource;
             this.productTypeId.DisplayMember = "ProductTypeName";
+            this.productTypeId.FillWeight = 200F;
             this.productTypeId.HeaderText = "Product Type";
+            this.productTypeId.MinimumWidth = 80;
             this.productTypeId.Name = "productTypeId";
             this.productTypeId.ValueMember = "ProductTypeId";
+            this.productTypeId.Width = 200;
             // 
             // productTypesBindingSource
             // 

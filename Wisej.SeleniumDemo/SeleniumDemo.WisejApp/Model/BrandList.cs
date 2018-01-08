@@ -29,6 +29,7 @@ namespace SeleniumDemo.WisejApp.Model
                 new Brand {BrandName = "Electroluz"}.Save();
                 new Brand {BrandName = "Hoover"}.Save();
                 new Brand {BrandName = "Kunft"}.Save();
+                new Brand {BrandName = "LLG"}.Save();
                 new Brand {BrandName = "LG"}.Save();
                 new Brand {BrandName = "Philips"}.Save();
                 new Brand {BrandName = "Samsung"}.Save();
