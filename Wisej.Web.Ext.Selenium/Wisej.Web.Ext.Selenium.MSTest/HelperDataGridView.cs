@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Qooxdoo.WebDriver.UI;
@@ -11,69 +12,6 @@ namespace Wisej.Web.Ext.Selenium.Tests
     /// </summary>
     public static class HelperDataGridView
     {
-        #region RowText
-
-        /// <summary>
-        /// Asserts the DataGridView row text matches the specified string IEnumerable.
-        /// </summary>
-        /// <param name="dataGridView">The <see cref="DataGridView"/> widget.</param>
-        /// <param name="values">The string IEnumerable to check.</param>
-        /// <param name="rowIdx"> Row index from 0 </param>
-        public static void AssertRowTextIs(this DataGridView dataGridView, IEnumerable<string> values, int rowIdx)
-        {
-            var colIdx = 0;
-            foreach (var value in values)
-            {
-                AssertRowTextIsCore(dataGridView, value, colIdx, rowIdx);
-                colIdx++;
-            }
-        }
-
-        /// <summary>
-        /// Asserts the DataGridView row text matches the specified string IEnumerable.
-        /// </summary>
-        /// <param name="dataGridView">The <see cref="DataGridView"/> widget.</param>
-        /// <param name="values">The string IEnumerable to check.</param>
-        /// <param name="firstColIdx"> Index from 0 of the first column to check </param>
-        /// <param name="rowIdx"> Row index from 0 </param>
-        public static void AssertRowTextIs(this DataGridView dataGridView, IEnumerable<string> values, int firstColIdx,
-            int rowIdx)
-        {
-            var colIdx = firstColIdx;
-            foreach (var value in values)
-            {
-                AssertRowTextIsCore(dataGridView, value, colIdx, rowIdx);
-                colIdx++;
-            }
-        }
-
-        /// <summary>
-        /// Asserts the DataGridView row text matches the specified string IEnumerable.
-        /// </summary>
-        /// <param name="dataGridView">The <see cref="DataGridView"/> widget.</param>
-        /// <param name="values">The string IEnumerable to check.</param>
-        /// <param name="colIndexes"> The int IEnumerable of column indexes to check </param>
-        /// <param name="rowIdx"> Row index from 0 </param>
-        public static void AssertRowTextIs(this DataGridView dataGridView, IEnumerable<string> values,
-            IEnumerable<int> colIndexes, int rowIdx)
-        {
-            var enumerable = colIndexes.ToList();
-            var idx = 0;
-            foreach (var value in values)
-            {
-                var colIdx = enumerable[idx];
-                AssertRowTextIsCore(dataGridView, value, colIdx, rowIdx);
-                idx++;
-            }
-        }
-
-        private static void AssertRowTextIsCore(this DataGridView dataGridView, string value, int colIdx, int rowIdx)
-        {
-            Assert.AreEqual(value, dataGridView.GetCellText(colIdx, rowIdx));
-        }
-
-        #endregion
-
         #region CellEditorGet
 
         /// <summary>
@@ -166,6 +104,206 @@ namespace Wisej.Web.Ext.Selenium.Tests
             if (assertIsDisplayed)
                 widget.AssertIsDisplayed("");
             return widget;
+        }
+
+        #endregion
+
+        #region Row Text check
+
+        /// <summary>
+        /// Asserts the DataGridView row text matches the specified string IEnumerable.
+        /// </summary>
+        /// <param name="dataGridView">The <see cref="DataGridView"/> widget.</param>
+        /// <param name="values">The string IEnumerable to check.</param>
+        /// <param name="rowIdx"> Row index from 0 </param>
+        public static void AssertRowTextIs(this DataGridView dataGridView, IEnumerable<string> values, int rowIdx)
+        {
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+
+            var colIdx = 0;
+            foreach (var value in values)
+            {
+                AssertRowTextIsCore(dataGridView, value, colIdx, rowIdx);
+                colIdx++;
+            }
+        }
+
+        /// <summary>
+        /// Asserts the DataGridView row text matches the specified string IEnumerable.
+        /// </summary>
+        /// <param name="dataGridView">The <see cref="DataGridView"/> widget.</param>
+        /// <param name="values">The string IEnumerable to check.</param>
+        /// <param name="firstColIdx"> Index from 0 of the first column to check </param>
+        /// <param name="rowIdx"> Row index from 0 </param>
+        public static void AssertRowTextIs(this DataGridView dataGridView, IEnumerable<string> values, int firstColIdx,
+            int rowIdx)
+        {
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+
+            var colIdx = firstColIdx;
+            foreach (var value in values)
+            {
+                AssertRowTextIsCore(dataGridView, value, colIdx, rowIdx);
+                colIdx++;
+            }
+        }
+
+        /// <summary>
+        /// Asserts the DataGridView row text matches the specified string IEnumerable.
+        /// </summary>
+        /// <param name="dataGridView">The <see cref="DataGridView"/> widget.</param>
+        /// <param name="values">The string IEnumerable to check.</param>
+        /// <param name="colIndexes"> The int IEnumerable of column indexes to check </param>
+        /// <param name="rowIdx"> Row index from 0 </param>
+        public static void AssertRowTextIs(this DataGridView dataGridView, IEnumerable<string> values,
+            IEnumerable<int> colIndexes, int rowIdx)
+        {
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (colIndexes == null)
+                throw new ArgumentNullException(nameof(colIndexes));
+
+            var enumerable = colIndexes.ToList();
+            var idx = 0;
+            foreach (var value in values)
+            {
+                var colIdx = enumerable[idx];
+                AssertRowTextIsCore(dataGridView, value, colIdx, rowIdx);
+                idx++;
+            }
+        }
+
+        private static void AssertRowTextIsCore(this DataGridView dataGridView, string value, int colIdx, int rowIdx)
+        {
+            Assert.AreEqual(value, dataGridView.GetCellText(colIdx, rowIdx));
+        }
+
+        #endregion
+
+        #region Cell Text Sync
+
+        /// <summary>
+        /// Sets the text of the cell at the given grid coordinates, and waits until it matches..
+        /// </summary>
+        /// <param name="parent">The parent DataGridView.</param>
+        /// <param name="colIdx">Column index from 0</param>
+        /// <param name="rowIdx">Row index from 0</param>
+        /// <param name="text">The text to match.</param>
+        /// <param name="widgetType">The widget type name.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
+        public static void CellSetTextAssertSync(this DataGridView parent, int colIdx, int rowIdx, string text,
+            string widgetType, long timeoutInSeconds = 5)
+        {
+            WidgetSetTextAssertSyncCore(parent, colIdx, rowIdx, text, string.Empty, widgetType, timeoutInSeconds);
+        }
+
+        /// <summary>
+        /// Sets the text of the cell at the given grid coordinates, and waits until it matches the result string.
+        /// </summary>
+        /// <param name="parent">The parent DataGridView.</param>
+        /// <param name="colIdx">Column index from 0</param>
+        /// <param name="rowIdx">Row index from 0</param>
+        /// <param name="text">The text to match.</param>
+        /// <param name="result">The text to match.</param>
+        /// <param name="widgetType">The widget type name.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
+        public static void CellSetTextAssertSync(this DataGridView parent, int colIdx, int rowIdx, string text,
+            string result, string widgetType, long timeoutInSeconds = 5)
+        {
+            WidgetSetTextAssertSyncCore(parent, colIdx, rowIdx, text, result, widgetType, timeoutInSeconds);
+        }
+
+        /// <summary>
+        /// Sets the text of the focused cell, and waits until it matches.
+        /// </summary>
+        /// <param name="parent">The parent DataGridView.</param>
+        /// <param name="text">The text to match.</param>
+        /// <param name="widgetType">The widget type name.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
+        public static void CellSetTextAssertSync(this DataGridView parent, string text, string widgetType,
+            long timeoutInSeconds = 5)
+        {
+            WidgetSetTextAssertSyncCore(parent, null, null, text, string.Empty, widgetType, timeoutInSeconds);
+        }
+
+        /// <summary>
+        /// Sets the text of the focused cell, and waits until it matches the result string.
+        /// </summary>
+        /// <param name="parent">The parent DataGridView.</param>
+        /// <param name="text">The text to match.</param>
+        /// <param name="result">The text to match.</param>
+        /// <param name="widgetType">The widget type name.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
+        public static void CellSetTextAssertSync(this DataGridView parent, string text, string result,
+            string widgetType, long timeoutInSeconds = 5)
+        {
+            WidgetSetTextAssertSyncCore(parent, null, null, text, result, widgetType, timeoutInSeconds);
+        }
+
+        private static void WidgetSetTextAssertSyncCore(this DataGridView parent, int? colIdx, int? rowIdx, string text,
+            string result, string widgetType, long timeoutInSeconds)
+        {
+            IHaveValue cellEditor = null;
+
+            var driver = ((IWidget) parent).Driver as WisejWebDriver;
+            if (driver != null)
+            {
+                if (colIdx.HasValue && rowIdx.HasValue)
+                {
+                    // wait for focus cell
+                    driver.Wait(() =>
+                    {
+                        parent.FocusCell(colIdx.Value, rowIdx.Value);
+                        var focusedColumn = parent.GetFocusedColumn();
+                        var focusedRow = parent.GetFocusedRow();
+                        if (!focusedColumn.HasValue || !focusedRow.HasValue)
+                            return false;
+
+                        return Equals(Convert.ToInt64(colIdx), focusedColumn.Value) &&
+                               Equals(Convert.ToInt64(rowIdx), focusedRow.Value);
+                    }, false, timeoutInSeconds);
+                }
+
+                // wait for cell editor, start editing
+                driver.Wait(() =>
+                {
+                    // get cell editor, start editing
+                    IWidget iWidget = parent.CellEditorGet(widgetType);
+
+                    if (iWidget != null)
+                    {
+                        cellEditor = iWidget as IHaveValue;
+                        if (cellEditor == null)
+                            throw new ArgumentException(string.Format(
+                                "Widget at column {0}, row {1} ({2}) does not support Value property", colIdx, rowIdx,
+                                widgetType));
+
+                        return true;
+                    }
+
+                    return false;
+                }, false, timeoutInSeconds);
+
+                if (cellEditor != null)
+                {
+                    // set value and check value on the cell editor
+                    driver.Wait(() =>
+                    {
+                        cellEditor.Value = text;
+                        return Equals(text, cellEditor.Text);
+                    }, false, timeoutInSeconds);
+
+                    // stop editing
+                    parent.StopEditing();
+                }
+
+                if (!string.IsNullOrEmpty(result))
+                    Assert.AreEqual(result, parent.WaitForCellText(result, timeoutInSeconds));
+                else
+                    Assert.AreEqual(text, parent.WaitForCellText(text, timeoutInSeconds));
+            }
         }
 
         #endregion

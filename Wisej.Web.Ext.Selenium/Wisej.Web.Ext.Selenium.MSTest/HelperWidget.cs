@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Qooxdoo.WebDriver.UI;
 
@@ -9,6 +10,13 @@ namespace Wisej.Web.Ext.Selenium.Tests
     /// </summary>
     public static class HelperWidget
     {
+        // TODO: add match type (enum)
+        // Exact (default)
+        // contains
+        // StartsWith
+        // EndsWith
+        // RegEx
+
         #region WidgetGet
 
         /// <summary>
@@ -167,6 +175,67 @@ namespace Wisej.Web.Ext.Selenium.Tests
 
         #endregion
 
+        #region Assert Sync Text
+
+        /// <summary>
+        /// Sets the text of the widget with the given path, and waits until it matches.
+        /// </summary>
+        /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
+        /// <param name="path">The widget path.</param>
+        /// <param name="text">The text to match.</param>
+        /// <param name="widgetType">The widget type name.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
+        public static void WidgetSetTextAssertSync(this WisejWebDriver driver, string path, string text,
+            string widgetType, long timeoutInSeconds = 5)
+        {
+            IHaveValue valueWidget = driver.WidgetRefresh(path, widgetType, timeoutInSeconds) as IHaveValue;
+            if (valueWidget == null)
+                throw new ArgumentException("Widget does not support Value property", nameof(path));
+
+            valueWidget.Value = text;
+            driver.Wait(() =>
+            {
+                IWidget waitWidget = driver.WidgetRefresh(path, widgetType, timeoutInSeconds);
+                return Equals(text, waitWidget.Text);
+            }, false, timeoutInSeconds);
+
+            IWidget widget = driver.WidgetGet(path, widgetType, timeoutInSeconds);
+            WidgetAssertTextIsCore(widget, text);
+        }
+
+        /// <summary>
+        /// Sets the text of the widget with the given parent and path, and waits until it matches.
+        /// </summary>
+        /// <param name="parent">The parent widget.</param>
+        /// <param name="path">The widget path.</param>
+        /// <param name="text">The text to match.</param>
+        /// <param name="widgetType">The widget type name.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
+        public static void WidgetSetTextAssertSync(this IWidget parent, string path, string text, string widgetType,
+            long timeoutInSeconds = 5)
+        {
+            IHaveValue valueWidget = parent.WidgetRefresh(path, widgetType, timeoutInSeconds) as IHaveValue;
+            if (valueWidget == null)
+                throw new ArgumentException("Widget does not support Value property", nameof(path));
+
+            valueWidget.Value = text;
+
+            var driver = parent.Driver as WisejWebDriver;
+            if (driver != null)
+            {
+                driver.Wait(() =>
+                {
+                    IWidget waitWidget = parent.WidgetRefresh(path, widgetType, timeoutInSeconds);
+                    return Equals(text, waitWidget.Text);
+                }, false, timeoutInSeconds);
+            }
+
+            IWidget widget = parent.WidgetGet(path, widgetType, timeoutInSeconds);
+            WidgetAssertTextIsCore(widget, text);
+        }
+
+        #endregion
+
         #region Text
 
         /// <summary>
@@ -176,7 +245,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="text">The text to match.</param>
         public static void AssertTextIs(this IWidget widget, string text)
         {
-            WidgetAssertTextCore(widget, text);
+            WidgetAssertTextIsCore(widget, text);
         }
 
         /// <summary>
@@ -187,11 +256,17 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="text">The text to match.</param>
         /// <param name="widgetType">The widget type name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
-        public static void WidgetAssertTextIs(this WisejWebDriver driver, string path, string text, string widgetType,
-            long timeoutInSeconds = 5)
+        public static void WidgetWaitAssertTextIs(this WisejWebDriver driver, string path, string text,
+            string widgetType, long timeoutInSeconds = 5)
         {
+            driver.Wait(() =>
+            {
+                IWidget waitWidget = driver.WidgetRefresh(path, widgetType, timeoutInSeconds);
+                return Equals(text, waitWidget.Text);
+            }, false, timeoutInSeconds);
+
             IWidget widget = driver.WidgetGet(path, widgetType, timeoutInSeconds);
-            WidgetAssertTextCore(widget, text);
+            WidgetAssertTextIsCore(widget, text);
         }
 
         /// <summary>
@@ -202,14 +277,24 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="text">The text to match.</param>
         /// <param name="widgetType">The widget type name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
-        public static void WidgetAssertTextIs(this IWidget parent, string path, string text, string widgetType,
+        public static void WidgetWaitAssertTextIs(this IWidget parent, string path, string text, string widgetType,
             long timeoutInSeconds = 5)
         {
+            var driver = parent.Driver as WisejWebDriver;
+            if (driver != null)
+            {
+                driver.Wait(() =>
+                {
+                    IWidget waitWidget = parent.WidgetRefresh(path, widgetType, timeoutInSeconds);
+                    return Equals(text, waitWidget.Text);
+                }, false, timeoutInSeconds);
+            }
+
             IWidget widget = parent.WidgetGet(path, widgetType, timeoutInSeconds);
-            WidgetAssertTextCore(widget, text);
+            WidgetAssertTextIsCore(widget, text);
         }
 
-        private static void WidgetAssertTextCore(this IWidget widget, string text)
+        private static void WidgetAssertTextIsCore(this IWidget widget, string text)
         {
             string widgetText = widget.Text;
             //Assert.AreEqual(text, widgetText, string.Format("Expected {0} and actual is {1}.", text, widgetText));
