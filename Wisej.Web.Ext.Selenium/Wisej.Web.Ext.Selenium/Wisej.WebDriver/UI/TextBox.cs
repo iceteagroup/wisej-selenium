@@ -36,10 +36,10 @@ namespace Wisej.Web.Ext.Selenium.UI
         {
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Gets or sets the value of a TextBox value.</summary>
         /// <returns>The TextBox value.</returns>
-        public new virtual string Value
+        public override string Value
         {
             get { return base.Value; }
             set
@@ -50,7 +50,7 @@ namespace Wisej.Web.Ext.Selenium.UI
                     "widget.fireEvent('focusin');",
                     ContentElement, value);
             }
-        }
+        }*/
 
         /// <summary>
         /// Gets the value of a TextBox's text </summary>

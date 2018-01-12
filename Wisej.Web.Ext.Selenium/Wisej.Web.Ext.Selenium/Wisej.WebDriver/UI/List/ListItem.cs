@@ -55,6 +55,7 @@ namespace Wisej.Web.Ext.Selenium.UI.List
         public virtual string Value
         {
             get { return Label.Value; }
+            set { Label.Value = value; }
         }
     }
 }

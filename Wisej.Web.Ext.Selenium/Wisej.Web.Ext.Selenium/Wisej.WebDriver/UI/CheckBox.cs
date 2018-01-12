@@ -36,10 +36,10 @@ namespace Wisej.Web.Ext.Selenium.UI
         {
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Gets or sets the value of a CheckBox value.</summary>
         /// <returns>The CheckBox value.</returns>
-        public new virtual string Value
+        public override string Value
         {
             get { return base.Value; }
             set
@@ -47,7 +47,7 @@ namespace Wisej.Web.Ext.Selenium.UI
                 string script = "return qx.ui.core.Widget.getWidgetByElement(arguments[0]).setValue(arguments[1])";
                 object result = JsExecutor.ExecuteScript(script, ContentElement, value);
             }
-        }
+        }*/
 
         /// <summary>
         /// Gets the value of a CheckBox's text </summary>
