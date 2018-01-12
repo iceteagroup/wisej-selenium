@@ -6,11 +6,12 @@ namespace SeleniumDemo.Tests
     public class SeleniumDemoWebDriver : WisejWebDriver
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SeleniumDemoWebDriver"/> class.
+        /// Initializes a new instance of the <see cref="SeleniumDemoWebDriver" /> class.
         /// </summary>
         /// <param name="browser">The <see cref="OpenQA.Selenium.Browser" /> of the webdriver to wrap.</param>
-        public SeleniumDemoWebDriver(Browser browser)
-            : base(browser)
+        /// <param name="options">The colection of options specific to a browser driver.</param>
+        public SeleniumDemoWebDriver(Browser browser, object options)
+            : base(browser, options)
         {
             ConstructorCore();
         }

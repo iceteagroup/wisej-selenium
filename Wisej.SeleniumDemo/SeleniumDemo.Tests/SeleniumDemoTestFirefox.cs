@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
 
 namespace SeleniumDemo.Tests
 {
@@ -10,8 +11,12 @@ namespace SeleniumDemo.Tests
         [ClassInitialize]
         public static void Setup(TestContext testContext)
         {
+            var options = new FirefoxOptions
+            {
+                PageLoadStrategy = PageLoadStrategy.Eager
+            };
             CurrentBrowser = Browser.Firefox;
-            TestDriver = new SeleniumDemoWebDriver(CurrentBrowser);
+            TestDriver = new SeleniumDemoWebDriver(CurrentBrowser, options);
             Directory.SetCurrentDirectory(testContext.TestRunResultsDirectory);
             Waiter.BrowserUpdate = 1500;
         }

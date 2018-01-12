@@ -96,9 +96,10 @@ namespace Qooxdoo.WebDriver
         /// Initializes a new instance of the <see cref="QxWebDriver"/> class.
         /// </summary>
         /// <param name="browser">The browser of the webdriver to wrap.</param>
-        public QxWebDriver(Browser browser)
+        /// <param name="options">The colection of options specific to a browser driver.</param>
+        public QxWebDriver(Browser browser, object options)
         {
-            var webdriver = GetWrappedDriver(browser);
+            var webdriver = GetWrappedDriver(browser, options);
             ConstructorCore(webdriver, new DefaultWidgetFactory(this), 4);
         }
 
@@ -106,10 +107,11 @@ namespace Qooxdoo.WebDriver
         /// Initializes a new instance of the <see cref="QxWebDriver" /> class.
         /// </summary>
         /// <param name="browser">The browser of the webdriver to wrap.</param>
+        /// <param name="options">The colection of options specific to a browser driver.</param>
         /// <param name="implicitWaitSeconds">The implicit wait duration in seconds.</param>
-        public QxWebDriver(Browser browser, int implicitWaitSeconds)
+        public QxWebDriver(Browser browser, object options, int implicitWaitSeconds)
         {
-            var webdriver = GetWrappedDriver(browser);
+            var webdriver = GetWrappedDriver(browser, options);
             ConstructorCore(webdriver, new DefaultWidgetFactory(this), implicitWaitSeconds);
         }
 
@@ -117,10 +119,11 @@ namespace Qooxdoo.WebDriver
         /// Initializes a new instance of the <see cref="QxWebDriver"/> class.
         /// </summary>
         /// <param name="browser">The browser of the webdriver to wrap.</param>
+        /// <param name="options">The colection of options specific to a browser driver.</param>
         /// <param name="widgetFactory">The widget factory to use.</param>
-        public QxWebDriver(Browser browser, IWidgetFactory widgetFactory)
+        public QxWebDriver(Browser browser, object options, IWidgetFactory widgetFactory)
         {
-            var webdriver = GetWrappedDriver(browser);
+            var webdriver = GetWrappedDriver(browser, options);
             ConstructorCore(webdriver, widgetFactory, 4);
         }
 
@@ -128,16 +131,31 @@ namespace Qooxdoo.WebDriver
         /// Initializes a new instance of the <see cref="QxWebDriver" /> class.
         /// </summary>
         /// <param name="browser">The browser of the webdriver to wrap.</param>
+        /// <param name="options">The colection of options specific to a browser driver.</param>
         /// <param name="widgetFactory">The widget factory to use.</param>
         /// <param name="implicitWaitSeconds">The implicit wait duration in seconds.</param>
-        public QxWebDriver(Browser browser, IWidgetFactory widgetFactory, int implicitWaitSeconds)
+        public QxWebDriver(Browser browser, object options, IWidgetFactory widgetFactory, int implicitWaitSeconds)
         {
-            var webdriver = GetWrappedDriver(browser);
+            var webdriver = GetWrappedDriver(browser, options);
             ConstructorCore(webdriver, widgetFactory, implicitWaitSeconds);
         }
 
-        private IWebDriver GetWrappedDriver(Browser browser)
+        private IWebDriver GetWrappedDriver(Browser browser, object options)
         {
+            if (options != null)
+            {
+                switch (browser)
+                {
+                    case Browser.Chrome: return new ChromeDriver(options as ChromeOptions);
+                    case Browser.Edge: return new EdgeDriver(options as EdgeOptions);
+                    case Browser.Firefox: return new FirefoxDriver(options as FirefoxOptions);
+                    case Browser.IE: return new InternetExplorerDriver(options as InternetExplorerOptions);
+                    case Browser.Opera: return new OperaDriver(options as OperaOptions);
+                    case Browser.PhantomJS: return new PhantomJSDriver(options as PhantomJSOptions);
+                    default: return new SafariDriver(options as SafariOptions);
+                }
+            }
+
             switch (browser)
             {
                 case Browser.Chrome: return new ChromeDriver();
