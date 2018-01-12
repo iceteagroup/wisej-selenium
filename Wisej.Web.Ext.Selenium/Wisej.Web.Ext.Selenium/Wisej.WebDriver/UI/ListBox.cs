@@ -75,11 +75,6 @@ namespace Wisej.Web.Ext.Selenium.UI
         {
             get
             {
-                // LUCA: Bug/features in Wisej. Some properties are wired
-                // only from the server to the client. This one now is fixed
-                // in the dev build to be always in sync.
-
-                // TODO: this always returns 1 item with value 0 (zero)
                 IList<object> objects = (IList<object>) GetPropertyValue("selectedIndices");
                 List<int> selectedIndices = new List<int>();
 
@@ -103,17 +98,11 @@ namespace Wisej.Web.Ext.Selenium.UI
             get
             {
                 IList<ListItem> selectedItems = new List<ListItem>();
+                IList<ListItem> listItems = ListItems;
 
-                // LUCA: Can use the existing "getSelection()" method, it returns
-                var items = Call("getSelection") as IWidget[];
-
-                // the selected items array.
-                if (items != null && items.Length > 0)
+                foreach (var index in SelectedIndices)
                 {
-                    foreach (var i in items)
-                    {
-                        selectedItems.Add((ListItem) i);
-                    }
+                    selectedItems.Add(listItems[index]);
                 }
 
                 return selectedItems.ToArray();
