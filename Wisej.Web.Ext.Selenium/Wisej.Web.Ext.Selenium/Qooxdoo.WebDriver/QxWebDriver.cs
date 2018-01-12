@@ -268,7 +268,7 @@ namespace Qooxdoo.WebDriver
         internal virtual IWidget FindWidget(OpenQA.Selenium.By by, long timeoutInSeconds)
         {
             WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            wait.IgnoreExceptionTypes(typeof(InvalidOperationException));
+            wait.IgnoreExceptionTypes(typeof(InvalidOperationException), typeof(StaleElementReferenceException));
             IWebElement element;
             try
             {
@@ -278,6 +278,7 @@ namespace Qooxdoo.WebDriver
             {
                 throw new NoSuchElementException("Unable to find element for locator: " + by, e);
             }
+
             return GetWidgetForElement(element);
         }
 
@@ -312,7 +313,7 @@ namespace Qooxdoo.WebDriver
                 throw new ArgumentNullException(nameof(condition));
 
             WebDriverWait wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(timeoutInSeconds));
-            wait.IgnoreExceptionTypes(typeof(InvalidOperationException));
+            wait.IgnoreExceptionTypes(typeof(InvalidOperationException), typeof(StaleElementReferenceException));
             try
             {
                 wait.Until(_ => { return condition(); });
@@ -376,6 +377,7 @@ namespace Qooxdoo.WebDriver
                         logEntries.Add(entry);
                     }
                 }
+
                 return logEntries;
             }
         }

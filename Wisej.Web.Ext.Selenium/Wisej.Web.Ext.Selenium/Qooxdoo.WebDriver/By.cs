@@ -217,16 +217,17 @@ namespace Qooxdoo.WebDriver
                             return null;
                         }
                     }
+
                     return (IWebElement) result;
                 }
                 catch (WebDriverException e)
                 {
                     string msg = e.Message;
-                    if (msg.Contains("Error resolving Qxh path") || msg.Contains("JavaScript error"))
+                    /*if (msg.Contains("Error resolving qxh path") || msg.Contains("JavaScript error"))
                     {
                         // IEDriver doesn't include the original JS exception's message :(
                         return null;
-                    }
+                    }*/
 
                     if (msg.Contains("Illegal path step"))
                     {
@@ -238,6 +239,18 @@ namespace Qooxdoo.WebDriver
                         string reason = "Error while processing selector " + Locator;
                         throw new WebDriverException(reason, e);
                     }
+                }
+                catch (InvalidOperationException e)
+                {
+                    string msg = e.Message;
+                    if (msg.Contains("Error resolving qxh path") || msg.Contains("JavaScript error"))
+                    {
+                        // IEDriver doesn't include the original JS exception's message :(
+                        return null;
+                    }
+
+                    string reason = "Error while processing selector " + Locator;
+                    throw new WebDriverException(reason, e);
                 }
             }
 
