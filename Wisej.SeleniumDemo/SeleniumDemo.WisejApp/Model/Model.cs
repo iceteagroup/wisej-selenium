@@ -28,7 +28,7 @@ namespace SeleniumDemo.WisejApp.Model
             {
                 if (_modelName != value)
                 {
-                    _modelName = value;
+                    _modelName = value.ToUpper();
                     OnPropertyChanged(nameof(ModelName));
                 }
             }
