@@ -89,12 +89,12 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <summary>
         /// Repeatedly checks for given number of selected <see cref="TreeNode" />.
         /// </summary>
-        /// <param name="expectedNodes">The expected number of nodes.</param>
+        /// <param name="numberOfNodes">The expected number of nodes.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the selected nodes.</param>
         /// <returns>The list of selected <see cref="TreeNode" />.</returns>
-        public TreeNode[] WaitForSelectedNodes(int expectedNodes, long timeoutInSeconds = 5)
+        public TreeNode[] WaitForSelectedNodes(int numberOfNodes, long timeoutInSeconds = 5)
         {
-            Driver.Wait(() => Equals(expectedNodes, SelectedNodes.Length), false, timeoutInSeconds);
+            Driver.Wait(() => Equals(numberOfNodes, SelectedNodes.Length), false, timeoutInSeconds);
 
             return SelectedNodes;
         }
