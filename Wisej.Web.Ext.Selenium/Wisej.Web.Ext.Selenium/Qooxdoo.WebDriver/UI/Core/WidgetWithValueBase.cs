@@ -67,7 +67,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Gets the value of a IHaveValue widget.</summary>
+        /// Gets or sets the value of a IHaveValue widget.</summary>
         /// <returns>The value.</returns>
         public virtual string Value
         {
@@ -75,6 +75,14 @@ namespace Qooxdoo.WebDriver.UI.Core
             {
                 return (string) ExecuteJavascript(
                     "return qx.ui.core.Widget.getWidgetByElement(arguments[0]).getValue().toString()");
+            }
+            set
+            {
+                JsExecutor.ExecuteScript(
+                    "var widget = qx.ui.core.Widget.getWidgetByElement(arguments[0]);" +
+                    "widget.setValue(arguments[1]);" +
+                    "widget.fireEvent('focusin');",
+                    ContentElement, value);
             }
         }
     }

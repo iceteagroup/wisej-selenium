@@ -47,6 +47,10 @@ namespace Wisej.Web.Ext.Selenium.UI
                 return (string) ExecuteJavascript(
                     "return qx.ui.core.Widget.getWidgetByElement(arguments[0]).getValue().toString()");
             }
+            set
+            {
+                throw new NotImplementedException("Setting the Value is not supported in ComboBox");
+            }
         }
 
         /// <summary>

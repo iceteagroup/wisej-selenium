@@ -26,8 +26,8 @@ namespace Qooxdoo.WebDriver.UI
     public interface IHaveValue : IWidget
     {
         /// <summary>
-        /// Gets the string representation of a widget value </summary>
+        /// Gets or sets the string representation of a widget value </summary>
         /// <returns>The widget string.</returns>
-        string Value { get; }
+        string Value { get; set; }
     }
 }
