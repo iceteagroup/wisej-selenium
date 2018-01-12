@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 
 namespace SeleniumDemo.Tests
 {
@@ -10,8 +11,12 @@ namespace SeleniumDemo.Tests
         [ClassInitialize]
         public static void Setup(TestContext testContext)
         {
+            var options = new ChromeOptions
+            {
+                PageLoadStrategy = PageLoadStrategy.Default
+            };
             CurrentBrowser = Browser.Chrome;
-            TestDriver = new SeleniumDemoWebDriver(CurrentBrowser);
+            TestDriver = new SeleniumDemoWebDriver(CurrentBrowser, options);
             TestDriver.Manage().Window.Maximize();
             Directory.SetCurrentDirectory(testContext.TestRunResultsDirectory);
             Waiter.BrowserUpdate = 350;

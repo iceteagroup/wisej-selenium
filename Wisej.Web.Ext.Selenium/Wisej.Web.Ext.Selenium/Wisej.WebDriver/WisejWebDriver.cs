@@ -39,7 +39,9 @@ namespace Wisej.Web.Ext.Selenium
         /// Initializes a new instance of the <see cref="WisejWebDriver"/> class.
         /// </summary>
         /// <param name="browser">The <see cref="Browser"/> of the webdriver to wrap.</param>
-        public WisejWebDriver(Browser browser) : base(browser, new WisejWidgetFactory())
+        /// <param name="options">The colection of options specific to a browser driver.</param>
+        public WisejWebDriver(Browser browser, object options)
+            : base(browser, options, new WisejWidgetFactory())
         {
             SetWidgetFactoryDriver();
         }
@@ -49,8 +51,9 @@ namespace Wisej.Web.Ext.Selenium
         /// </summary>
         /// <param name="browser">The <see cref="Browser"/> of the webdriver to wrap.</param>
         /// <param name="implicitWaitSeconds">The implicit wait duration in seconds.</param>
-        public WisejWebDriver(Browser browser, int implicitWaitSeconds) : base(browser, new WisejWidgetFactory(),
-            implicitWaitSeconds)
+        /// <param name="options">The colection of options specific to a browser driver.</param>
+        public WisejWebDriver(Browser browser, object options, int implicitWaitSeconds)
+            : base(browser, options, new WisejWidgetFactory(), implicitWaitSeconds)
         {
             SetWidgetFactoryDriver();
         }
@@ -59,7 +62,8 @@ namespace Wisej.Web.Ext.Selenium
         /// Initializes a new instance of the <see cref="WisejWebDriver"/> class.
         /// </summary>
         /// <param name="webdriver">The webdriver to wrap.</param>
-        public WisejWebDriver(IWebDriver webdriver) : base(webdriver, new WisejWidgetFactory())
+        public WisejWebDriver(IWebDriver webdriver)
+            : base(webdriver, new WisejWidgetFactory())
         {
             SetWidgetFactoryDriver();
         }
@@ -69,8 +73,8 @@ namespace Wisej.Web.Ext.Selenium
         /// </summary>
         /// <param name="webdriver">The webdriver to wrap.</param>
         /// <param name="implicitWaitSeconds">The implicit wait duration in seconds.</param>
-        public WisejWebDriver(IWebDriver webdriver, int implicitWaitSeconds) : base(webdriver, new WisejWidgetFactory(),
-            implicitWaitSeconds)
+        public WisejWebDriver(IWebDriver webdriver, int implicitWaitSeconds)
+            : base(webdriver, new WisejWidgetFactory(), implicitWaitSeconds)
         {
             SetWidgetFactoryDriver();
         }
