@@ -282,12 +282,12 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <param name="rowIdx">Row index from 0</param>
         /// <param name="expectedText">The expected text.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the cell text.</param>
-        /// <returns><code>true</code> it the cell text match; otherwise <code>false</code></returns>
-        public bool WaitForCellText(int colIdx, int rowIdx, string expectedText, long timeoutInSeconds = 5)
+        /// <returns>The actual cell text.</returns>
+        public string WaitForCellText(int colIdx, int rowIdx, string expectedText, long timeoutInSeconds = 5)
         {
             Driver.Wait(() => Equals(expectedText, GetCellText(colIdx, rowIdx)), false, timeoutInSeconds);
 
-            return Equals(expectedText, GetCellText(colIdx, rowIdx));
+            return GetCellText(colIdx, rowIdx);
         }
 
         /// <summary>
@@ -295,12 +295,12 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// </summary>
         /// <param name="expectedText">The expected text.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the cell text.</param>
-        /// <returns><code>true</code> it the cell text match; otherwise <code>false</code></returns>
-        public bool WaitForCellText(string expectedText, long timeoutInSeconds = 5)
+        /// <returns>The actual cell text.</returns>
+        public string WaitForCellText(string expectedText, long timeoutInSeconds = 5)
         {
             Driver.Wait(() => Equals(expectedText, GetCellText()), false, timeoutInSeconds);
 
-            return Equals(expectedText, GetCellText());
+            return GetCellText();
         }
 
         /// <summary>
