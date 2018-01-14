@@ -47,8 +47,8 @@ The best way to learn about the various widget interfaces is to check out the de
 
 Sample status on January 2018 as follows:
 - Chrome - main development target. Runs flawlessly every time.
-- Firefox - workarounds for ComboBox handling and one standing issue.
-- Edge - unstable: lots of workarounds and one intermittent issue with one specific TextBox.
+- Firefox - one standing issue concerning TreeView nodes.
+- Edge - unstable: lots of workarounds and one intermittent issue with a specific TextBox.
 
 ## Locating Widget Elements
 
