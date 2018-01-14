@@ -558,7 +558,16 @@ namespace Qooxdoo.WebDriver.UI.Core
             get
             {
                 object result = JsRunner.RunScript("getChildrenElements", _contentElement);
-                IList<IWebElement> children = (IList<IWebElement>) result;
+                IList<IWebElement> children;
+                try
+                {
+                    children = (IList<IWebElement>) result;
+                }
+                catch (Exception)
+                {
+                    children = new List<IWebElement>();
+                }
+
                 return children;
             }
         }
