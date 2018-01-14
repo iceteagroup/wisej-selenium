@@ -65,7 +65,7 @@ namespace Qooxdoo.WebDriver
 
         /// <summary>
         /// Searches for elements by traversing the qooxdoo application's widget hierarchy.
-        /// See the <a href="TODO">Qxh locator manual page</a> for details.
+        /// See the <a href="https://github.com/iceteagroup/wisej-selenium">Qxh locator manual page</a> for details.
         /// This strategy will ignore any widgets that are not currently visible, as
         /// determined by checking the qooxdoo property <a href="http://demo.qooxdoo.org/current/apiviewer/#qx.ui.Core.Widget~isSeeable!method_public">seeable</a>.
         /// </summary>
@@ -81,7 +81,7 @@ namespace Qooxdoo.WebDriver
 
         /// <summary>
         /// Searches for elements by traversing the qooxdoo application's widget hierarchy.
-        /// See the <a href="TODO">Qxh locator manual page</a> for details.
+        /// See the <a href="https://github.com/iceteagroup/wisej-selenium">Qxh locator manual page</a> for details.
         /// This strategy will ignore any widgets that are not currently visible, as
         /// determined by checking the qooxdoo property <a href="http://demo.qooxdoo.org/current/apiviewer/#qx.ui.Core.Widget~isSeeable!method_public">seeable</a>.
         /// </summary>
