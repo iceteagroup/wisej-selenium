@@ -44,6 +44,7 @@ namespace Qooxdoo.WebDriver.UI.Form
         /// <returns>The found item.</returns>
         public virtual IWidget GetSelectableItem(int index)
         {
+            // scroll is handled by getItemFromSelectables script
             object result = JsRunner.RunScript("getItemFromSelectables", ContentElement, index);
             IWebElement element = (IWebElement) result;
             return Driver.GetWidgetForElement(element);
@@ -55,7 +56,6 @@ namespace Qooxdoo.WebDriver.UI.Form
         /// <param name="index">The index of the item.</param>
         public virtual void SelectItem(int index)
         {
-            //TODO: scroll
             GetSelectableItem(index).Click();
         }
 
