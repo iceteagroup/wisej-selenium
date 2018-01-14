@@ -233,10 +233,7 @@ namespace SeleniumDemo.Tests
             state.AssertTextIs("Florida");
 
             // change state
-            if (CurrentBrowser == Browser.Firefox)
-                state.SelectItem("Mississippi");
-            else
-                state.SelectItem(25);
+            state.SelectItem(25);
             // wait until it's changed
             customerEditor.WidgetWaitAssertTextIs("state", "Mississippi", "ComboBox");
 
@@ -304,12 +301,10 @@ namespace SeleniumDemo.Tests
             customerEditor.WidgetWaitAssertTextIs("lastName", "KING", "TextBox");
 
             // get a refreshed state ComboBox and change state
-            if (CurrentBrowser == Browser.Firefox)
-                customerEditor.WidgetRefresh<ComboBox>("state").SelectItem("Maryland");
-            else
-                customerEditor.WidgetRefresh<ComboBox>("state").SelectItem(20);
+            const string state = "Maryland";
+            customerEditor.WidgetRefresh<ComboBox>("state").SelectItem(state);
             // wait until it's changed
-            customerEditor.WidgetWaitAssertTextIs("state", "Maryland", "ComboBox");
+            customerEditor.WidgetWaitAssertTextIs("state", state, "ComboBox");
 
             if (CurrentBrowser == Browser.Edge)
                 TestDriver.Sleep(Waiter.BrowserUpdate);
@@ -317,13 +312,13 @@ namespace SeleniumDemo.Tests
             customerEditor.ButtonClick("saveButton");
 
             // get & check changed lastName
-            customerEditor.WidgetWaitAssertTextIs("state", "Maryland", "ComboBox");
+            customerEditor.WidgetWaitAssertTextIs("state", state, "ComboBox");
 
             TestDriver.Sleep(Waiter.Duration);
         }
 
         [TestMethod]
-        public void W05_CustomerEditor_NavigateRows()
+        public void W058_CustomerEditor_NavigateRows()
         {
             // get CustomerEditor and check it's visible
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor");
@@ -538,6 +533,7 @@ namespace SeleniumDemo.Tests
             // TODO: wait for test
             Assert.AreEqual("Huawei", listItem.Value);
 
+            brandsListBox.SelectItem(10);
             // give enough time so YOU can see the all the changes
             TestDriver.Sleep(Waiter.Duration);
         }
@@ -579,8 +575,8 @@ namespace SeleniumDemo.Tests
             // get tabControl and check it's visible
             TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl");
 
-            // select models TabPage by label
-            tabControl.SelectItem("Product Types");
+            // select models TabPage by item number
+            tabControl.SelectItem(1);
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
@@ -600,7 +596,8 @@ namespace SeleniumDemo.Tests
                 TestDriver.WidgetGet<TreeView>("ProductEditor.tabControl.productTypes.productTypesTreeView");
 
             // check there are 9 nodes total
-            Assert.AreEqual(9, productTypesTreeView.Nodes.Length); // TODO: Firefox raises JavaScript error too much recursion
+            Assert.AreEqual(9,
+                productTypesTreeView.Nodes.Length); // TODO: Firefox raises JavaScript error too much recursion
 
             // select TreeNode 5
             productTypesTreeView.SelectItem(5);
