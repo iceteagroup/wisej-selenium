@@ -225,6 +225,14 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
+        /// Focuses this element.
+        /// </summary>
+        public virtual void Focus()
+        {
+            ExecuteJavascript("arguments[0].focus();");
+        }
+
+        /// <summary>
         /// Clicks this element.
         /// </summary>
         /// <remarks>
