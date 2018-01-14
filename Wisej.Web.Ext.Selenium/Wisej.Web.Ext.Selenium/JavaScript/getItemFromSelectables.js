@@ -20,6 +20,14 @@
 
 qxwebdriver.getItemFromSelectables = function() {
   var widget = qxwebdriver.getWidgetByElement(arguments[0]);
+  if (typeof arguments[1] == "number") {
+    /* var scrollBar = widget.getChildControl("scrollbar-" + arguments[2]).getContentElement().getDomElement(); */
+    var scrollBar = widget.getChildControl("scrollbar-y");
+    if (scrollBar !== null) {
+      var singleStep = scrollBar.get("singleStep");
+      scrollBar["scrollTo"](arguments[1] * singleStep);
+    }
+  }
   var selectables = widget.getSelectables();
   for (var i=0; i<selectables.length; i++) {
     if ((typeof arguments[1] == "number" && i === arguments[1]) ||
