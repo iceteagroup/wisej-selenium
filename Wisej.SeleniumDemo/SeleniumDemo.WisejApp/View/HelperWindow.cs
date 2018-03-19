@@ -26,6 +26,7 @@ namespace SeleniumDemo.WisejApp.View
             Model.ModelList.ResetData();
             Model.BrandList.ResetData();
             Model.ProductTypeList.ResetData();
+            Model.SupplierList.ResetData();
             label1.Text = "Data reset to factory settings.";
         }
     }

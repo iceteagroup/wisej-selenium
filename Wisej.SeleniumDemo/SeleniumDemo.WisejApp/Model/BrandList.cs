@@ -1,32 +1,37 @@
 ﻿using System.ComponentModel;
+using Wisej.Base;
 
 namespace SeleniumDemo.WisejApp.Model
 {
     public class BrandList : BindingList<Brand>
     {
-        private static BrandList _instance;
+        private static BrandList Instance
+        {
+            get { return ApplicationBase.Session.BrandList; }
+            set { ApplicationBase.Session.BrandList = value; }
+        }
 
         public static BrandList GetBrandList()
         {
-            if (_instance == null)
+            if (Instance == null)
                 BuildInstance();
 
-            return _instance;
+            return Instance;
         }
 
         public static void ResetData()
         {
-            if (_instance == null)
+            if (Instance == null)
             {
                 BuildInstance();
             }
             else
             {
-                _instance.Clear();
+                Instance.Clear();
                 Brand.ClearCounter();
 
                 new Brand {BrandName = "Candy"}.Save();
-                new Brand {BrandName = "Electroluz"}.Save();
+                new Brand {BrandName = "Petroluz"}.Save();
                 new Brand {BrandName = "Hoover"}.Save();
                 new Brand {BrandName = "Kunft"}.Save();
                 new Brand {BrandName = "LLG"}.Save();
@@ -40,7 +45,7 @@ namespace SeleniumDemo.WisejApp.Model
 
         public static bool Contains(int brandId)
         {
-            foreach (var brand in _instance)
+            foreach (var brand in Instance)
             {
                 if (brand.BrandId == brandId)
                     return true;
@@ -51,7 +56,7 @@ namespace SeleniumDemo.WisejApp.Model
 
         public static Brand GetBrand(int brandId)
         {
-            foreach (var brand in _instance)
+            foreach (var brand in Instance)
             {
                 if (brand.BrandId == brandId)
                     return brand;
@@ -62,7 +67,7 @@ namespace SeleniumDemo.WisejApp.Model
 
         private static void BuildInstance()
         {
-            _instance = new BrandList();
+            Instance = new BrandList();
             ResetData();
         }
     }

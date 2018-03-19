@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Wisej.Base;
 
 namespace SeleniumDemo.WisejApp.Model
 {
@@ -6,7 +7,11 @@ namespace SeleniumDemo.WisejApp.Model
     {
         #region Static Fields
 
-        private static int _lastId;
+        private static int LastId
+        {
+            get { return ApplicationBase.Session.Brand_LastId; }
+            set { ApplicationBase.Session.Brand_LastId = value; }
+        }
 
         #endregion
 
@@ -43,7 +48,7 @@ namespace SeleniumDemo.WisejApp.Model
         {
             _isNew = true;
             IsDirty = false;
-            _brandId = System.Threading.Interlocked.Increment(ref _lastId);
+            _brandId = ++LastId;
             OnPropertyChanged(nameof(BrandId));
         }
 
@@ -78,7 +83,7 @@ namespace SeleniumDemo.WisejApp.Model
 
         internal static void ClearCounter()
         {
-            _lastId = 0;
+            LastId = 0;
         }
 
         #endregion

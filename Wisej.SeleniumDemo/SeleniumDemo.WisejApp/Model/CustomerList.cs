@@ -1,33 +1,38 @@
 ﻿using System.ComponentModel;
+using Wisej.Base;
 
 namespace SeleniumDemo.WisejApp.Model
 {
     public class CustomerList : BindingList<Customer>
     {
-        private static CustomerList _instance;
+        private static CustomerList Instance
+        {
+            get { return ApplicationBase.Session.CustomerList; }
+            set { ApplicationBase.Session.CustomerList = value; }
+        }
 
         public static CustomerList GetCustomerList()
         {
-            if (_instance == null)
+            if (Instance == null)
                 BuildInstance();
 
-            return _instance;
+            return Instance;
         }
 
         public static void ResetData()
         {
-            if (_instance == null)
+            if (Instance == null)
             {
                 BuildInstance();
             }
             else
             {
-                _instance.Clear();
+                Instance.Clear();
                 Customer.ClearCounter();
                 new Customer
                 {
-                    FirstName = "Mudy",
-                    LastName = "Watters",
+                    FirstName = "Enlodado",
+                    LastName = "Aguas",
                     State = States.FL
                 }.Save();
 
@@ -42,7 +47,7 @@ namespace SeleniumDemo.WisejApp.Model
 
         public static bool Contains(int customerId)
         {
-            foreach (var customer in _instance)
+            foreach (var customer in Instance)
             {
                 if (customer.CustomerId == customerId)
                     return true;
@@ -53,7 +58,7 @@ namespace SeleniumDemo.WisejApp.Model
 
         public static Customer GetCustomer(int customerId)
         {
-            foreach (var customer in _instance)
+            foreach (var customer in Instance)
             {
                 if (customer.CustomerId == customerId)
                     return customer;
@@ -64,7 +69,7 @@ namespace SeleniumDemo.WisejApp.Model
 
         private static void BuildInstance()
         {
-            _instance = new CustomerList();
+            Instance = new CustomerList();
             ResetData();
         }
     }

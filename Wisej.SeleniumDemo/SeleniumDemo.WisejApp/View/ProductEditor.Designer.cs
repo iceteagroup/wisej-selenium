@@ -65,14 +65,14 @@
             this.tabControl.Controls.Add(this.models);
             this.tabControl.Location = new System.Drawing.Point(20, 20);
             this.tabControl.Name = "tabControl";
-            this.tabControl.PageInsets = new Wisej.Web.Padding(1, 35, 1, 1);
+            this.tabControl.PageInsets = new Wisej.Web.Padding(0, 41, 2, 2);
             this.tabControl.Size = new System.Drawing.Size(572, 389);
             this.tabControl.TabIndex = 0;
             // 
             // brands
             // 
             this.brands.Controls.Add(this.brandsListBox);
-            this.brands.Location = new System.Drawing.Point(1, 35);
+            this.brands.Location = new System.Drawing.Point(0, 41);
             this.brands.Name = "brands";
             this.brands.Text = "Brands";
             // 
@@ -83,7 +83,7 @@
             this.brandsListBox.Dock = Wisej.Web.DockStyle.Fill;
             this.brandsListBox.Location = new System.Drawing.Point(0, 0);
             this.brandsListBox.Name = "brandsListBox";
-            this.brandsListBox.Size = new System.Drawing.Size(570, 353);
+            this.brandsListBox.Size = new System.Drawing.Size(570, 346);
             this.brandsListBox.TabIndex = 0;
             this.brandsListBox.ValueMember = "BrandId";
             this.brandsListBox.DoubleClick += new System.EventHandler(this.brandsListBox_DoubleClick);
@@ -97,7 +97,7 @@
             // productTypes
             // 
             this.productTypes.Controls.Add(this.productTypesTreeView);
-            this.productTypes.Location = new System.Drawing.Point(1, 35);
+            this.productTypes.Location = new System.Drawing.Point(0, 41);
             this.productTypes.Name = "productTypes";
             this.productTypes.Text = "Product Types";
             // 
@@ -106,14 +106,14 @@
             this.productTypesTreeView.Dock = Wisej.Web.DockStyle.Fill;
             this.productTypesTreeView.Location = new System.Drawing.Point(0, 0);
             this.productTypesTreeView.Name = "productTypesTreeView";
-            this.productTypesTreeView.Size = new System.Drawing.Size(570, 353);
+            this.productTypesTreeView.Size = new System.Drawing.Size(570, 346);
             this.productTypesTreeView.TabIndex = 0;
             this.productTypesTreeView.NodeMouseDoubleClick += new Wisej.Web.TreeNodeMouseClickEventHandler(this.productTypesTreeView_NodeMouseDoubleClick);
             // 
             // models
             // 
             this.models.Controls.Add(this.modelsDataGridView);
-            this.models.Location = new System.Drawing.Point(1, 35);
+            this.models.Location = new System.Drawing.Point(0, 41);
             this.models.Name = "models";
             this.models.Text = "Models";
             this.models.Enter += new System.EventHandler(this.models_Enter);
@@ -139,7 +139,7 @@
             this.modelsDataGridView.Name = "modelsDataGridView";
             this.modelsDataGridView.RowHeadersWidthSizeMode = Wisej.Web.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.modelsDataGridView.ShowColumnVisibilityMenu = false;
-            this.modelsDataGridView.Size = new System.Drawing.Size(570, 353);
+            this.modelsDataGridView.Size = new System.Drawing.Size(570, 346);
             this.modelsDataGridView.TabIndex = 0;
             // 
             // modelId
@@ -149,6 +149,7 @@
             this.modelId.HeaderText = "Id";
             this.modelId.Name = "modelId";
             this.modelId.ReadOnly = true;
+            this.modelId.ValueType = typeof(int);
             this.modelId.Width = 40;
             // 
             // modelName
@@ -158,6 +159,7 @@
             this.modelName.HeaderText = "Name";
             this.modelName.MinimumWidth = 80;
             this.modelName.Name = "modelName";
+            this.modelName.ValueType = typeof(string);
             this.modelName.Width = 200;
             // 
             // brandId
@@ -169,6 +171,7 @@
             this.brandId.MinimumWidth = 40;
             this.brandId.Name = "brandId";
             this.brandId.ValueMember = "BrandId";
+            this.brandId.ValueType = typeof(int);
             // 
             // productTypeId
             // 
@@ -180,6 +183,7 @@
             this.productTypeId.MinimumWidth = 80;
             this.productTypeId.Name = "productTypeId";
             this.productTypeId.ValueMember = "ProductTypeId";
+            this.productTypeId.ValueType = typeof(int);
             this.productTypeId.Width = 200;
             // 
             // productTypesBindingSource

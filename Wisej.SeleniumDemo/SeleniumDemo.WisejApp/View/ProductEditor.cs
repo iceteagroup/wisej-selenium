@@ -6,9 +6,6 @@ namespace SeleniumDemo.WisejApp.View
 {
     public partial class ProductEditor : Form
     {
-        private ProductType _productType;
-        private Brand _brand;
-
         public ProductEditor()
         {
             InitializeComponent();
@@ -60,34 +57,38 @@ namespace SeleniumDemo.WisejApp.View
         {
             newButton.Enabled = false;
             removeButton.Enabled = false;
+
+            newButton.Visible = false;
+            removeButton.Visible = false;
         }
 
         private void models_Leave(object sender, EventArgs e)
         {
             newButton.Enabled = true;
             removeButton.Enabled = true;
+
+            newButton.Visible = true;
+            removeButton.Visible = true;
         }
 
         private void newButton_Click(object sender, EventArgs e)
         {
             if (tabControl.SelectedTab.Name == "brands")
             {
-                _brand = new Brand();
-                using (var brandEditor = new BrandEditor(_brand))
+                var brand = new Brand();
+                using (var brandEditor = new BrandEditor(brand))
                 {
                     brandEditor.ShowDialog(this);
                 }
-                _brand = null;
             }
             else if (tabControl.SelectedTab.Name == "productTypes")
             {
-                _productType = new ProductType();
-                using (var productTypeEditor = new ProductTypeEditor(_productType))
+                var productType = new ProductType();
+                using (var productTypeEditor = new ProductTypeEditor(productType))
                 {
                     productTypeEditor.ShowDialog(this);
                     BindProductType();
                 }
-                _productType = null;
             }
         }
 
@@ -95,17 +96,21 @@ namespace SeleniumDemo.WisejApp.View
         {
             if (tabControl.SelectedTab.Name == "brands")
             {
-                ((Brand) brandsBindingSource.Current).Delete();
+                ((Brand) brandsBindingSource.Current)?.Delete();
             }
             else if (tabControl.SelectedTab.Name == "productTypes")
             {
                 var selectedNode = productTypesTreeView.SelectedNode;
+                if (selectedNode == null)
+                    return;
 
                 var localProductTypeId = int.Parse(selectedNode.Name);
                 var productType = ProductTypeList.GetProductType(localProductTypeId);
                 productType.Delete();
 
                 BindProductType();
+
+                productTypesTreeView.SelectedNode = null;
             }
         }
     }

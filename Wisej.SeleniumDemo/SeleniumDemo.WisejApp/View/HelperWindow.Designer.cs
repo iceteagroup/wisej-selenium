@@ -38,14 +38,14 @@
             this.label1.Font = new System.Drawing.Font("default", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label1.Location = new System.Drawing.Point(10, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(233, 21);
+            this.label1.Size = new System.Drawing.Size(233, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "This window will be minimized.";
             // 
             // resetData
             // 
             this.resetData.Font = new System.Drawing.Font("default", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.resetData.Location = new System.Drawing.Point(70, 100);
+            this.resetData.Location = new System.Drawing.Point(70, 80);
             this.resetData.Name = "resetData";
             this.resetData.Size = new System.Drawing.Size(150, 30);
             this.resetData.TabIndex = 1;
@@ -56,12 +56,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = Wisej.Web.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(288, 156);
+            this.ClientSize = new System.Drawing.Size(298, 150);
             this.Controls.Add(this.resetData);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(300, 200);
-            this.MinimumSize = new System.Drawing.Size(300, 200);
+            this.MaximumSize = new System.Drawing.Size(300, 210);
+            this.MinimumSize = new System.Drawing.Size(300, 210);
             this.Name = "HelperWindow";
             this.StartPosition = Wisej.Web.FormStartPosition.Manual;
             this.Text = "User Help";

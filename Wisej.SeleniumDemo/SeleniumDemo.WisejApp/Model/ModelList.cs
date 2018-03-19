@@ -1,28 +1,33 @@
 ﻿using System.ComponentModel;
+using Wisej.Base;
 
 namespace SeleniumDemo.WisejApp.Model
 {
     public class ModelList : BindingList<Model>
     {
-        private static ModelList _instance;
+        private static ModelList Instance
+        {
+            get { return ApplicationBase.Session.ModelList; }
+            set { ApplicationBase.Session.ModelList = value; }
+        }
 
         public static ModelList GetModelList()
         {
-            if (_instance == null)
+            if (Instance == null)
                 BuildInstance();
 
-            return _instance;
+            return Instance;
         }
 
         public static void ResetData()
         {
-            if (_instance == null)
+            if (Instance == null)
             {
                 BuildInstance();
             }
             else
             {
-                _instance.Clear();
+                Instance.Clear();
                 Model.ClearCounter();
                 new Model
                 {
@@ -101,7 +106,7 @@ namespace SeleniumDemo.WisejApp.Model
 
         public static bool Contains(int modelId)
         {
-            foreach (var model in _instance)
+            foreach (var model in Instance)
             {
                 if (model.ModelId == modelId)
                     return true;
@@ -112,7 +117,7 @@ namespace SeleniumDemo.WisejApp.Model
 
         public static Model GetModel(int modelId)
         {
-            foreach (var model in _instance)
+            foreach (var model in Instance)
             {
                 if (model.ModelId == modelId)
                     return model;
@@ -123,7 +128,7 @@ namespace SeleniumDemo.WisejApp.Model
 
         private static void BuildInstance()
         {
-            _instance = new ModelList();
+            Instance = new ModelList();
             ResetData();
         }
     }
