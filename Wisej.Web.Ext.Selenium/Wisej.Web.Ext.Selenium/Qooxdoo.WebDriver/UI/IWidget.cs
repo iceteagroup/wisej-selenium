@@ -172,7 +172,7 @@ namespace Qooxdoo.WebDriver.UI
         /// <param name="by">The locating mechanism to use.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
         /// <returns>The matching widget.</returns>
-        IWidget WaitForWidget(OpenQA.Selenium.By by, long timeoutInSeconds);
+        IWidget WaitForWidget(OpenQA.Selenium.By by, int timeoutInSeconds);
 
         /// <summary>
         /// Drag and drop this widget onto another widget

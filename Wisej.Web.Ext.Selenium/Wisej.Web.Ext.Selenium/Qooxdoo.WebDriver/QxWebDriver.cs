@@ -283,7 +283,7 @@ namespace Qooxdoo.WebDriver
         /// <returns>The first matching widget on the current page.</returns>
         /// <exception cref="NoSuchElementException"> If no matching widget was found before the timeout elapsed </exception>
         /// <seealso cref="By"/>
-        internal virtual IWidget FindWidget(OpenQA.Selenium.By by, long timeoutInSeconds)
+        internal virtual IWidget FindWidget(OpenQA.Selenium.By by, int timeoutInSeconds)
         {
             WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(timeoutInSeconds));
             wait.IgnoreExceptionTypes(typeof(InvalidOperationException), typeof(StaleElementReferenceException));
@@ -310,7 +310,7 @@ namespace Qooxdoo.WebDriver
         /// <seealso cref="By"/>
         public virtual IWidget FindWidget(OpenQA.Selenium.By by)
         {
-            long implictWait;
+            int implictWait;
             if (ImplictWait.HasValue)
                 implictWait = ImplictWait.Value.Seconds;
             else
@@ -325,7 +325,7 @@ namespace Qooxdoo.WebDriver
         /// <param name="throwException">If <c>true</c>, throws the <see cref="WebDriverTimeoutException"/> (default is <c>false</c>).</param>
         /// <param name="condition">Callback condition function.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the condition (default is 5).</param>
-        public void Wait(Func<bool> condition, bool throwException = false, long timeoutInSeconds = 5)
+        public void Wait(Func<bool> condition, bool throwException = false, int timeoutInSeconds = 5)
         {
             if (condition == null)
                 throw new ArgumentNullException(nameof(condition));
@@ -351,7 +351,7 @@ namespace Qooxdoo.WebDriver
         /// <returns>The first matching element on the current page.</returns>
         /// <exception cref="NoSuchElementException"> If no matching widget was found before the timeout elapsed </exception>
         /// <seealso cref="By"/>
-        public virtual IWidget WaitForWidget(OpenQA.Selenium.By by, long timeoutInSeconds)
+        public virtual IWidget WaitForWidget(OpenQA.Selenium.By by, int timeoutInSeconds)
         {
             return FindWidget(by, timeoutInSeconds);
         }

@@ -50,6 +50,7 @@ namespace Qooxdoo.WebDriver.UI.Form
                 {
                     base.Button = GetChildControl("button");
                 }
+
                 return base.Button;
             }
         }

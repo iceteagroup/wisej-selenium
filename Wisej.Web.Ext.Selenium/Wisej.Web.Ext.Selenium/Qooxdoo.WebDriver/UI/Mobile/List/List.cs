@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using Qooxdoo.WebDriver.UI.Mobile.Core;
 using WidgetImpl = Qooxdoo.WebDriver.UI.Mobile.Core.WidgetImpl;
 
 namespace Qooxdoo.WebDriver.UI.Mobile.List
@@ -44,7 +43,8 @@ namespace Qooxdoo.WebDriver.UI.Mobile.List
         }
 
         /// <summary>
-        /// Returns the selectable item.
+        /// Finds the first selectable child widget with a label matching the regular
+        /// expression and returns it
         /// </summary>
         /// <param name="regex">The regular expression to match.</param>
         /// <returns>The found item.</returns>

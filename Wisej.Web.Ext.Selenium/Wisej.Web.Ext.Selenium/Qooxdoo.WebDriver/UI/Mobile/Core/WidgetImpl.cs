@@ -117,6 +117,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
                 catch (ThreadInterruptedException)
                 {
                 }
+
                 longtap.Up(center.X, center.Y);
                 longtap.Perform();
             }
@@ -133,6 +134,7 @@ namespace Qooxdoo.WebDriver.UI.Mobile.Core
                 catch (ThreadInterruptedException)
                 {
                 }
+
                 mouse.MouseUp(coords);
             }
         }

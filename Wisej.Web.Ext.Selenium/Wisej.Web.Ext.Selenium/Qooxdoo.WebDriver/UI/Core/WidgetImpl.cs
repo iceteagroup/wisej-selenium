@@ -233,7 +233,31 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Clicks this element.
+        /// Clicks this element, if it's Enabled.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Click this element. If the click causes a new page to load, the <see cref="IWebElement.Click" />
+        /// method will attempt to block until the page has loaded. After calling the
+        /// <see cref="IWebElement.Click" /> method, you should discard all references to this
+        /// element unless you know that the element and the page will still be present.
+        /// Otherwise, any further operations performed on this element will have an undefined.
+        /// behavior.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="ElementNotVisibleException">Thrown when the target element is not visible.</exception>
+        /// <exception cref="InvalidElementStateException">Thrown when the target element is not enabled.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        public virtual void Click()
+        {
+            if (!Enabled)
+                throw new InvalidElementStateException("Widget is not enabled");
+
+            ForceClick();
+        }
+
+        /// <summary>
+        /// Clicks this element, even if not Enabled.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -251,7 +275,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// </remarks>
         /// <exception cref="ElementNotVisibleException">Thrown when the target element is not visible.</exception>
         /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
-        public virtual void Click()
+        public virtual void ForceClick()
         {
             Actions actions = new Actions(Driver.WebDriver);
             actions.MoveToElement(ContentElement);
@@ -260,7 +284,31 @@ namespace Qooxdoo.WebDriver.UI.Core
         }
 
         /// <summary>
-        /// Double clicks this element.
+        /// Double clicks this element, if it's Enabled.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Double click this element. If this causes a new page to load, the <see cref="IWebElement.Click" />
+        /// method will attempt to block until the page has loaded. After calling the
+        /// <see cref="IWebElement.Click" /> method, you should discard all references to this
+        /// element unless you know that the element and the page will still be present.
+        /// Otherwise, any further operations performed on this element will have an undefined.
+        /// behavior.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="ElementNotVisibleException">Thrown when the target element is not visible.</exception>
+        /// <exception cref="InvalidElementStateException">Thrown when the target element is not enabled.</exception>
+        /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
+        public virtual void DoubleClick()
+        {
+            if (!Enabled)
+                throw new InvalidElementStateException("Widget is not enabled");
+
+            ForceDoubleClick();
+        }
+
+        /// <summary>
+        /// Double clicks this element, even if not Enabled.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -278,7 +326,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// </remarks>
         /// <exception cref="ElementNotVisibleException">Thrown when the target element is not visible.</exception>
         /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
-        public virtual void DoubleClick()
+        public virtual void ForceDoubleClick()
         {
             Actions actions = new Actions(Driver.WebDriver);
             actions.MoveToElement(ContentElement);
@@ -615,12 +663,12 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <exception cref="OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
         public virtual IWebElement FindElement(OpenQA.Selenium.By by)
         {
-            long implictWait = GetImplicitWait();
+            int implictWait = GetImplicitWait();
 
             return FindElement(by, implictWait);
         }
 
-        private long GetImplicitWait()
+        private int GetImplicitWait()
         {
             if (Driver.ImplictWait.HasValue)
                 return Driver.ImplictWait.Value.Seconds;
@@ -628,7 +676,7 @@ namespace Qooxdoo.WebDriver.UI.Core
             return Driver.Manage().Timeouts().ImplicitWait.Seconds;
         }
 
-        private IWebElement FindElement(OpenQA.Selenium.By by, long timeoutInSeconds)
+        private IWebElement FindElement(OpenQA.Selenium.By by, int timeoutInSeconds)
         {
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
             return wait.Until(IsRendered(_contentElement, by));
@@ -653,7 +701,7 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <param name="by">The locating mechanism to use.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget.</param>
         /// <returns>The matching widget.</returns>
-        public virtual IWidget WaitForWidget(OpenQA.Selenium.By by, long timeoutInSeconds)
+        public virtual IWidget WaitForWidget(OpenQA.Selenium.By by, int timeoutInSeconds)
         {
             IWebElement element = FindElement(by, timeoutInSeconds);
             return Driver.GetWidgetForElement(element);
@@ -746,7 +794,11 @@ namespace Qooxdoo.WebDriver.UI.Core
         /// <exception cref="StaleElementReferenceException">Thrown when the target element is no longer valid in the document DOM.</exception>
         public virtual bool Enabled
         {
-            get { return _contentElement.Enabled; }
+            get
+            {
+                return ((bool?) ExecuteJavascript(
+                    "return qx.ui.core.Widget.getWidgetByElement(arguments[0]).isEnabled()")).Value;
+            }
         }
 
         /// <summary>

@@ -189,6 +189,7 @@ namespace Qooxdoo.WebDriver.UI
                     char.ToUpper(classNameParts[index][0]) +
                     classNameParts[index].Substring(1, classNameParts[index].Length - 1);
             }
+
             className = string.Join(".", classNameParts);
 
             return className;
@@ -213,6 +214,7 @@ namespace Qooxdoo.WebDriver.UI
             {
                 //System.out.println("No class for " + widgetClassName);
             }
+
             return null;
         }
     }

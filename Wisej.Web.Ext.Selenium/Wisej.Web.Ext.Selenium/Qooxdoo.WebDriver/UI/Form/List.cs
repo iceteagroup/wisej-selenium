@@ -60,14 +60,15 @@ namespace Qooxdoo.WebDriver.UI.Form
         }
 
         /// <summary>
-        /// Finds the first selectable child widget with a matching label and returns it
+        /// Finds the first selectable child widget with a label matching the regular
+        /// expression and returns it
         /// </summary>
-        /// <param name="label">The label to match.</param>
+        /// <param name="regex">The regular expression to match.</param>
         /// <returns>The matching item.</returns>
-        public virtual IWidget GetSelectableItem(string label)
+        public virtual IWidget GetSelectableItem(string regex)
         {
             ScrollTo("y", 0);
-            By itemLocator = By.Qxh("*/[@label=" + label + "]");
+            By itemLocator = By.Qxh("*/[@label=" + regex + "]");
             return ScrollToChild("y", itemLocator);
         }
 

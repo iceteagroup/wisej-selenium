@@ -49,12 +49,14 @@ namespace Wisej.Web.Ext.Selenium.UI
         {
             get
             {
-                IWidget[] widgets = Call("getItems", false, false) as IWidget[];
+                object result = JsRunner.RunScript("getTreeViewNodes", ContentElement);
                 IList<TreeNode> nodes = new List<TreeNode>();
-                if (widgets != null)
+                IList<IWebElement> webElements = result as IList<IWebElement>;
+                if (webElements != null)
                 {
-                    foreach (var widget in widgets)
+                    foreach (IWebElement element in webElements)
                     {
+                        var widget = Driver.GetWidgetForElement(element);
                         nodes.Add(widget as TreeNode);
                     }
                 }
@@ -92,7 +94,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <param name="numberOfNodes">The expected number of nodes.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the selected nodes.</param>
         /// <returns>The list of selected <see cref="TreeNode" />.</returns>
-        public TreeNode[] WaitForSelectedNodes(int numberOfNodes, long timeoutInSeconds = 5)
+        public TreeNode[] WaitForSelectedNodes(int numberOfNodes, int timeoutInSeconds = 5)
         {
             Driver.Wait(() => Equals(numberOfNodes, SelectedNodes.Length), false, timeoutInSeconds);
 

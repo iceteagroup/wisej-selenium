@@ -51,6 +51,7 @@ namespace Qooxdoo.WebDriver.UI.Form
                     IWidget dropdown = WaitForChildControl("dropdown", 3);
                     base.List = (ISelectable) dropdown.GetChildControl("list");
                 }
+
                 return base.List;
             }
         }

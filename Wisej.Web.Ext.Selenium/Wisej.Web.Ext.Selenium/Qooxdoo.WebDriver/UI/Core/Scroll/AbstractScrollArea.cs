@@ -55,6 +55,10 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
             {
                 return null;
             }
+            catch (WebDriverTimeoutException)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -69,6 +73,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
             {
                 return;
             }
+
             JsRunner.RunScript("scrollTo", scrollBar.ContentElement, position);
         }
 
@@ -84,6 +89,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
             {
                 return 0;
             }
+
             return GetScrollPosition(scrollBar);
         }
 
@@ -129,6 +135,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
             {
                 return 0;
             }
+
             return GetScrollStep(scrollBar);
         }
 
@@ -144,6 +151,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
             {
                 return 0;
             }
+
             return GetMaximum(scrollBar);
         }
 
@@ -177,6 +185,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
             catch (NoSuchElementException)
             {
             }
+
             if (target != null && IsChildInView(target).GetValueOrDefault(false))
             {
                 return Driver.GetWidgetForElement(target);
@@ -196,6 +205,7 @@ namespace Qooxdoo.WebDriver.UI.Core.Scroll
                 catch (NoSuchElementException)
                 {
                 }
+
                 int to;
                 if (target != null && IsChildInView(target).GetValueOrDefault(false))
                 {
