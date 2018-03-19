@@ -82,13 +82,13 @@
             // 
             // orderEditor
             // 
-            this.orderEditor.Enabled = false;
             this.orderEditor.Location = new System.Drawing.Point(20, 305);
             this.orderEditor.Margin = new Wisej.Web.Padding(20, 20, 10, 25);
             this.orderEditor.Name = "orderEditor";
             this.orderEditor.Size = new System.Drawing.Size(180, 40);
             this.orderEditor.TabIndex = 3;
             this.orderEditor.Text = "4 - Order Editor";
+            this.orderEditor.Click += new System.EventHandler(this.orderEditor_Click);
             // 
             // invoiceEditor
             // 
@@ -99,6 +99,7 @@
             this.invoiceEditor.Size = new System.Drawing.Size(180, 40);
             this.invoiceEditor.TabIndex = 4;
             this.invoiceEditor.Text = "5 - Invoice Editor";
+            this.invoiceEditor.Click += new System.EventHandler(this.invoiceEditor_Click);
             // 
             // ButtonsWindow
             // 

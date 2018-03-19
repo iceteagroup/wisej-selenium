@@ -89,14 +89,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = Wisej.Web.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(288, 156);
+            this.ClientSize = new System.Drawing.Size(298, 150);
             this.ControlBox = false;
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.brandNameTextBox);
             this.Controls.Add(this.brandIdLabel);
-            this.MaximumSize = new System.Drawing.Size(300, 200);
-            this.MinimumSize = new System.Drawing.Size(300, 200);
+            this.MaximumSize = new System.Drawing.Size(300, 210);
+            this.MinimumSize = new System.Drawing.Size(300, 210);
             this.Name = "BrandEditor";
             this.StartPosition = Wisej.Web.FormStartPosition.CenterParent;
             this.Text = "Brand Editor";

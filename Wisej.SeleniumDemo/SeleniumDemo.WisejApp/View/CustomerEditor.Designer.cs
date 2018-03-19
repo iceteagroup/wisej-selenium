@@ -91,6 +91,7 @@
             this.colCustomerid.Name = "colCustomerid";
             this.colCustomerid.ReadOnly = true;
             this.colCustomerid.SortMode = Wisej.Web.DataGridViewColumnSortMode.NotSortable;
+            this.colCustomerid.ValueType = typeof(int);
             this.colCustomerid.Width = 50;
             // 
             // colFirstname
@@ -100,6 +101,7 @@
             this.colFirstname.Name = "colFirstname";
             this.colFirstname.ReadOnly = true;
             this.colFirstname.SortMode = Wisej.Web.DataGridViewColumnSortMode.NotSortable;
+            this.colFirstname.ValueType = typeof(string);
             // 
             // colLastname
             // 
@@ -107,6 +109,7 @@
             this.colLastname.HeaderText = "Last Name";
             this.colLastname.Name = "colLastname";
             this.colLastname.ReadOnly = true;
+            this.colLastname.ValueType = typeof(string);
             // 
             // colState
             // 
@@ -114,6 +117,7 @@
             this.colState.HeaderText = "State";
             this.colState.Name = "colState";
             this.colState.ReadOnly = true;
+            this.colState.ValueType = typeof(string);
             this.colState.Width = 150;
             // 
             // colFullname
@@ -123,6 +127,7 @@
             this.colFullname.HeaderText = "Full Name";
             this.colFullname.Name = "colFullname";
             this.colFullname.ReadOnly = true;
+            this.colFullname.ValueType = typeof(string);
             // 
             // customerListBindingSource
             // 
@@ -259,7 +264,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = Wisej.Web.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(738, 461);
+            this.ClientSize = new System.Drawing.Size(748, 465);
             this.Controls.Add(this.newButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.removeButton);
@@ -274,7 +279,8 @@
             this.Controls.Add(this.firstNameLabel);
             this.Controls.Add(this.id);
             this.Controls.Add(this.idLabel);
-            this.MinimumSize = new System.Drawing.Size(750, 505);
+            this.MaximumSize = new System.Drawing.Size(750, 525);
+            this.MinimumSize = new System.Drawing.Size(750, 525);
             this.Name = "CustomerEditor";
             this.Text = "Customer Editor";
             this.Load += new System.EventHandler(this.CustomerEditor_Load);

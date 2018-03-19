@@ -24,7 +24,6 @@ namespace SeleniumDemo.WisejApp.Model
             comboBox.ValueMember = "Key";
         }*/
 
-
         public static void EnumToDataSource(this BindingSource bindingSource, Type enumType)
         {
             bindingSource.DataSource = Enum.GetValues(enumType).Cast<Enum>().Select(Key => new
@@ -40,8 +39,9 @@ namespace SeleniumDemo.WisejApp.Model
         {
             return (from object item in Enum.GetValues(enumType)
                 select
-                (Attribute.GetCustomAttribute(item.GetType().GetField(item.ToString()), typeof(DescriptionAttribute)) as
-                    DescriptionAttribute).Description).ToArray();
+                    (Attribute.GetCustomAttribute(item.GetType().GetField(item.ToString()),
+                            typeof(DescriptionAttribute)) as
+                        DescriptionAttribute).Description).ToArray();
         }
 
         // https://stackoverflow.com/questions/20290842/converter-to-show-description-of-an-enum-and-convert-back-to-enum-value-on-sele
@@ -58,6 +58,7 @@ namespace SeleniumDemo.WisejApp.Model
                     return ((DescriptionAttribute) attrs[0]).Description;
                 }
             }
+
             return value.ToString();
         }
     }
