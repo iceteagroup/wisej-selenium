@@ -9,44 +9,44 @@ namespace Wisej.Web.Ext.Selenium.Tests
     public static class HelperValue
     {
         /// <summary>
-        /// Asserts the widget value matches the specified string.
+        /// Checks the widget value matches the specified string.
         /// </summary>
         /// <param name="iHaveValue">The <see cref="IHaveValue"/> widget.</param>
         /// <param name="value">The value to check.</param>
-        public static void AssertValueIs(this IHaveValue iHaveValue, string value)
+        public static void CheckValueIs(this IHaveValue iHaveValue, string value)
         {
-            AssertValueCore(iHaveValue, "", value);
+            CheckValueCore(iHaveValue, "", value);
         }
 
         /// <summary>
-        /// Asserts the widget value matches the specified string.
+        /// Checks the widget value matches the specified string.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="value">The value to check.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
-        public static void AssertValueIs(this WisejWebDriver driver, string path, string value,
-            long timeoutInSeconds = 5)
+        public static void CheckValueIs(this WisejWebDriver driver, string path, string value,
+            int timeoutInSeconds = 5)
         {
             IHaveValue iHaveValue = driver.WidgetGet<IHaveValue>(path, timeoutInSeconds);
-            AssertValueCore(iHaveValue, path, value);
+            CheckValueCore(iHaveValue, path, value);
         }
 
         /// <summary>
-        /// Asserts the widget value matches the specified string.
+        /// Checks the widget value matches the specified string.
         /// </summary>
         /// <param name="parent">The parent widget.</param>
         /// <param name="path">The widget path.</param>
         /// <param name="value">The value to check.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
-        public static void AssertValueIs(this IWidget parent, string path, string value,
-            long timeoutInSeconds = 5)
+        public static void CheckValueIs(this IWidget parent, string path, string value,
+            int timeoutInSeconds = 5)
         {
             IHaveValue iHaveValue = parent.WidgetGet<IHaveValue>(path, timeoutInSeconds);
-            AssertValueCore(iHaveValue, path, value);
+            CheckValueCore(iHaveValue, path, value);
         }
 
-        private static void AssertValueCore(this IHaveValue iHaveValue, string path, string value)
+        private static void CheckValueCore(this IHaveValue iHaveValue, string path, string value)
         {
             Assert.IsNotNull(iHaveValue, string.Format("Could not cast {0} to IHaveValue.", path));
 
@@ -62,7 +62,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="path">The widget path.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>A <see cref="string"/> with the widget value.</returns>
-        public static string GetValue(this WisejWebDriver driver, string path, long timeoutInSeconds = 5)
+        public static string GetValue(this WisejWebDriver driver, string path, int timeoutInSeconds = 5)
         {
             IHaveValue iHaveValue = driver.WidgetGet<IHaveValue>(path, timeoutInSeconds);
             return GetValueCore(iHaveValue, path);
@@ -75,7 +75,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="path">The widget path.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>A <see cref="string"/> with the widget value.</returns>
-        public static string GetValue(this IWidget parent, string path, long timeoutInSeconds = 5)
+        public static string GetValue(this IWidget parent, string path, int timeoutInSeconds = 5)
         {
             IHaveValue iHaveValue = parent.WidgetGet<IHaveValue>(path, timeoutInSeconds);
             return GetValueCore(iHaveValue, path);

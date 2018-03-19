@@ -13,12 +13,12 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="name">The form name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the Form (default is 5).</param>
-        public static void FormClose(this WisejWebDriver driver, string name, long timeoutInSeconds = 5)
+        public static void FormClose(this WisejWebDriver driver, string name, int timeoutInSeconds = 5)
         {
             Form form = driver.WidgetGet<Form>(name, timeoutInSeconds);
-            form.AssertIsDisplayed(name);
+            form.CheckIsDisplayed(name);
             form.Close();
-            form.AssertIsDisposed(name);
+            form.CheckIsDisposed(name);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="name">The form name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the Form (default is 5).</param>
-        public static void FormMaximize(this WisejWebDriver driver, string name, long timeoutInSeconds = 5)
+        public static void FormMaximize(this WisejWebDriver driver, string name, int timeoutInSeconds = 5)
         {
             Form form = driver.WidgetGet<Form>(name, timeoutInSeconds);
             form.Maximize();
@@ -39,7 +39,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="name">The form name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the Form (default is 5).</param>
-        public static void FormMinimize(this WisejWebDriver driver, string name, long timeoutInSeconds = 5)
+        public static void FormMinimize(this WisejWebDriver driver, string name, int timeoutInSeconds = 5)
         {
             Form form = driver.WidgetGet<Form>(name, timeoutInSeconds);
             form.Minimize();
@@ -51,7 +51,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="name">The form name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the Form (default is 5).</param>
-        public static void FormRestore(this WisejWebDriver driver, string name, long timeoutInSeconds = 5)
+        public static void FormRestore(this WisejWebDriver driver, string name, int timeoutInSeconds = 5)
         {
             Form form = driver.WidgetGet<Form>(name, timeoutInSeconds);
             form.Restore();
