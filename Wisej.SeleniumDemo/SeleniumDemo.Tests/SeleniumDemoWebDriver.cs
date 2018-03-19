@@ -28,7 +28,11 @@ namespace SeleniumDemo.Tests
 
         private void ConstructorCore()
         {
+#if DEBUG
             Url = "http://localhost:7185/Default.html";
+#else
+            Url = "http://demo.wisej.com/seleniumtest";
+#endif
         }
 
         public void TearDown()
