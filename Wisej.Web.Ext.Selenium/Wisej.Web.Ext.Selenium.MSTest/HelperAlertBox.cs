@@ -11,40 +11,41 @@ namespace Wisej.Web.Ext.Selenium.Tests
     {
         #region private utility stuff
 
-        private static string GetMessage(string baseMessage, bool ignoreIcon, MessageBoxIcon icon, string message = "")
+        private static string GetMessage(string format, MessageBoxIcon icon, string message = "")
         {
             var result = string.Empty;
-            if (!ignoreIcon)
+            if (icon != MessageBoxIcon.None)
             {
                 result += string.Format("icon {0}", icon);
                 if (!string.IsNullOrWhiteSpace(message))
                     result += " and ";
             }
+
             if (!string.IsNullOrWhiteSpace(message))
                 result += string.Format("message {0}", message);
 
-            return string.Format(baseMessage, result);
+            return string.Format(format, result);
         }
 
         #endregion
 
         #region private Core
 
-        private static AlertBox AlertBoxGetCore(this WisejWebDriver driver, bool ignoreIcon, MessageBoxIcon icon,
-            string message, long timeoutInSeconds)
+        private static AlertBox AlertBoxGetCore(this WisejWebDriver driver, MessageBoxIcon icon, string message,
+            int timeoutInSeconds)
         {
-            AlertBox alertBox = driver.WaitForAlertBox(ignoreIcon, icon, message, timeoutInSeconds);
+            AlertBox alertBox = driver.WaitForAlertBox(message, icon: icon, timeoutInSeconds: timeoutInSeconds);
 
-            Assert.IsNotNull(alertBox, GetMessage("AlertBox with {0} not found.", ignoreIcon, icon, message));
+            Assert.IsNotNull(alertBox, GetMessage("AlertBox with {0} not found.", icon, message));
             return alertBox;
         }
 
-        private static void AlertBoxAssertNotExistsCore(this WisejWebDriver driver, bool ignoreIcon,
-            MessageBoxIcon icon, string message, long timeoutInSeconds)
+        private static void AlertBoxCheckNotExistsCore(this WisejWebDriver driver, MessageBoxIcon icon, string message,
+            int timeoutInSeconds)
         {
-            AlertBox alertBox = driver.WaitForAlertBox(ignoreIcon, icon, message, timeoutInSeconds);
+            AlertBox alertBox = driver.WaitForAlertBox(message, icon: icon, timeoutInSeconds: timeoutInSeconds);
 
-            Assert.IsNull(alertBox, GetMessage("AlertBox with {0} should not exist.", ignoreIcon, icon, message));
+            Assert.IsNull(alertBox, GetMessage("AlertBox with {0} should not exist.", icon, message));
         }
 
         #endregion
@@ -60,9 +61,9 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="timeoutInSeconds">The number of seconds to wait for the AlertBox (default is 5).</param>
         /// <returns>The first matching AlertBox.</returns>
         public static AlertBox AlertBoxGet(this WisejWebDriver driver, MessageBoxIcon icon, string message,
-            long timeoutInSeconds = 5)
+            int timeoutInSeconds = 5)
         {
-            return driver.AlertBoxGetCore(false, icon, message, timeoutInSeconds);
+            return driver.AlertBoxGetCore(icon, message, timeoutInSeconds);
         }
 
         /// <summary>
@@ -72,9 +73,9 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="icon">The AlertBox icon to look for.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the AlertBox (default is 5).</param>
         /// <returns>The first matching AlertBox.</returns>
-        public static AlertBox AlertBoxGet(this WisejWebDriver driver, MessageBoxIcon icon, long timeoutInSeconds = 5)
+        public static AlertBox AlertBoxGet(this WisejWebDriver driver, MessageBoxIcon icon, int timeoutInSeconds = 5)
         {
-            return driver.AlertBoxGetCore(false, icon, string.Empty, timeoutInSeconds);
+            return driver.AlertBoxGetCore(icon, null, timeoutInSeconds);
         }
 
         /// <summary>
@@ -84,50 +85,50 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="message">The AlertBox message to search for (default is an empty string).</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the AlertBox (default is 5).</param>
         /// <returns>The first matching AlertBox.</returns>
-        public static AlertBox AlertBoxGet(this WisejWebDriver driver, string message = "", long timeoutInSeconds = 5)
+        public static AlertBox AlertBoxGet(this WisejWebDriver driver, string message = "", int timeoutInSeconds = 5)
         {
-            return driver.AlertBoxGetCore(true, MessageBoxIcon.None, message, timeoutInSeconds);
+            return driver.AlertBoxGetCore(MessageBoxIcon.None, message, timeoutInSeconds);
         }
 
         #endregion
 
-        #region AlertBox Assert Not Exists
+        #region AlertBox Check Not Exists
 
         /// <summary>
-        /// Asserts an <see cref="AlertBox"/> matching the icon and message does not exist.
+        /// Checks an <see cref="AlertBox"/> matching the icon and message does not exist.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The AlertBox icon to look for.</param>
         /// <param name="message">The AlertBox message to search for.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the AlertBox (default is 0).</param>
-        public static void AlertBoxAssertNotExists(this WisejWebDriver driver, MessageBoxIcon icon, string message,
-            long timeoutInSeconds = 0)
+        public static void AlertBoxCheckNotExists(this WisejWebDriver driver, MessageBoxIcon icon, string message,
+            int timeoutInSeconds = 0)
         {
-            driver.AlertBoxAssertNotExistsCore(false, icon, message, timeoutInSeconds);
+            driver.AlertBoxCheckNotExistsCore(icon, message, timeoutInSeconds);
         }
 
         /// <summary>
-        /// Asserts an <see cref="AlertBox"/> matching the specified icon does not exist.
+        /// Checks an <see cref="AlertBox"/> matching the specified icon does not exist.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The AlertBox icon to look for.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the AlertBox (default is 0).</param>
-        public static void AlertBoxAssertNotExists(this WisejWebDriver driver, MessageBoxIcon icon,
-            long timeoutInSeconds = 0)
+        public static void AlertBoxCheckNotExists(this WisejWebDriver driver, MessageBoxIcon icon,
+            int timeoutInSeconds = 0)
         {
-            driver.AlertBoxAssertNotExistsCore(false, icon, string.Empty, timeoutInSeconds);
+            driver.AlertBoxCheckNotExistsCore(icon, null, timeoutInSeconds);
         }
 
         /// <summary>
-        /// Asserts an <see cref="AlertBox"/> matching the specified message does not exist.
+        /// Checks an <see cref="AlertBox"/> matching the specified message does not exist.
         /// </summary>
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The AlertBox message to search for (default is an empty string).</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the AlertBox (default is 0).</param>
-        public static void AlertBoxAssertNotExists(this WisejWebDriver driver, string message = "",
-            long timeoutInSeconds = 0)
+        public static void AlertBoxCheckNotExists(this WisejWebDriver driver, string message = "",
+            int timeoutInSeconds = 0)
         {
-            driver.AlertBoxAssertNotExistsCore(true, MessageBoxIcon.None, message, timeoutInSeconds);
+            driver.AlertBoxCheckNotExistsCore(MessageBoxIcon.None, message, timeoutInSeconds);
         }
 
         #endregion
@@ -142,9 +143,9 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="message">The AlertBox message to search for.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the AlertBox (default is 5).</param>
         public static void AlertBoxClose(this WisejWebDriver driver, MessageBoxIcon icon, string message,
-            long timeoutInSeconds = 5)
+            int timeoutInSeconds = 5)
         {
-            driver.AlertBoxCloseCore(icon, false, message, timeoutInSeconds);
+            driver.AlertBoxCloseCore(icon, message, timeoutInSeconds);
         }
 
         /// <summary>
@@ -153,9 +154,9 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="icon">The AlertBox icon to look for.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the AlertBox (default is 5).</param>
-        public static void AlertBoxClose(this WisejWebDriver driver, MessageBoxIcon icon, long timeoutInSeconds = 5)
+        public static void AlertBoxClose(this WisejWebDriver driver, MessageBoxIcon icon, int timeoutInSeconds = 5)
         {
-            driver.AlertBoxCloseCore(icon, false, string.Empty, timeoutInSeconds);
+            driver.AlertBoxCloseCore(icon, null, timeoutInSeconds);
         }
 
         /// <summary>
@@ -164,22 +165,22 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="driver">The <see cref="WisejWebDriver"/> to use.</param>
         /// <param name="message">The AlertBox message to search for (default is an empty string).</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the AlertBox (default is 5).</param>
-        public static void AlertBoxClose(this WisejWebDriver driver, string message = "", long timeoutInSeconds = 5)
+        public static void AlertBoxClose(this WisejWebDriver driver, string message = "", int timeoutInSeconds = 5)
         {
-            driver.AlertBoxCloseCore(MessageBoxIcon.None, true, message, timeoutInSeconds);
+            driver.AlertBoxCloseCore(MessageBoxIcon.None, message, timeoutInSeconds);
         }
 
-        private static void AlertBoxCloseCore(this WisejWebDriver driver, MessageBoxIcon icon, bool ignoreIcon,
-            string message, long timeoutInSeconds)
+        private static void AlertBoxCloseCore(this WisejWebDriver driver, MessageBoxIcon icon, string message,
+            int timeoutInSeconds)
         {
-            AlertBox alertBox = driver.AlertBoxGetCore(ignoreIcon, icon, message, timeoutInSeconds);
-            Assert.IsNotNull(alertBox, GetMessage("AlertBox with {0} not found.", ignoreIcon, icon, message));
+            AlertBox alertBox = driver.AlertBoxGetCore(icon, message, timeoutInSeconds);
+            Assert.IsNotNull(alertBox, GetMessage("AlertBox with {0} not found.", icon, message));
 
             IWidget closeButton = alertBox.CloseButton;
             Assert.IsNotNull(closeButton,
-                GetMessage("AlertBox close button with {0} not found.", ignoreIcon, icon, message));
+                GetMessage("AlertBox close button with {0} not found.", icon, message));
             Assert.IsTrue(closeButton.Enabled,
-                GetMessage("AlertBox close button with {0} isn\'t enabled.", ignoreIcon, icon, message));
+                GetMessage("AlertBox close button with {0} isn\'t enabled.", icon, message));
             closeButton.Click();
         }
 

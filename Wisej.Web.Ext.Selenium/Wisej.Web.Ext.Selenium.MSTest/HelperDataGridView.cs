@@ -26,7 +26,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// An <see cref="IWidget" /> that matches the specified search parameters.
         /// </returns>
         public static IWidget CellEditorGet(this DataGridView dataGridView, string widgetType, bool startEditing = true,
-            long timeoutInSeconds = 5, bool assertIsDisplayed = true)
+            int timeoutInSeconds = 5, bool assertIsDisplayed = true)
         {
             return CellEditorGetCore(dataGridView, string.Empty, null, null, widgetType, startEditing, timeoutInSeconds,
                 assertIsDisplayed);
@@ -46,7 +46,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// An <see cref="IWidget" /> that matches the specified search parameters.
         /// </returns>
         public static IWidget CellEditorGet(this DataGridView dataGridView, string text, int colIdx, int rowIdx,
-            string widgetType, long timeoutInSeconds = 5, bool assertIsDisplayed = true)
+            string widgetType, int timeoutInSeconds = 5, bool assertIsDisplayed = true)
         {
             return CellEditorGetCore(dataGridView, text, colIdx, rowIdx, widgetType, true, timeoutInSeconds,
                 assertIsDisplayed);
@@ -62,7 +62,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed (default is <c>true</c>).</param>
         /// <returns>A widget of type <typeparamref name="T"/> that matches the specified parameters.</returns>
         public static T CellEditorGet<T>(this DataGridView dataGridView, bool startEditing = true,
-            long timeoutInSeconds = 5, bool assertIsDisplayed = true)
+            int timeoutInSeconds = 5, bool assertIsDisplayed = true)
         {
             T widget = (T) CellEditorGetCore(dataGridView, string.Empty, null, null, typeof(T).Name, startEditing,
                 timeoutInSeconds, assertIsDisplayed);
@@ -81,7 +81,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         /// <param name="assertIsDisplayed">If set to <c>true</c>, asserts the widget is displayed (default is <c>true</c>).</param>
         /// <returns>A widget of type <typeparamref name="T"/> that matches the specified parameters.</returns>
         public static T CellEditorGet<T>(this DataGridView dataGridView, string text, int colIdx, int rowIdx,
-            long timeoutInSeconds = 5, bool assertIsDisplayed = true)
+            int timeoutInSeconds = 5, bool assertIsDisplayed = true)
         {
             T widget = (T) CellEditorGetCore(dataGridView, text, colIdx, rowIdx, typeof(T).Name, true,
                 timeoutInSeconds, assertIsDisplayed);
@@ -89,7 +89,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
         }
 
         private static IWidget CellEditorGetCore(this DataGridView dataGridView, string text, int? colIdx, int? rowIdx,
-            string widgetType, bool startEditing, long timeoutInSeconds, bool assertIsDisplayed)
+            string widgetType, bool startEditing, int timeoutInSeconds, bool assertIsDisplayed)
         {
             if (startEditing)
             {
@@ -102,7 +102,8 @@ namespace Wisej.Web.Ext.Selenium.Tests
             IWidget widget = dataGridView.WaitForCellEditor(timeoutInSeconds);
             Assert.IsNotNull(widget, string.Format("{0} not found.", widgetType));
             if (assertIsDisplayed)
-                widget.AssertIsDisplayed("");
+                widget.CheckIsDisplayed("");
+
             return widget;
         }
 
@@ -111,12 +112,12 @@ namespace Wisej.Web.Ext.Selenium.Tests
         #region Row Text check
 
         /// <summary>
-        /// Asserts the DataGridView row text matches the specified string IEnumerable.
+        /// Checks the DataGridView row text matches the specified string IEnumerable.
         /// </summary>
         /// <param name="dataGridView">The <see cref="DataGridView"/> widget.</param>
         /// <param name="values">The string IEnumerable to check.</param>
         /// <param name="rowIdx"> Row index from 0 </param>
-        public static void AssertRowTextIs(this DataGridView dataGridView, IEnumerable<string> values, int rowIdx)
+        public static void CheckRowTextIs(this DataGridView dataGridView, IEnumerable<string> values, int rowIdx)
         {
             if (values == null)
                 throw new ArgumentNullException(nameof(values));
@@ -124,19 +125,19 @@ namespace Wisej.Web.Ext.Selenium.Tests
             var colIdx = 0;
             foreach (var value in values)
             {
-                AssertRowTextIsCore(dataGridView, value, colIdx, rowIdx);
+                CheckRowTextIsCore(dataGridView, value, colIdx, rowIdx);
                 colIdx++;
             }
         }
 
         /// <summary>
-        /// Asserts the DataGridView row text matches the specified string IEnumerable.
+        /// Checks the DataGridView row text matches the specified string IEnumerable.
         /// </summary>
         /// <param name="dataGridView">The <see cref="DataGridView"/> widget.</param>
         /// <param name="values">The string IEnumerable to check.</param>
         /// <param name="firstColIdx"> Index from 0 of the first column to check </param>
         /// <param name="rowIdx"> Row index from 0 </param>
-        public static void AssertRowTextIs(this DataGridView dataGridView, IEnumerable<string> values, int firstColIdx,
+        public static void CheckRowTextIs(this DataGridView dataGridView, IEnumerable<string> values, int firstColIdx,
             int rowIdx)
         {
             if (values == null)
@@ -145,19 +146,19 @@ namespace Wisej.Web.Ext.Selenium.Tests
             var colIdx = firstColIdx;
             foreach (var value in values)
             {
-                AssertRowTextIsCore(dataGridView, value, colIdx, rowIdx);
+                CheckRowTextIsCore(dataGridView, value, colIdx, rowIdx);
                 colIdx++;
             }
         }
 
         /// <summary>
-        /// Asserts the DataGridView row text matches the specified string IEnumerable.
+        /// Checks the DataGridView row text matches the specified string IEnumerable.
         /// </summary>
         /// <param name="dataGridView">The <see cref="DataGridView"/> widget.</param>
         /// <param name="values">The string IEnumerable to check.</param>
         /// <param name="colIndexes"> The int IEnumerable of column indexes to check </param>
         /// <param name="rowIdx"> Row index from 0 </param>
-        public static void AssertRowTextIs(this DataGridView dataGridView, IEnumerable<string> values,
+        public static void CheckRowTextIs(this DataGridView dataGridView, IEnumerable<string> values,
             IEnumerable<int> colIndexes, int rowIdx)
         {
             if (values == null)
@@ -170,84 +171,84 @@ namespace Wisej.Web.Ext.Selenium.Tests
             foreach (var value in values)
             {
                 var colIdx = enumerable[idx];
-                AssertRowTextIsCore(dataGridView, value, colIdx, rowIdx);
+                CheckRowTextIsCore(dataGridView, value, colIdx, rowIdx);
                 idx++;
             }
         }
 
-        private static void AssertRowTextIsCore(this DataGridView dataGridView, string value, int colIdx, int rowIdx)
+        private static void CheckRowTextIsCore(this DataGridView dataGridView, string value, int colIdx, int rowIdx)
         {
             Assert.AreEqual(value, dataGridView.GetCellText(colIdx, rowIdx));
         }
 
         #endregion
 
-        #region Cell Text Sync
+        #region Cell Text set & check
 
         /// <summary>
         /// Sets the text of the cell at the given grid coordinates, and waits until it matches..
         /// </summary>
-        /// <param name="parent">The parent DataGridView.</param>
+        /// <param name="dataGridView">The parent DataGridView.</param>
         /// <param name="colIdx">Column index from 0</param>
         /// <param name="rowIdx">Row index from 0</param>
         /// <param name="text">The text to match.</param>
         /// <param name="widgetType">The widget type name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
-        public static void CellSetTextAssertSync(this DataGridView parent, int colIdx, int rowIdx, string text,
-            string widgetType, long timeoutInSeconds = 5)
+        public static void CellSetTextCheckResult(this DataGridView dataGridView, int colIdx, int rowIdx, string text,
+            string widgetType, int timeoutInSeconds = 5)
         {
-            WidgetSetTextAssertSyncCore(parent, colIdx, rowIdx, text, string.Empty, widgetType, timeoutInSeconds);
+            CellSetTextCheckResultCore(dataGridView, colIdx, rowIdx, text, string.Empty, widgetType, timeoutInSeconds);
         }
 
         /// <summary>
         /// Sets the text of the cell at the given grid coordinates, and waits until it matches the result string.
         /// </summary>
-        /// <param name="parent">The parent DataGridView.</param>
+        /// <param name="dataGridView">The parent DataGridView.</param>
         /// <param name="colIdx">Column index from 0</param>
         /// <param name="rowIdx">Row index from 0</param>
         /// <param name="text">The text to match.</param>
         /// <param name="result">The text to match.</param>
         /// <param name="widgetType">The widget type name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
-        public static void CellSetTextAssertSync(this DataGridView parent, int colIdx, int rowIdx, string text,
-            string result, string widgetType, long timeoutInSeconds = 5)
+        public static void CellSetTextCheckResult(this DataGridView dataGridView, int colIdx, int rowIdx, string text,
+            string result, string widgetType, int timeoutInSeconds = 5)
         {
-            WidgetSetTextAssertSyncCore(parent, colIdx, rowIdx, text, result, widgetType, timeoutInSeconds);
+            CellSetTextCheckResultCore(dataGridView, colIdx, rowIdx, text, result, widgetType, timeoutInSeconds);
         }
 
         /// <summary>
         /// Sets the text of the focused cell, and waits until it matches.
         /// </summary>
-        /// <param name="parent">The parent DataGridView.</param>
+        /// <param name="dataGridView">The parent DataGridView.</param>
         /// <param name="text">The text to match.</param>
         /// <param name="widgetType">The widget type name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
-        public static void CellSetTextAssertSync(this DataGridView parent, string text, string widgetType,
-            long timeoutInSeconds = 5)
+        public static void CellSetTextCheckResult(this DataGridView dataGridView, string text, string widgetType,
+            int timeoutInSeconds = 5)
         {
-            WidgetSetTextAssertSyncCore(parent, null, null, text, string.Empty, widgetType, timeoutInSeconds);
+            CellSetTextCheckResultCore(dataGridView, null, null, text, string.Empty, widgetType, timeoutInSeconds);
         }
 
         /// <summary>
         /// Sets the text of the focused cell, and waits until it matches the result string.
         /// </summary>
-        /// <param name="parent">The parent DataGridView.</param>
+        /// <param name="dataGridView">The parent DataGridView.</param>
         /// <param name="text">The text to match.</param>
         /// <param name="result">The text to match.</param>
         /// <param name="widgetType">The widget type name.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
-        public static void CellSetTextAssertSync(this DataGridView parent, string text, string result,
-            string widgetType, long timeoutInSeconds = 5)
+        public static void CellSetTextCheckResult(this DataGridView dataGridView, string text, string result,
+            string widgetType, int timeoutInSeconds = 5)
         {
-            WidgetSetTextAssertSyncCore(parent, null, null, text, result, widgetType, timeoutInSeconds);
+            CellSetTextCheckResultCore(dataGridView, null, null, text, result, widgetType, timeoutInSeconds);
         }
 
-        private static void WidgetSetTextAssertSyncCore(this DataGridView parent, int? colIdx, int? rowIdx, string text,
-            string result, string widgetType, long timeoutInSeconds)
+        private static void CellSetTextCheckResultCore(this DataGridView dataGridView, int? colIdx, int? rowIdx,
+            string text, string result, string widgetType, int timeoutInSeconds)
         {
             IHaveValue cellEditor = null;
 
-            var driver = ((IWidget) parent).Driver as WisejWebDriver;
+            var driver = ((IWidget) dataGridView).Driver as WisejWebDriver;
             if (driver != null)
             {
                 if (colIdx.HasValue && rowIdx.HasValue)
@@ -255,14 +256,11 @@ namespace Wisej.Web.Ext.Selenium.Tests
                     // wait for focus cell
                     driver.Wait(() =>
                     {
-                        parent.FocusCell(colIdx.Value, rowIdx.Value);
-                        var focusedColumn = parent.GetFocusedColumn();
-                        var focusedRow = parent.GetFocusedRow();
-                        if (!focusedColumn.HasValue || !focusedRow.HasValue)
-                            return false;
+                        dataGridView.FocusCell(colIdx.Value, rowIdx.Value);
+                        var focusedRow = dataGridView.GetFocusedRow();
+                        var focusedColumn = dataGridView.GetFocusedColumn();
 
-                        return Equals(Convert.ToInt64(colIdx), focusedColumn.Value) &&
-                               Equals(Convert.ToInt64(rowIdx), focusedRow.Value);
+                        return (focusedColumn != colIdx.Value || focusedRow != rowIdx.Value);
                     }, false, timeoutInSeconds);
                 }
 
@@ -270,7 +268,7 @@ namespace Wisej.Web.Ext.Selenium.Tests
                 driver.Wait(() =>
                 {
                     // get cell editor, start editing
-                    IWidget iWidget = parent.CellEditorGet(widgetType);
+                    IWidget iWidget = dataGridView.CellEditorGet(widgetType);
 
                     if (iWidget != null)
                     {
@@ -296,13 +294,13 @@ namespace Wisej.Web.Ext.Selenium.Tests
                     }, false, timeoutInSeconds);
 
                     // stop editing
-                    parent.StopEditing();
+                    dataGridView.StopEditing();
                 }
 
                 if (!string.IsNullOrEmpty(result))
-                    Assert.AreEqual(result, parent.WaitForCellText(result, timeoutInSeconds));
+                    Assert.AreEqual(result, dataGridView.WaitForCellText(result, timeoutInSeconds));
                 else
-                    Assert.AreEqual(text, parent.WaitForCellText(text, timeoutInSeconds));
+                    Assert.AreEqual(text, dataGridView.WaitForCellText(text, timeoutInSeconds));
             }
         }
 

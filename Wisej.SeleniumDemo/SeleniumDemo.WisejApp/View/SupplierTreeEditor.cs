@@ -73,7 +73,6 @@ namespace SeleniumDemo.WisejApp.View
             }
         }
 
-
         private void newButton_Click(object sender, EventArgs e)
         {
             int? localSupplierId = null;
