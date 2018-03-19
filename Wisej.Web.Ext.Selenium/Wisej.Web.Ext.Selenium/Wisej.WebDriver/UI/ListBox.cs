@@ -20,10 +20,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium;
-using Qooxdoo.WebDriver.UI;
 using Wisej.Web.Ext.Selenium.UI.List;
 using QX = Qooxdoo.WebDriver;
-
 
 namespace Wisej.Web.Ext.Selenium.UI
 {
@@ -108,5 +106,22 @@ namespace Wisej.Web.Ext.Selenium.UI
                 return selectedItems.ToArray();
             }
         }
+
+        #region Waiters
+
+        /// <summary>
+        /// Repeatedly checks for given number of selected <see cref="ListItem" />.
+        /// </summary>
+        /// <param name="numberOfItems">The expected number of items.</param>
+        /// <param name="timeoutInSeconds">The number of seconds to wait for the selected items.</param>
+        /// <returns>The list of selected <see cref="ListItem" />.</returns>
+        public ListItem[] WaitForSelectedItems(int numberOfItems, int timeoutInSeconds = 5)
+        {
+            Driver.Wait(() => Equals(numberOfItems, SelectedItems.Length), false, timeoutInSeconds);
+
+            return SelectedItems;
+        }
+
+        #endregion
     }
 }

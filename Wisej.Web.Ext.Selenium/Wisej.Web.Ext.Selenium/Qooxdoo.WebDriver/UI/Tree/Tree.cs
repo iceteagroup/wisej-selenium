@@ -18,7 +18,6 @@
 *************************************************************************/
 
 using OpenQA.Selenium;
-using Qooxdoo.WebDriver.UI.Form;
 
 namespace Qooxdoo.WebDriver.UI.Tree
 {

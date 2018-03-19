@@ -80,13 +80,14 @@ namespace Qooxdoo.WebDriver.UI.Menu
         }
 
         /// <summary>
-        /// Finds the first selectable child widget with a matching label and returns it
+        /// Finds the first selectable child widget with a label matching the regular
+        /// expression and returns it
         /// </summary>
-        /// <param name="label">The label to search for.</param>
+        /// <param name="regex">The regular expression to match.</param>
         /// <returns>The matching item.</returns>
-        public IWidget GetSelectableItem(string label)
+        public IWidget GetSelectableItem(string regex)
         {
-            By itemLocator = By.Qxh("*/[@label=" + label + "]");
+            By itemLocator = By.Qxh("*/[@label=" + regex + "]");
             bool? hasSlideBar = HasChildControl("slidebar");
             if (hasSlideBar.Value)
             {

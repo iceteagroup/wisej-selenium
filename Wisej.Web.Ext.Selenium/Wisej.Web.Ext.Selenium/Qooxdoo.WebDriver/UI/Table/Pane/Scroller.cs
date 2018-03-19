@@ -105,6 +105,7 @@ namespace Qooxdoo.WebDriver.UI.Table.Pane
             {
                 return rows[index.Value];
             }
+
             return null;
         }
 

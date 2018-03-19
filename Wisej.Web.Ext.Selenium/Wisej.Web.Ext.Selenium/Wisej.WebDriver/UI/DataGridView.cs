@@ -74,7 +74,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <param name="rowIdx">The index of the focused cell's row.</param>
         public virtual void StartEditing(string text, int colIdx, int rowIdx)
         {
-            Call("startEditing", text, colIdx + 1, rowIdx);
+            Call("startEditing", text, colIdx + 1, rowIdx); // TODO: this doesn't work.
         }
 
         /// <summary>
@@ -85,7 +85,6 @@ namespace Wisej.Web.Ext.Selenium.UI
         {
             Call("startEditing");
         }
-
 
         /// <summary>
         /// Stops editing the cell.
@@ -117,56 +116,25 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Focus the cell in the specified column of the currently focused row.
-        /// </summary>
-        /// <param name="colIdx"> Column index from 0 </param>
-        public virtual void FocusCellInColumn(int colIdx)
-        {
-            int rowIdx = int.MinValue;
-            long? focusedRow = GetFocusedRow();
-
-            if (focusedRow != null)
-                rowIdx = (int) focusedRow.Value;
-
-            FocusCell(colIdx, rowIdx);
-        }
-
-        /// <summary>
-        /// Focus the cell in the specified row of the currently focused column.
-        /// </summary>
-        /// <param name="rowIdx"> Row index from 0 </param>
-        public virtual void FocusCellInRow(int rowIdx)
-        {
-            int colIdx = int.MinValue;
-            long? focusedColumn = GetFocusedColumn();
-
-            if (focusedColumn != null)
-                colIdx = (int) focusedColumn.Value;
-
-            FocusCell(colIdx, rowIdx);
-        }
-
-        /// <summary>
         /// Gets the column of currently focused cell.
         /// </summary>
         /// <returns>The index of the focused cell's column</returns>
-        public virtual long? GetFocusedColumn()
+        public virtual int GetFocusedColumn()
         {
             var value = (long?) Call("getFocusedColumn");
-
-            if (value.HasValue)
-                return value - 1;
-
-            return null;
+            var colIdx = (int) (value ?? 0);
+            return colIdx - 1;
         }
 
         /// <summary>
         /// Gets the row of the currently focused cell.
         /// </summary>
         /// <returns>The index of the focused cell's row.</returns>
-        public virtual long? GetFocusedRow()
+        public virtual int GetFocusedRow()
         {
-            return (long?) Call("getFocusedRow");
+            var value = (long?) Call("getFocusedRow");
+            var rowIdx = (int) (value ?? -1);
+            return rowIdx;
         }
 
         /// <summary>
@@ -186,51 +154,9 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <returns> The cell value. </returns>
         public virtual object GetCellValue()
         {
-            int colIdx = int.MinValue;
-            long? focusedColumn = GetFocusedColumn();
-
-            if (focusedColumn != null)
-                colIdx = (int) focusedColumn.Value;
-
-            int rowIdx = int.MinValue;
-            long? focusedRow = GetFocusedRow();
-
-            if (focusedRow != null)
-                rowIdx = (int) focusedRow.Value;
-
+            var rowIdx = GetFocusedRow();
+            var colIdx = GetFocusedColumn();
             return GetCellValue(colIdx, rowIdx);
-        }
-
-        /// <summary>
-        /// Sets the value in the specified cell.
-        /// </summary>
-        /// <param name="colIdx"> Column index from 0 (-1 is the row header) </param>
-        /// <param name="rowIdx"> Row index from 0 </param>
-        /// <param name="value"> The cell value to set. </param>
-        public virtual void SetCellValue(int colIdx, int rowIdx, object value)
-        {
-            Call("setCellValue", colIdx + 1, rowIdx, value);
-        }
-
-        /// <summary>
-        /// Sets the value in the focused cell.
-        /// </summary>
-        /// <param name="value"> The cell value to set. </param>
-        public virtual void SetCellValue(object value)
-        {
-            int colIdx = int.MinValue;
-            long? focusedColumn = GetFocusedColumn();
-
-            if (focusedColumn != null)
-                colIdx = (int) focusedColumn.Value;
-
-            int rowIdx = int.MinValue;
-            long? focusedRow = GetFocusedRow();
-
-            if (focusedRow != null)
-                rowIdx = (int) focusedRow.Value;
-
-            SetCellValue(colIdx, rowIdx, value);
         }
 
         /// <summary>
@@ -254,23 +180,13 @@ namespace Wisej.Web.Ext.Selenium.UI
         }
 
         /// <summary>
-        /// Sets the text in the specified cell.
+        /// Returns the value in the specified cell.
         /// </summary>
-        /// <param name="colIdx"> Column index from 0 (-1 is the row header) </param>
         /// <param name="rowIdx"> Row index from 0 </param>
-        /// <param name="text"> The cell text to set. </param>
-        public virtual void SetCellText(int colIdx, int rowIdx, string text)
+        /// <returns> The cell value. </returns>
+        public virtual object DeleteRow(int rowIdx)
         {
-            SetCellValue(colIdx, rowIdx, text);
-        }
-
-        /// <summary>
-        /// Sets the text in the focused cell.
-        /// </summary>
-        /// <param name="text"> The cell text to set. </param>
-        public virtual void SetCellText(string text)
-        {
-            SetCellValue(text);
+            return Call("deleteRow", rowIdx);
         }
 
         #region Waiters
@@ -283,7 +199,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <param name="expectedText">The expected text.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the cell text.</param>
         /// <returns>The actual cell text.</returns>
-        public string WaitForCellText(int colIdx, int rowIdx, string expectedText, long timeoutInSeconds = 5)
+        public string WaitForCellText(int colIdx, int rowIdx, string expectedText, int timeoutInSeconds = 5)
         {
             Driver.Wait(() => Equals(expectedText, GetCellText(colIdx, rowIdx)), false, timeoutInSeconds);
 
@@ -296,7 +212,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// <param name="expectedText">The expected text.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the cell text.</param>
         /// <returns>The actual cell text.</returns>
-        public string WaitForCellText(string expectedText, long timeoutInSeconds = 5)
+        public string WaitForCellText(string expectedText, int timeoutInSeconds = 5)
         {
             Driver.Wait(() => Equals(expectedText, GetCellText()), false, timeoutInSeconds);
 
@@ -309,7 +225,7 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// </summary>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the CellEditor.</param>
         /// <returns>The cell editor.</returns>
-        public IWidget WaitForCellEditor(long timeoutInSeconds)
+        public IWidget WaitForCellEditor(int timeoutInSeconds = 5)
         {
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
             return wait.Until(CellEditorIsDisplayed());
@@ -319,11 +235,11 @@ namespace Wisej.Web.Ext.Selenium.UI
         /// A condition that waits until a CellEditor is displayed, then returns it.
         /// </summary>
         /// <returns>The displayed cell editor.</returns>
-        public Func<IWebDriver, IWidget> CellEditorIsDisplayed()
+        private Func<IWebDriver, IWidget> CellEditorIsDisplayed()
         {
             return driver =>
             {
-                var cellEditor = CellEditor;
+                var cellEditor = this.CellEditor;
                 if (cellEditor != null && cellEditor.Displayed)
                 {
                     return cellEditor;

@@ -50,6 +50,7 @@ namespace Qooxdoo.WebDriver.UI.Form
                 {
                     base.List = (ISelectable) GetWidgetFromProperty("menu");
                 }
+
                 return base.List;
             }
         }

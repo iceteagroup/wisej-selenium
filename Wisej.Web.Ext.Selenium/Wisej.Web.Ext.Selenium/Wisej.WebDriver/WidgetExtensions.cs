@@ -33,7 +33,7 @@ namespace Wisej.Web.Ext.Selenium
         /// <param name="path">The path string.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>The <see cref="IWidget"/> that matches the <para>path</para>.</returns>
-        public static IWidget FindWidget(this IWidget parent, string path, long timeoutInSeconds = 5)
+        public static IWidget FindWidget(this IWidget parent, string path, int timeoutInSeconds = 5)
         {
             var driver = (WisejWebDriver) parent.Driver;
             return driver.FindChildWidget(parent, path, timeoutInSeconds);
@@ -46,7 +46,7 @@ namespace Wisej.Web.Ext.Selenium
         /// <param name="path">The path string.</param>
         /// <param name="timeoutInSeconds">The number of seconds to wait for the widget (default is 5).</param>
         /// <returns>The child <see cref="IWidget"/> that matches the <para>path</para>.</returns>
-        public static IWidget RefreshWidget(this IWidget parent, string path, long timeoutInSeconds = 5)
+        public static IWidget RefreshWidget(this IWidget parent, string path, int timeoutInSeconds = 5)
         {
             var driver = (WisejWebDriver) parent.Driver;
             return driver.RefreshChildWidget(parent, path, timeoutInSeconds);

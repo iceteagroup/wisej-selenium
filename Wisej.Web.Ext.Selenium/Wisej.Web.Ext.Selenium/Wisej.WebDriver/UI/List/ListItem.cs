@@ -57,5 +57,13 @@ namespace Wisej.Web.Ext.Selenium.UI.List
             get { return Label.Value; }
             set { Label.Value = value; }
         }
+
+        /// <summary>
+        /// Selects this ListItem.
+        /// </summary>
+        public virtual void Select()
+        {
+            Click();
+        }
     }
 }

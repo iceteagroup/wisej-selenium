@@ -109,6 +109,7 @@ namespace Qooxdoo.WebDriver.UI.Form
                     Call("open");
                     _list = (ISelectable) WaitForChildControl("list", 3);
                 }
+
                 return _list;
             }
             protected set { _list = value; }
