@@ -80,7 +80,6 @@ namespace SeleniumDemo.WisejApp.View
                 customerBindingSource.ResetBindings(false);
         }
 
-
         private void BindLine()
         {
             if (dataGridView.SelectedRows.Count > 0)
