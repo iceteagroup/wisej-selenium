@@ -18,7 +18,17 @@ namespace SeleniumDemo.WisejApp.View
 
         private void BuildTree()
         {
+            // TODO: To test, delete the next line and un-commnent the following line
+#if NEGATE_TO_TEST_THIS_CODE
+//#if !NEGATE_TO_TEST_THIS_CODE
+            var wait = suppliersTreeView.Nodes.Count > 0;
             suppliersTreeView.Nodes.Clear();
+            if (wait)
+                System.Threading.Thread.Sleep(100);
+#else
+            suppliersTreeView.Nodes.Clear();
+#endif
+
             foreach (var supplier in SupplierList.GetRootSuppliers())
             {
                 var treeNode = new TreeNode();
@@ -109,6 +119,31 @@ namespace SeleniumDemo.WisejApp.View
 
             suppliersTreeView.SelectedNode = null;
 
+            BuildTree();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int? localSupplierId = null;
+            Supplier supplier;
+
+            var selectedNode = suppliersTreeView.SelectedNode;
+            if (selectedNode != null)
+                localSupplierId = int.Parse(selectedNode.Name);
+
+            if (localSupplierId.HasValue)
+                supplier = new Supplier {ParentSupplierId = localSupplierId.Value};
+            else
+                supplier = new Supplier();
+
+            supplier.SupplierName = "Abc " + supplier.SupplierId;
+            supplier.Save();
+
+            BuildTree();
+        }
+
+        private void refreshTree_Click(object sender, EventArgs e)
+        {
             BuildTree();
         }
     }

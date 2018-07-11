@@ -1,22 +1,31 @@
 ﻿using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
 
 namespace Wisej.SeleniumTestExample
 {
-    [TestClass]
     public class ProgressSampleTestsFirefox : ProgressSampleBase
     {
-        [ClassInitialize]
-        public static void Setup(TestContext testContext)
+        [OneTimeSetUp]
+        public static void Setup()
         {
-            TestDriver = new ProgressSampleWebDriver(Browser.Firefox);
-            Directory.SetCurrentDirectory(testContext.TestRunResultsDirectory);
+            var options = new FirefoxOptions
+            {
+                PageLoadStrategy = PageLoadStrategy.Default
+            };
+            TestDriver = new ProgressSampleWebDriver(Browser.Firefox, options);
+
+            SetupTestOutputFolder();
+
+            Directory.SetCurrentDirectory(TestOutputFolder);
         }
 
-        [ClassCleanup]
+        [OneTimeTearDown]
         public static void TearDown()
         {
+            TearDownTestOutputFolder();
+
             TestDriver.TearDown();
             TestDriver = null;
         }

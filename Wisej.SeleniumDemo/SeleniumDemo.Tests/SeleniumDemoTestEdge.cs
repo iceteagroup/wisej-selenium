@@ -1,15 +1,15 @@
-﻿using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Drawing;
+using System.IO;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
 
 namespace SeleniumDemo.Tests
 {
-    [TestClass]
     public class SeleniumDemoTestEdge : SeleniumDemoBase
     {
-        [ClassInitialize]
-        public static void Setup(TestContext testContext)
+        [OneTimeSetUp]
+        public static void Setup()
         {
             var options = new EdgeOptions
             {
@@ -17,14 +17,21 @@ namespace SeleniumDemo.Tests
             };
             CurrentBrowser = Browser.Edge;
             TestDriver = new SeleniumDemoWebDriver(CurrentBrowser, options);
-            TestDriver.Manage().Window.Maximize();
-            Directory.SetCurrentDirectory(testContext.TestRunResultsDirectory);
-            Waiter.BrowserUpdate = 2500;
+            TestDriver.Manage().Window.Size = new Size(1280, 768);
+            TestDriver.Manage().Window.Position = new Point(0, 0);
+
+            Waiter.BrowserUpdate = 1250;
+
+            SetupTestOutputFolder();
+
+            Directory.SetCurrentDirectory(TestOutputFolder);
         }
 
-        [ClassCleanup]
+        [OneTimeTearDown]
         public static void TearDown()
         {
+            TearDownTestOutputFolder();
+
             TestDriver.TearDown();
             TestDriver = null;
         }

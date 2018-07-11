@@ -10,8 +10,8 @@ namespace Wisej.SeleniumTestExample
     /// </summary>
     public class ProgressSampleWebDriver : WisejWebDriver
     {
-        public ProgressSampleWebDriver(Browser browser)
-            : base(browser)
+        public ProgressSampleWebDriver(Browser browser, object options)
+            : base(browser, options)
         {
             Url = "http://demo.wisej.com/ProgressSample.html";
         }

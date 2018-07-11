@@ -1,0 +1,647 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TestApiCore</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Test.VisualVerification.ColorDifference">
+            <summary>
+            Represents the per-channel difference between two colors.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.ColorDifference.#ctor">
+            <summary>
+            Initializes a new instance of the ColorDifference class using values of zero, indicating no difference.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.ColorDifference.#ctor(System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Initializes a new instance of the ColorDifference class, using the specified alpha, red, green and blue values.
+            </summary>
+            <param name="alpha">The alpha (transparency) color channel difference.</param>
+            <param name="red">The red color channel difference.</param>
+            <param name="green">The green color channel difference.</param>
+            <param name="blue">The blue color channel difference.</param>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.ColorDifference.A">
+            <summary>
+            Alpha (transparency) color channel difference.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.ColorDifference.R">
+            <summary>
+            Red color channel difference.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.ColorDifference.G">
+            <summary>
+            Green color channel difference.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.ColorDifference.B">
+            <summary>
+            Blue color channel difference.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.ColorDifference.MeetsTolerance(Microsoft.Test.VisualVerification.ColorDifference)">
+            <summary>
+            Returns true if this color is less than or equal to reference color on all channels.
+            </summary>
+            <param name="reference">The reference color to evaluate against.</param>
+            <returns>True if this color is less than or equal to reference on all channels.</returns>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.ColorExtensions">
+            <summary>
+            Container for internal Extension methods on the Color type.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.ColorExtensions.Compare(System.Drawing.Color,System.Drawing.Color)">
+            <summary>
+            Compares colors by producing an absolute valued Color Difference object
+            </summary>
+            <param name="color1">The first color</param>
+            <param name="color2">The second colar</param>
+            <returns>The Color Difference of the two colors</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.ColorExtensions.Subtract(System.Drawing.Color,System.Drawing.Color,System.Boolean)">
+            <summary>
+            Color differencing helper for snapshot comparisons.
+            </summary>
+            <param name="color1">The first color</param>
+            <param name="color2">The second color</param>
+            <param name="subtractAlpha">If set to false, the Alpha channel is overridden to full opacity, rather than the difference.
+            This is important for visualization, especially if both colors are fully opaque, as the difference produces a fully transparent difference.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.ColorExtensions.Or(System.Drawing.Color,System.Drawing.Color)">
+            <summary>
+            Performs Bitwise OR of Color bits.
+            </summary>
+            <param name="color1">The first color.</param>
+            <param name="color2">The second color.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.ColorExtensions.And(System.Drawing.Color,System.Drawing.Color)">
+            <summary>
+            Performs Bitwise AND of Color bits.
+            </summary>
+            <param name="color1">The first color.</param>
+            <param name="color2">The second color.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.HighFidelityColor">
+            <summary>
+            Represents colors channels as a set of 0-1 floats for higher fidelity internal color processing.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.Histogram">
+            <summary>
+            The Histogram class represents a histogram curve, expressed in terms of frequency (proportion of total pixels)
+            over brightness (from 0 to 255). In other words, the Histogram class represents the percentage (proportion) of
+            pixels that have brightness of 0, 1, etc. <a href="http://en.wikipedia.org/wiki/Image_histogram">This page</a> provides
+            a good introduction to <i>image histograms</i>.
+            <p/>
+            For testing purposes "brightness" is often equated to "difference". Thus, one is able to construct a "difference
+            histogram" from a "difference shapshot" and compare that histogram to a histogram of "expected maximum differences"
+            (also knows as a "tolerance histogram") in order to determine whether a visual verification test passes or fails.
+            <p/>
+            A Histogram object can be loaded from a XML file or generated from a Snapshot object.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Histogram.#ctor">
+            <summary>
+            Creates a zero tolerance histogram.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Histogram.FromSnapshot(Microsoft.Test.VisualVerification.Snapshot)">
+            <summary>
+            Creates a Histogram object from an existing Snapshot object.
+            </summary>
+            <param name="snapshot">The Snapshot object to derive the Histogram from.</param>
+            <returns>A new instance of Histogram, based on the provided snapshot.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Histogram.FromFile(System.String)">
+            <summary>
+            Creates a Histogram object from a histogram curve file.
+            </summary>
+            <param name="filePath">Name of the file containing the histogram curve.</param>
+            <returns>A new instance of Histogram, based on the specified file.</returns>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.Histogram.Item(System.Int32)">
+            <summary>
+            The data of the histogram.
+            </summary>
+            <param name="column">Which column of the histogram you want.</param>
+            <returns>A double value between 0 and 1.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Histogram.ToGraph(System.String,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Create a snapshot to visualize this histogram, and save it to a file.
+            The graph will be 100 pixels high and 256 columns wide - one for each 'bin' in the histogram.
+            The snapshot generated will be framed and slightly larger.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Histogram.Merge(Microsoft.Test.VisualVerification.Histogram)">
+            <summary>
+            Merges the specified input histogram curve with the current histogram by accumulating the
+            per-brightness peak error quantities of two histograms. The Merge operation merges the peak
+            values of the two histograms.
+            </summary>
+            <param name="histogram">The histogram curve to be merged with.</param>
+            <returns>A new Histogram object, containing the peak values of both histogram curves.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Histogram.ToFile(System.String)">
+            <summary>
+            Saves the Histogram object to an XML file representation.
+            </summary>
+            <param name="filePath">The path of the XML histogram file to be stored.</param>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Histogram.IsLessThan(Microsoft.Test.VisualVerification.Histogram)">
+            <summary>
+            Evaluates if the frequencies on this histogram curve are less than supplied histogram for all levels of brightness
+            Note: The 0 brightness level frequency values are not evaluated here - this is where the balance of pixels reside.
+            </summary>
+            <param name="tolerance">The histogram curve to be tested against</param>
+            <returns>True if all brightness frequencies of the tolerance histogram exceed this histogram. False otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Histogram.InterpolatePoints(System.Collections.Generic.SortedDictionary{System.Byte,System.Double})">
+            <summary>
+            Linearly Interpolates along the sparse set of points in the LoadTable to produce a fully populated Histogram object.
+            </summary>
+            <param name="loadTable">The sparse set of points representing the Histogram.</param>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Histogram.LinearInterpolate(System.Double,System.Double,System.Double)">
+            <summary>
+            Provides a sample via linear interpolation between start and end value by specified proportion.
+            </summary>
+            <param name="proportion">The proportion of weight to be allocated to the start value (from 0 to 1).</param>
+            <param name="startValue">The starting value to start interpolating from.</param>
+            <param name="endValue">The end value to stop interpolation at.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Histogram.VerifyPoint(System.Byte,System.Double)">
+            <summary>
+            Throws if x or y is invalid.
+            </summary>
+            <param name="x">X Coordinate.</param>
+            <param name="y">Y Coordinate.</param>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.NamespaceDoc">
+            <summary>
+            Contains facilities for verification of the application display.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.RECT">
+            <summary>
+            WIN32 RECT structure
+            </summary>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.RasterOperationCodeEnum">
+            <summary>
+            RasterOperation used by GDI BitBlt and StretchBlt methods
+            </summary>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.SRCCOPY">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.SRCPAINT">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.SRCAND">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.SRCINVERT">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.SRCERASE">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.NOTSRCCOPY">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.NOTSRCERASE">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.MERGECOPY">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.MERGEPAINT">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.PATCOPY">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.PATPAINT">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.PATINVERT">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.DSTINVERT">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.BLACKNESS">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.WHITENESS">
+            <summary/>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.RasterOperationCodeEnum.CAPTUREBLT">
+            <summary/>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.NativeMethods">
+            <summary>
+            Native methods
+            </summary>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.Snapshot">
+             <summary>
+             Represents image pixels in a two-dimensional array for use in visual verification.
+             Every element of the array represents a pixel at the given [row, column] of the image.
+             A Snapshot object can be instantiated from a file or captured from the screen.
+             </summary>
+            
+             <example>
+             Takes a snapshot and verifies it is an absolute match to an expected image.
+             <code lang="C#" >
+             Snapshot actual = Snapshot.FromRectangle(new Rectangle(0, 0, 800, 600));
+             Snapshot expected = Snapshot.FromFile("Expected.bmp");
+             Snapshot diff = actual.CompareTo(expected);
+            
+             SnapshotVerifier v = new SnapshotColorVerifier(Color.Black, new ColorDifference(0, 0, 0, 0));
+             if (v.Verify(diff) == VerificationResult.Fail)
+             {
+                 diff.ToFile("Actual.bmp", ImageFormat.Bmp);
+             }
+             </code>
+             </example>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Snapshot constructor - creates buffer of black, opaque pixels.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.FromFile(System.String)">
+            <summary>
+            Creates a Snapshot instance from data in the specified image file.
+            </summary>
+            <param name="filePath">Path to the image file.</param>
+            <returns>A Snapshot instance containing the pixels in the loaded file.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.FromWindow(System.IntPtr,Microsoft.Test.VisualVerification.WindowSnapshotMode)">
+            <summary>
+            Creates a Snapshot instance populated with pixels sampled from the rectangle of the specified window.
+            </summary>
+            <param name="windowHandle">The Win32 window handle (also known as an HWND), identifying the window to capture from.</param>
+            <param name="windowSnapshotMode">Determines if window border region should captured as part of Snapshot.</param>
+            <returns>A Snapshot instance of the pixels captured.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.FromRectangle(System.Drawing.Rectangle)">
+            <summary>
+            Creates a Snapshot instance populated with pixels sampled from the specified screen rectangle, from the context of the Desktop.
+            </summary>
+            <param name="rectangle">Rectangle of the screen region to be sampled from.</param>
+            <returns>A Snapshot instance of the pixels from the bounds of the screen rectangle.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.FromBitmap(System.Drawing.Bitmap)">
+            <summary>
+            Instantiates a Snapshot representation from a Windows Bitmap.
+            </summary>
+            <param name="source">Source bitmap to be converted.</param>
+            <returns>A snapshot based on the source buffer.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.Clone">
+            <summary>
+            Creates a deep-copied clone Snapshot with the same value as the existing instance.
+            </summary>
+            <returns>Clone instance</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.CompareTo(Microsoft.Test.VisualVerification.Snapshot)">
+            <summary>
+            Compares the current Snapshot instance to the specified Snapshot to produce a difference image.
+            Note: This does not compare alpha channels.
+            </summary>
+            <param name="snapshot">The Snapshot to be compared to.</param>
+            <returns>A new Snapshot object representing the difference image (i.e. the result of the comparison).</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.CompareTo(Microsoft.Test.VisualVerification.Snapshot,System.Boolean)">
+            <summary>
+            Compares the current Snapshot instance to the specified Snapshot to produce a difference image.
+            </summary>
+            <param name="snapshot">The target Snapshot to be compared to.</param>
+            <param name="compareAlphaChannel">If true, compares alpha channels. If false, the alpha channel difference values are fixed to 255.</param>
+            <returns>A new Snapshot object representing the difference image (i.e. the result of the comparison).</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.DrawLine(System.Int32,System.Int32,System.Int32,System.Drawing.Color)">
+            <summary>
+            Draw a vertical line from the bottom of the specified column up to the height given.
+            </summary>
+            <param name="col">which column to draw in</param>
+            <param name="floor">the lowest pixel of the line</param>
+            <param name="height">the height of the line</param>
+            <param name="color">the color of the line</param>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.ToFile(System.String,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Writes the current Snapshot (at 32 bits per pixel) to a file.
+            </summary>
+            <param name="filePath">The path to the output file.</param>
+            <param name="imageFormat">The file storage format to be used.</param>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.Crop(System.Drawing.Rectangle)">
+            <summary>
+            Creates a new Snapshot based on the cropped bounds of the current snapshot.
+            </summary>
+            <param name="bounds">The bounding rectangle of the Snapshot.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.Resize(System.Drawing.Size)">
+            <summary>
+            Creates a new Snapshot of the specified size from the original using bilinear interpolation.
+            </summary>
+            <param name="size">Desired size of new image</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.Or(Microsoft.Test.VisualVerification.Snapshot)">
+            <summary>
+            Modifies the current image to contain the result of a bitwise OR of this Snapshot
+            and the mask.  This technique can be used to merge data from two images.
+            http://en.wikipedia.org/wiki/Bitmask#Image_masks
+            </summary>
+            <param name="mask">Mask Snapshot to use in the bitwise OR operation.</param>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.And(Microsoft.Test.VisualVerification.Snapshot)">
+            <summary>
+            Modifies the current image to contain the result of a bitwise AND of this Snapshot
+            and the mask.  This technique can be used to remove data from an image.
+            http://en.wikipedia.org/wiki/Bitmask#Image_masks
+            </summary>
+            <param name="mask">Mask Snapshot to use in the bitwise AND operation.</param>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.Find(Microsoft.Test.VisualVerification.Snapshot)">
+            <summary>
+            Find all instances of a subimage in this image.
+            </summary>
+            <param name="subimage">The subimage to find in the larger image. Must be smaller than the image in both dimensions.</param>
+            <returns>A Collection of rectangles indicating the matching locations.
+            If there is no match, the Collection returned will be empty.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.Find(Microsoft.Test.VisualVerification.Snapshot,Microsoft.Test.VisualVerification.SnapshotVerifier)">
+            <summary>
+            Find all instances of a subimage in this image.
+            </summary>
+            <param name="subimage">The subimage to find in the larger image. Must be smaller than the image in both dimensions.</param>
+            <param name="verifier">Custom SnapshotVerifier, used to compare the subimages.</param>
+            <returns>A Collection of rectangles indicating the matching locations.
+            If there is no match, the Collection returned will be empty.</returns>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.Snapshot.Item(System.Int32,System.Int32)">
+            <summary>
+            Returns a Color instance for the pixel at the specified row and column.
+            </summary>
+            <param name="row">Zero-based row position of the pixel.</param>
+            <param name="column">Zero-based column position of the pixel.</param>
+            <returns>A Color instance for the pixel at the specified row and column.</returns>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.Snapshot.Width">
+            <summary>
+            Returns the width of the pixel buffer.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.Snapshot.Height">
+            <summary>
+            Returns the height of the pixel buffer.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.CompareSubImage(Microsoft.Test.VisualVerification.Snapshot,System.Int32,System.Int32,Microsoft.Test.VisualVerification.SnapshotVerifier)">
+            <summary>
+            Private subimage comparer to help FindSubImage. This performs the actual work of comparing pixels.
+            </summary>
+            <param name="subimage">The subimage to find.</param>
+            <param name="startingRow">The row offset into this snapshot to look for the subimage.</param>
+            <param name="startingColumn">The column offset into this snapshot to look for the subimage.</param>
+            <param name="verifier">Custom subimage comparison verifier, if specified.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.BilinearSample(System.Single,System.Single)">
+            <summary>
+            Bilinearly interpolate to blend the pixels around the specified point - Takes the weighted average of the nearest four pixels.
+            Not mip-mapped - downsampling can be mis-representative.
+            </summary>
+            <param name="row">The row being sampled on.</param>
+            <param name="col">The column being sampled on.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.CreateBitmapFromSnapshot">
+            <summary>
+            Instantiates a Bitmap with contents of TestBitmap.
+            </summary>
+            <returns>A Bitmap containing the a copy of the Snapshot buffer data.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.CaptureBitmap(System.IntPtr,System.Drawing.Rectangle)">
+            <summary>
+            Captures a Bitmap from the deviceContext on the specified areaToCopy.
+            </summary>
+            <param name="sourceDeviceContext">The device context to capture the region from.</param>
+            <param name="rectangle">The rectangular bounds of the area to be captured.</param>
+            <returns>A Bitmap representation of the region specified.</returns>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.Snapshot.IsValidPixel(System.Int32,System.Int32)">
+            <summary>
+            Tests if the specified pixel coordinate is contained within the bounds of the buffer.
+            </summary>
+            <param name="row"></param>
+            <param name="column"></param>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.Snapshot.PixelData">
+            <summary>
+            A BGRA pixel data structure - This is only used for data conversion and export purposes for conversion with Bitmap buffer.
+            NOTE: This order aligns with 32 bpp ARGB pixel Format.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.Snapshot.buffer">
+            <summary>
+            The color buffer is organized in row-Major form i.e. [row, column] => [y,x]
+            </summary>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.SnapshotColorVerifier">
+            <summary>
+            Verifies that all pixels in a Snapshot are within tolerance range of ExpectedColor.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.SnapshotColorVerifier.#ctor">
+            <summary>
+            Initializes a new instance of a SnapshotColorVerifier class, using black pixels with zero tolerance.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.SnapshotColorVerifier.#ctor(System.Drawing.Color,Microsoft.Test.VisualVerification.ColorDifference)">
+            <summary>
+            Initializes a new instance of the SnapshotColorVerifier class, using the specified tolerance value.
+            </summary>
+            <param name="expectedColor">The expected color to test against.</param>
+            <param name="tolerance">A ColorDifference instance specifying the desired tolerance.</param>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.SnapshotColorVerifier.Verify(Microsoft.Test.VisualVerification.Snapshot)">
+            <summary>
+            Ensures that the image colors are all within tolerance range of the expected Color.
+            </summary>
+            <param name="image">The actual image being verified.</param>
+            <returns>A VerificationResult enumeration value based on the image, the expected color, and the tolerance.</returns>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.SnapshotColorVerifier.Tolerance">
+            <summary>
+            The color tolerance range for verification. To pass verification, all Snapshot pixels must
+            be within range of the expected color tolerance.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.SnapshotColorVerifier.ExpectedColor">
+            <summary>
+            The expected Color value for verification.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.SnapshotHistogramVerifier">
+             <summary>
+             Verifies a diffed image based on the number of pixels of a given brightness per color.
+             A tolerance Histogram curve can be created from an XML file, produced from a reference image, or manually created for use as a tolerance.
+             <p/>
+             For more information on histograms, refer to the description of <see cref="T:Microsoft.Test.VisualVerification.Histogram"/>.
+             </summary>
+            
+             <example>
+             This examples shows how to verify a snapshot against an expected master image, using
+             a tolerance histogram.
+             <code lang="C#" >
+             Snapshot actual = Snapshot.FromRectangle(new Rectangle(0, 0, 800, 600));
+             Snapshot expected = Snapshot.FromFile("Expected.bmp");
+             Snapshot diff = actual.CompareTo(expected);
+            
+             SnapshotVerifier v = new SnapshotHistogramVerifier(Histogram.FromFile("ToleranceHistogram.xml"));
+            
+             if (v.Verify(diff) == VerificationResult.Fail)
+             {
+                 diff.ToFile("Actual.bmp", ImageFormat.Bmp);
+             }
+             </code>
+             </example>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.SnapshotHistogramVerifier.#ctor">
+            <summary>
+            Initializes a new instance of the SnapshotHistgramVerifier class, with the tolerance histogram curve initialized to zero tolerance for non-black values.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.SnapshotHistogramVerifier.#ctor(Microsoft.Test.VisualVerification.Histogram)">
+            <summary>
+            Initializes a new instance of the SnapshotHistgramVerifier class, with the tolerance histogram curve initialized to the specified tolerance value.
+            </summary>
+            <param name="tolerance">The tolerance Histogram to use for verification.</param>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.SnapshotHistogramVerifier.Verify(Microsoft.Test.VisualVerification.Snapshot)">
+            <summary>
+            Verifies a diffed image based on the number of pixels of a given brightness per color.
+            A tolerance Histogram curve can be created from an XML file, produced from a reference image, or manually created for use as a tolerance.
+            </summary>
+            <param name="image">The actual Snapshot to be verified.</param>
+            <returns>A VerificationResult enumeration value based on the image, the expected color, and the tolerance.</returns>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.SnapshotHistogramVerifier.Tolerance">
+            <summary>
+            The tolerance Histogram that is used to test snapshots; snapshots must produce a histogram which falls below this curve in order to pass.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.SnapshotToleranceMapVerifier">
+             <summary>
+             Verifies that all pixels in a Snapshot are within the tolerance range, defined by the tolerance map.
+             </summary>
+             <example>
+             The following code demonstrates how to use SnapshotToleranceMapVerifier
+             for visual verification purposes.
+             <code lang="C#" >
+             // Take a snapshot, compare to the master image and generate a diff
+             WindowSnapshotMode wsm = WindowSnapshotMode.ExcludeWindowBorder;
+            
+             Snapshot actual = Snapshot.FromWindow(hwndOfYourWindow, wsm);
+             Snapshot expected = Snapshot.FromFile("Expected.png");
+             Snapshot difference = actual.CompareTo(expected);
+            
+             // Load the tolerance map. Then use it to verify the difference snapshot
+             Snapshot toleranceMap = Snapshot.FromFile("ExpectedImageToleranceMap.png");
+             SnapshotVerifier v = new SnapshotToleranceMapVerifier(toleranceMap);
+            
+             if (v.Verify(difference) == VerificationResult.Fail)
+             {
+                 // Log failure, and save the actual and diff images for investigation
+                 actual.ToFile("Actual.png", ImageFormat.Png);
+                 difference.ToFile("Difference.png", ImageFormat.Png);
+             }
+             </code>
+             </example>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.SnapshotToleranceMapVerifier.#ctor(Microsoft.Test.VisualVerification.Snapshot)">
+            <summary>
+            Initializes a new instance of the SnapshotToleranceMapVerifier class, using the specified tolerance map.
+            </summary>
+            <param name="toleranceMap">
+            A Snapshot instance defining the tolerance map, used by the verifier.
+            A black tolerance map (a snapshot, where all pixels are with zero values) means zero tolerance.
+            A white tolerance map (a snapshot, where all pixels are with value 0xFF) means infinitely high tolerance.
+            </param>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.SnapshotToleranceMapVerifier.Verify(Microsoft.Test.VisualVerification.Snapshot)">
+            <summary>
+            Ensures that the image colors are all with smaller values than the image colors of the tolerance map.
+            </summary>
+            <param name="image">The actual image being verified.</param>
+            <returns>A VerificationResult enumeration value based on the image, and the tolerance map.</returns>
+        </member>
+        <member name="P:Microsoft.Test.VisualVerification.SnapshotToleranceMapVerifier.ToleranceMap">
+            <summary>
+            A Snapshot defining the tolerance map used by the verifier.
+            A black tolerance map (a snapshot, where all pixels are with zero values) means zero tolerance.
+            A white tolerance map (a snapshot, where all pixels are with value 0xFF) means infinitely high tolerance.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.SnapshotVerifier">
+            <summary>
+            Base class for all Snapshot verifier types.
+            This establishes a single method contract: Verify(Snapshot).
+            </summary>
+        </member>
+        <member name="M:Microsoft.Test.VisualVerification.SnapshotVerifier.Verify(Microsoft.Test.VisualVerification.Snapshot)">
+            <summary>
+            Verifies the specified Snapshot instance against the current settings of the SnapshotVerifier instance.
+            </summary>
+            <param name="image">The image to be verified.</param>
+            <returns>The verification result based on the supplied image and the current settings of the SnapshotVerifier instance.</returns>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.VerificationResult">
+            <summary>
+            Specifies values used to report the outcome of a verification.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.VerificationResult.Fail">
+            <summary>
+            Object does not meet verification criteria.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.VerificationResult.Pass">
+            <summary>
+            Object meets verification criteria.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Test.VisualVerification.WindowSnapshotMode">
+            <summary>
+            WindowSnapshotMode determines if window border should be captured as part of Snapshot.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.WindowSnapshotMode.ExcludeWindowBorder">
+            <summary>
+            Capture a snapshot of only the window client area. This mode excludes the window border.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Test.VisualVerification.WindowSnapshotMode.IncludeWindowBorder">
+            <summary>
+            Capture a snapshot of the entire window area. This mode includes the window border.
+            </summary>
+        </member>
+    </members>
+</doc>

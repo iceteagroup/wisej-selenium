@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using Wisej.Web.Ext.Selenium;
 using Wisej.Web.Ext.Selenium.Tests;
@@ -9,16 +9,16 @@ using QxLabel = Qooxdoo.WebDriver.UI.Basic.Label;
 
 namespace SeleniumDemo.Tests
 {
-    public abstract class SeleniumDemoBase
+    [TestFixture]
+    [NonParallelizable]
+    public abstract partial class SeleniumDemoBase
     {
         protected static SeleniumDemoWebDriver TestDriver;
         protected static Browser CurrentBrowser;
 
-        [TestMethod]
+        [Test, Order(010)]
         public void W010_AskQuitNo()
         {
-            TestDriver.SleepDebugTest(2000);
-
             // get MainPage and check it's visible
             Page mainPage = TestDriver.WidgetGet<Page>("MainPage");
 
@@ -39,7 +39,7 @@ namespace SeleniumDemo.Tests
             TestDriver.MessageBoxCheckNotExists(title, icon, message);
         }
 
-        [TestMethod]
+        [Test, Order(020)]
         public void W020_HelperWindow_Click()
         {
             // get MainPage and check it's visible
@@ -53,7 +53,7 @@ namespace SeleniumDemo.Tests
         }
 
         // no need to reset data for now
-        /*[TestMethod]
+        /*[Test, Order(025)]
         public void W025_HelperWindow_HelperWindow_ResetData_Click()
         {
             // get HelperWindow exists and is visible
@@ -63,7 +63,7 @@ namespace SeleniumDemo.Tests
             helperWindow.ButtonClick("resetData");
         }*/
 
-        [TestMethod]
+        [Test, Order(030)]
         public void W030_HelperWindow_Minimize()
         {
             // give enough time so YOU can follow the window minimizing
@@ -77,7 +77,7 @@ namespace SeleniumDemo.Tests
             helperWindow.CheckIsNotDisplayed("HelperWindow");
         }
 
-        [TestMethod]
+        [Test, Order(040)]
         public void W040_HelperWindow_Restore()
         {
             // give enough time so YOU can follow the minimized window restoring
@@ -93,7 +93,7 @@ namespace SeleniumDemo.Tests
             helperWindow.CheckIsDisplayed("HelperWindow");
         }
 
-        [TestMethod]
+        [Test, Order(050)]
         public void W050_MainPage_buttonsWindow_Click()
         {
             // get MainPage
@@ -105,7 +105,7 @@ namespace SeleniumDemo.Tests
             Form buttonsWindow = TestDriver.WidgetGet<Form>("ButtonsWindow");
         }
 
-        [TestMethod]
+        [Test, Order(060)]
         public void W060_ButtonsWindow_customerEditor_Click()
         {
             // get ButtonsWindow and check it's visible
@@ -119,7 +119,7 @@ namespace SeleniumDemo.Tests
             Form customerEditor = TestDriver.WidgetGet<Form>("CustomerEditor");
         }
 
-        [TestMethod]
+        [Test, Order(080)]
         public void W080_CustomerEditor_EditRegisterOne_firstName()
         {
             TestDriver.Sleep(Waiter.Duration);
@@ -168,7 +168,7 @@ namespace SeleniumDemo.Tests
             customerEditor.WaitCheckTextIs("fullName", "Muddy " + lastName, "Label");
         }
 
-        [TestMethod]
+        [Test, Order(090)]
         public void W090_CustomerEditor_EditRegisterOne_lastName()
         {
             // get CustomerEditor and check it's visible
@@ -215,7 +215,7 @@ namespace SeleniumDemo.Tests
             customerEditor.WaitCheckTextIs("fullName", firstName + " WATERS", "Label");
         }
 
-        [TestMethod]
+        [Test, Order(100)]
         public void W100_CustomerEditor_EditRegisterOne_state()
         {
             // get CustomerEditor and check it's visible
@@ -248,7 +248,7 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(110)]
         public void W110_CustomerEditor_NewRegister()
         {
             // get CustomerEditor and check it's visible
@@ -308,7 +308,7 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(120)]
         public void W120_CustomerEditor_NavigateRows()
         {
             // get CustomerEditor and check it's visible
@@ -360,7 +360,7 @@ namespace SeleniumDemo.Tests
                 selectedRow);
         }
 
-        [TestMethod]
+        [Test, Order(130)]
         public void W130_CustomerEditor_RemoveRows()
         {
             // get CustomerEditor and check it's visible
@@ -395,7 +395,7 @@ namespace SeleniumDemo.Tests
                 string.Format("dataGridView row count: expected 2 and actual is {0}.", dataGridView.RowCount));
         }
 
-        [TestMethod]
+        [Test, Order(140)]
         public void W140_CloseCustomerEditors()
         {
             // give enough time so YOU can see
@@ -409,7 +409,7 @@ namespace SeleniumDemo.Tests
             customerEditor.CheckIsDisposed();
         }
 
-        [TestMethod]
+        [Test, Order(150)]
         public void W150_ButtonsWindow_productEditor_Click()
         {
             // get ButtonsWindow and check it's visible
@@ -423,14 +423,14 @@ namespace SeleniumDemo.Tests
             Form productEditor = TestDriver.WidgetGet<Form>("ProductEditor");
         }
 
-        [TestMethod]
+        [Test, Order(160)]
         public void W160_ProductEditor_tabControl()
         {
             // get tabControl and check it's visible
             TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl");
         }
 
-        [TestMethod]
+        [Test, Order(170)]
         public void W170_ProductEditor_tabControl_brands()
         {
             // get tabControl and check it's visible
@@ -449,7 +449,7 @@ namespace SeleniumDemo.Tests
             brands.CheckIsDisplayed("brands");
         }
 
-        [TestMethod]
+        [Test, Order(180)]
         public void W180_ProductEditor_brandsListBox_edit()
         {
             // get brandsListBox and check it's visible
@@ -495,7 +495,7 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(190)]
         public void W190_ProductEditor_brandsListBox_new()
         {
             // get newButton, check it's visible and click it
@@ -532,7 +532,7 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(200)]
         public void W200_ProductEditor_brandsListBox_remove()
         {
             // get brands TabPage and check it's visible
@@ -556,7 +556,7 @@ namespace SeleniumDemo.Tests
             Button removeButton = TestDriver.WidgetGet<Button>("ProductEditor.removeButton");
             removeButton.Click();
 
-            TestDriver.Sleep(Waiter.BrowserUpdate);
+            //TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // refresh and get brandsListBox and check it's visible
             brandsListBox = brands.WidgetRefresh<ListBox>("brandsListBox");
@@ -567,12 +567,9 @@ namespace SeleniumDemo.Tests
 
             // check there are 10 items total
             Assert.AreEqual(10, brandsListBox.ListItems.Count);
-
-            // give enough time so YOU can see
-            TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(210)]
         public void W210_ProductEditor_tabControl_productTypes()
         {
             // get tabControl and check it's visible
@@ -580,8 +577,6 @@ namespace SeleniumDemo.Tests
 
             // select models TabPage by item number
             tabControl.SelectItem(1);
-
-            TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // get productTypes TabPage
             TabPage productTypes = tabControl.Current;
@@ -591,7 +586,7 @@ namespace SeleniumDemo.Tests
             productTypes.CheckIsDisplayed("productTypes");
         }
 
-        [TestMethod]
+        [Test, Order(220)]
         public void W220_ProductEditor_productTypesTreeView_edit()
         {
             // get productTypesTreeView and check it's visible
@@ -651,7 +646,7 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(230)]
         public void W230_ProductEditor_productTypesTreeView_new()
         {
             // get newButton, check it's visible and click it
@@ -660,7 +655,7 @@ namespace SeleniumDemo.Tests
 
             // get productTypeNameTextBox and check it's visible
             TextBox productTypeNameTextBox = TestDriver.WidgetGet<TextBox>("ProductTypeEditor.productTypeNameTextBox");
-            
+
             // set product type name
             productTypeNameTextBox.Value = "Cell Phone";
 
@@ -693,7 +688,7 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(240)]
         public void W240_ProductEditor_productTypesTreeView_remove()
         {
             // get productTypes TabPage and check it's visible
@@ -728,16 +723,11 @@ namespace SeleniumDemo.Tests
 
             // check there are 10 items total
             Assert.AreEqual(10, productTypesTreeView.Nodes.Length);
-
-            // give enough time so YOU can see
-            TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(250)]
         public void W250_ProductEditor_tabControl_models()
         {
-            TestDriver.Sleep(Waiter.BrowserUpdate);
-
             // get tabControl and check it's visible
             TabControl tabControl = TestDriver.WidgetGet<TabControl>("ProductEditor.tabControl");
 
@@ -765,7 +755,7 @@ namespace SeleniumDemo.Tests
             Assert.IsTrue(selectedIndices.Length == 1 && selectedRow == 0);
         }
 
-        [TestMethod]
+        [Test, Order(260)]
         public void W260_ProductEditor_modelsDataGridView_row0_Name()
         {
             // get modelsDataGridView and check it's visible
@@ -795,7 +785,7 @@ namespace SeleniumDemo.Tests
             modelsDataGridView.CellSetTextCheckResult(model, model.ToUpper(), "TextBox");
         }
 
-        [TestMethod]
+        [Test, Order(270)]
         public void W270_ProductEditor_modelsDataGridView_row0_Brand()
         {
             // get modelsDataGridView and check it's visible
@@ -826,7 +816,7 @@ namespace SeleniumDemo.Tests
             Assert.AreEqual(brand, modelsDataGridView.WaitForCellText(brand));
         }
 
-        [TestMethod]
+        [Test, Order(280)]
         public void W280_ProductEditor_modelsDataGridView_row0_ProductType()
         {
             // get modelsDataGridView and check it's visible
@@ -860,7 +850,7 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(290)]
         public void W290_ProductEditor_modelsDataGridView_last_row_Name()
         {
             // get modelsDataGridView and check it's visible
@@ -887,6 +877,8 @@ namespace SeleniumDemo.Tests
             modelsDataGridView.FocusCell(1, 11);
             Assert.AreEqual(11, modelsDataGridView.GetFocusedRow());
 
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
             // get the cell editor for current focused cell
             TextBox cellEditor = modelsDataGridView.CellEditorGet<TextBox>();
             Assert.IsNotNull(cellEditor);
@@ -906,7 +898,7 @@ namespace SeleniumDemo.Tests
             Assert.AreEqual(name, modelsDataGridView.WaitForCellText(name));
         }
 
-        [TestMethod]
+        [Test, Order(300)]
         public void W300_ProductEditor_modelsDataGridView_add_row()
         {
             // get modelsDataGridView and check it's visible
@@ -979,7 +971,7 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(310)]
         public void W310_ProductEditor_modelsDataGridView_delete_row()
         {
             // get modelsDataGridView and check it's visible
@@ -1038,7 +1030,7 @@ namespace SeleniumDemo.Tests
             Assert.AreEqual("8", modelsDataGridView.GetCellText(focusedColumn, focusedRow));
         }
 
-        [TestMethod]
+        [Test, Order(320)]
         public void W320_CloseProductEditor()
         {
             // give enough time so YOU can see
@@ -1052,7 +1044,7 @@ namespace SeleniumDemo.Tests
             productEditor.CheckIsDisposed();
         }
 
-        [TestMethod]
+        [Test, Order(330)]
         public void W330_ButtonsWindow_supplierEditor_Click()
         {
             // click supplierEditor on buttonsPanel (LayoutPanel) of ButtonsWindow
@@ -1063,9 +1055,17 @@ namespace SeleniumDemo.Tests
 
             // check SupplierTreeEditor exists and is visible
             Form supplierTreeEditor = TestDriver.WidgetGet<Form>("SupplierTreeEditor");
+
+            /*// give enough time so YOU can see
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+            TestDriver.SaveScreenshot("W330_ButtonsWindow_supplierEditor_Click.png");
+
+            // if this the correct screenshot
+            MakeScreenshotCollection("W330_ButtonsWindow_supplierEditor_Click");
+            VerifyScreenshot("W330_ButtonsWindow_supplierEditor_Click");*/
         }
 
-        [TestMethod]
+        /*[Test, Order(340)]
         public void W340_ButtonsWindow_supplierTreeView_navigate()
         {
             // check SupplierTreeEditor exists and is visible
@@ -1093,27 +1093,27 @@ namespace SeleniumDemo.Tests
             // give enough time so YOU can see
             TestDriver.Sleep(Waiter.Duration);
 
-            // select "Big John" TreeNode 0 and check it's label is "Small John 1"
+            // select "Big John" TreeNode 0 and check it's label is "Small John Silver"
             TreeNode childNode = treeNode.Nodes[0];
             childNode.Select();
             label = childNode.Label;
-            Assert.AreEqual("Small John 1", label.Text);
+            Assert.AreEqual("Small John Silver", label.Text);
 
             // give enough time so YOU can see
             TestDriver.Sleep(Waiter.Duration);
 
-            // select TreeNode 0 and check it's label is ""Small John 2""
-            childNode = treeNode.GetSelectableItem("Small John 2") as TreeNode;
+            // select TreeNode 0 and check it's label is ""Small John John""
+            childNode = treeNode.GetSelectableItem("Small John John") as TreeNode;
             childNode?.Select();
 
             // give enough time so YOU can see
             TestDriver.Sleep(Waiter.Duration);
 
-            // select "Small John 2" TreeNode "Baby John 2" and check it's label
-            TreeNode grandChildNode = childNode?.GetSelectableItem("Baby John 2") as TreeNode;
+            // select "Small John John" TreeNode "Baby John Jonathan" and check it's label
+            TreeNode grandChildNode = childNode?.GetSelectableItem("Baby John Jonathan") as TreeNode;
             grandChildNode?.Select();
             label = grandChildNode?.Label;
-            Assert.AreEqual("Baby John 2", label?.Text);
+            Assert.AreEqual("Baby John Jonathan", label?.Text);
 
             // give enough time so YOU can see
             TestDriver.Sleep(Waiter.Duration);
@@ -1128,10 +1128,10 @@ namespace SeleniumDemo.Tests
             TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(350)]
         public void W350_ButtonsWindow_supplierTreeView_editGrandChild()
         {
-            /*// check SupplierTreeEditor exists and is visible
+            // check SupplierTreeEditor exists and is visible
             Form supplierTreeEditor = TestDriver.WidgetGet<Form>("SupplierTreeEditor");
 
             // get suppliersTreeView and check it's visible
@@ -1147,47 +1147,51 @@ namespace SeleniumDemo.Tests
             // give enough time so YOU can see
             TestDriver.Sleep(Waiter.Duration);
 
-            // select "Big John" TreeNode 1 and check it's label is "Small John 2"
+            // select "Big John" child 1 and check it's label is "Small John John"
             TreeNode childNode = treeNode.Nodes[1];
             childNode.Select();
             label = childNode.Label;
-            Assert.AreEqual("Small John 2", label.Text);
+            Assert.AreEqual("Small John John", label.Text);
 
             // give enough time so YOU can see
             TestDriver.Sleep(Waiter.Duration);
 
-            // select "Small John 1" TreeNode "Baby John 1" and check it's label
+            // select "Small John John" child 0 and check it's label is "Baby John Johnny"
             TreeNode grandChildNode = childNode.Nodes[0];
             grandChildNode.Select();
             label = grandChildNode.Label;
-            Assert.AreEqual("Baby John 1", label.Text);
+            Assert.AreEqual("Baby John Johnny", label.Text);
 
-            // edit "Baby John 1"
+            // edit "Baby John Johnny"
             grandChildNode.DoubleClick();
 
-            // we are going to change the parent node of "Baby John 1"
-            // now the parent is "Small John 2"
-            // after the change, the parent will be "Small John 1"
+            // we are going to change the parent node of "Baby John Johnny"
+            // now the parent is "Small John John"
+            // after the change, the parent will be "Small John Silver"
             // we will also change the Id from 121 to 111
+            // abd its name to "Baby John Silverado"
 
             // get SupplierEditor and check it's visible
             Form supplierEditor = TestDriver.WidgetGet<Form>("SupplierEditor");
 
             // get a refreshed parentComboBox ComboBox and change parent
-            const string parent = "Small John 1";
+            const string parent = "Small John Silver";
             supplierEditor.WidgetGet<ComboBox>("parentComboBox").SelectItem(parent);
+            TestDriver.Sleep(Waiter.BrowserUpdate);
             // wait until it's changed
             supplierEditor.WaitCheckTextIs("parentComboBox", parent, "ComboBox");
 
-            // change the Id to 111 (and move focus out of the ComoBox)
-            //supplierEditor.WidgetGet<TextBox>("supplierIdTextBox").Click();
-            supplierEditor.WidgetGet<TextBox>("supplierIdTextBox").Focus();
-
-            /*TextBox supplierIdTextBox = supplierEditor.WidgetGet<TextBox>("supplierIdTextBox");
-            supplierIdTextBox.Focus();
-            supplierIdTextBox.Value = "111";
-            supplierEditor.WaitCheckTextIs("supplierIdTextBox", "111", "TextBox");#1#
+            // change the Id to 111
+            supplierEditor.WidgetGet<TextBox>("supplierIdTextBox").Click();
+            TestDriver.Sleep(Waiter.BrowserUpdate);
             supplierEditor.SetTextCheckResult("supplierIdTextBox", "111", "TextBox");
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            // change the Name to "Baby John Silverado"
+            supplierEditor.WidgetGet<TextBox>("supplierNameTextBox").Click();
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+            supplierEditor.SetTextCheckResult("supplierNameTextBox", "Baby John Silverado", "TextBox");
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
@@ -1195,32 +1199,37 @@ namespace SeleniumDemo.Tests
             supplierEditor.ButtonClick("saveButton");
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
+            TestDriver.SaveScreenshot("W350_ButtonsWindow_supplierTreeView_editGrandChild.png");
 
-            // re-fetch TreeNode 0 and select it
+            // if this the correct screenshot
+            MakeScreenshotCollection("W350_ButtonsWindow_supplierTreeView_editGrandChild");
+            VerifyScreenshot("W350_ButtonsWindow_supplierTreeView_editGrandChild");
+
+            // re-fetch TreeNode 0 ("Big John") and select it
             treeNode = suppliersTreeView.Nodes[0];
 
-            // select "Big John" TreeNode 0 and check it's label is "Small John 1"
+            // select "Big John" child 0 and check it's label is "Small John Silver"
             childNode = treeNode.Nodes[0];
             label = childNode.Label;
-            Assert.AreEqual("Small John 1", label.Text);
+            Assert.AreEqual("Small John Silver", label.Text);
 
             // give enough time so YOU can see
             TestDriver.Sleep(Waiter.Duration);
 
-            // select "Small John 1" TreeNode "Baby John 1" and check it's label
+            // select "Small John Silver" child "Baby John Silverado" and check it's label
             grandChildNode = childNode.Nodes[0];
             grandChildNode.Select();
             label = grandChildNode.Label;
-            Assert.AreEqual("Baby John 1", label.Text);
+            Assert.AreEqual("Baby John Silverado", label.Text);
 
             // give enough time so YOU can see
-            TestDriver.Sleep(Waiter.Duration);*/
+            TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(360)]
         public void W360_ButtonsWindow_supplierTreeView_newChild()
         {
-            /*// get suppliersTreeView and check it's visible
+            // get suppliersTreeView and check it's visible
             TreeView suppliersTreeView =
                 TestDriver.WidgetGet<TreeView>("SupplierTreeEditor.suppliersTreeView");
 
@@ -1229,7 +1238,7 @@ namespace SeleniumDemo.Tests
             treeNode?.Select();
             QxLabel label = treeNode?.Label;
             Assert.AreEqual("Patricia", label?.Text);
-            
+
             // get newButton, check it's visible and click it
             Button newButton = TestDriver.WidgetGet<Button>("SupplierTreeEditor.newButton");
             newButton.Click();
@@ -1240,10 +1249,14 @@ namespace SeleniumDemo.Tests
             Form supplierEditor = TestDriver.WidgetGet<Form>("SupplierEditor");
 
             // set the Id to 51
-            supplierEditor.SetTextCheckResult("supplierIdTextBox", "51", "TextBox"); ;
+            supplierEditor.SetTextCheckResult("supplierIdTextBox", "51", "TextBox");
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
 
             // set the Name to "Small Patricia"
-            supplierEditor.SetTextCheckResult("supplierNameTextBox", "Small Patricia", "TextBox"); ;
+            supplierEditor.WidgetGet<TextBox>("supplierNameTextBox").Click();
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+            supplierEditor.SetTextCheckResult("supplierNameTextBox", "Small Patricia", "TextBox");
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
 
@@ -1251,23 +1264,29 @@ namespace SeleniumDemo.Tests
             supplierEditor.ButtonClick("saveButton");
 
             TestDriver.Sleep(Waiter.BrowserUpdate);
+            TestDriver.SaveScreenshot("W360_ButtonsWindow_supplierTreeView_newChild.png");
 
-            // re-fetch TreeNode 5 and select it
-            treeNode = suppliersTreeView.Nodes[5];
+            // if this the correct screenshot
+            MakeScreenshotCollection("W360_ButtonsWindow_supplierTreeView_newChild");
+            VerifyScreenshot("W360_ButtonsWindow_supplierTreeView_newChild");
 
-            // select "Patricia" TreeNode 0 and check it's label is "Small Patricia"
+            // re-fetch TreeNode 4 ("Patricia") and select it
+            treeNode = suppliersTreeView.Nodes[4];
+
+            // select "Patricia" child 0 and check it's label is "Small Patricia"
             TreeNode childNode = treeNode?.Nodes[0];
+            childNode?.Select();
             label = childNode?.Label;
             Assert.AreEqual("Small Patricia", label?.Text);
 
             // give enough time so YOU can see
-            TestDriver.Sleep(Waiter.Duration);*/
+            TestDriver.Sleep(Waiter.Duration);
         }
 
-        [TestMethod]
+        [Test, Order(370)]
         public void W370_ButtonsWindow_supplierTreeView_removeChild()
         {
-            /*// check SupplierTreeEditor exists and is visible
+            // check SupplierTreeEditor exists and is visible
             Form supplierTreeEditor = TestDriver.WidgetGet<Form>("SupplierTreeEditor");
 
             // get suppliersTreeView and check it's visible
@@ -1277,13 +1296,32 @@ namespace SeleniumDemo.Tests
             // check there are 5 nodes total
             Assert.AreEqual(5, suppliersTreeView.Nodes.Length);
 
-            // select TreeNode 0
+            // select TreeNode 0 ("Big John")
             suppliersTreeView.SelectItem(0);
 
-            TestDriver.Sleep(Waiter.BrowserUpdate);*/
-        }
+            TestDriver.Sleep(Waiter.BrowserUpdate);
 
-        [TestMethod]
+            // get removeButton, check it's visible and click it
+            Button removeButton = TestDriver.WidgetGet<Button>("SupplierTreeEditor.removeButton");
+            removeButton.Click();
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+            TestDriver.SaveScreenshot("W370_ButtonsWindow_supplierTreeView_removeChild.png");
+
+            // if this the correct screenshot
+            MakeScreenshotCollection("W370_ButtonsWindow_supplierTreeView_removeChild");
+            VerifyScreenshot("W370_ButtonsWindow_supplierTreeView_removeChild");
+
+            // check there are 4 nodes total
+            Assert.AreEqual(4, suppliersTreeView.Nodes.Length);
+
+            TreeNode treeNode = suppliersTreeView.GetSelectableItem("Big Larry") as TreeNode;
+            treeNode?.Select();
+            QxLabel label = treeNode?.Label;
+            Assert.AreEqual("Big Larry", label?.Text);
+        }*/
+
+        [Test, Order(390)]
         public void W390_CloseSuppliertEditor()
         {
             // give enough time so YOU can see
@@ -1293,11 +1331,14 @@ namespace SeleniumDemo.Tests
             Form supplierTreeEditor = TestDriver.WidgetGet<Form>("SupplierTreeEditor");
             // close SupplierTreeEditor
             supplierTreeEditor.Close();
-            // check SupplierTreeEditor is closed
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            // check ProductEditor is closed
             supplierTreeEditor.CheckIsDisposed();
         }
 
-        [TestMethod]
+        [Test, Order(400)]
         public void W400_ButtonsWindow_orderEditor_Click()
         {
             // click orderEditor on buttonsPanel (LayoutPanel) of ButtonsWindow
@@ -1315,16 +1356,17 @@ namespace SeleniumDemo.Tests
             TestDriver.AlertBoxCheckNotExists(MessageBoxIcon.Information);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidElementStateException), "Widget is not enabled")]
+        [Test, Order(420)]
+        //[ExpectedException(typeof(InvalidElementStateException), "Widget is not enabled")]
         public void W420_ButtonsWindow_invoiceEditor_Click()
         {
             Button button = TestDriver.WidgetGet<Button>("ButtonsWindow.buttonsPanel.invoiceEditor");
             Assert.IsFalse(button.Enabled, "Button \"invoiceEditor\" isn\'t enabled.");
-            button.Click();
+            //button.Click();
+            Assert.Throws<InvalidElementStateException>(() => button.Click());
         }
 
-        [TestMethod]
+        [Test, Order(430)]
         public void W430_ButtonsWindow_invoiceEditor_Click_No_MessageBox()
         {
             Button button = TestDriver.WidgetGet<Button>("ButtonsWindow.buttonsPanel.invoiceEditor");
@@ -1336,17 +1378,28 @@ namespace SeleniumDemo.Tests
             TestDriver.MessageBoxCheckNotExists();
         }
 
-        [TestMethod]
+        [Test, Order(440)]
         public void W440_CloseButtonsWindow()
         {
             // give enough time so YOU can follow the windows closing
-            //TestDriver.Sleep(Waiter.Duration);
+            TestDriver.Sleep(Waiter.Duration);
 
             // close ButtonsWindow
-            TestDriver.FormClose("ButtonsWindow");
+            // TODO: WaitormClose
+            //TestDriver.FormClose("ButtonsWindow");
+
+            // get buttonsWindow and check it's visible
+            Form buttonsWindow = TestDriver.WidgetGet<Form>("ButtonsWindow");
+            // close buttonsWindow
+            buttonsWindow.Close();
+
+            TestDriver.Sleep(Waiter.BrowserUpdate);
+
+            // check ButtonsWindow is closed
+            buttonsWindow.CheckIsDisposed();
         }
 
-        [TestMethod]
+        [Test, Order(450)]
         public void W450_AskQuitYes()
         {
             // click exit on MainPage (presume MainPage exists and is visible)
@@ -1356,7 +1409,7 @@ namespace SeleniumDemo.Tests
             TestDriver.MessageBoxButtonClick(DialogResult.Yes);
 
             // give enough time so YOU can see the root Page before the browser shows an empty screen
-            TestDriver.Sleep(Waiter.Duration * 2);
+            //TestDriver.Sleep(Waiter.Duration * 2);
         }
     }
 }
