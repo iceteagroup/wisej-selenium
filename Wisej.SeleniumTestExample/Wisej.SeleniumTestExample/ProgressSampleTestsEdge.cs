@@ -1,23 +1,31 @@
 ﻿using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Edge;
 
 namespace Wisej.SeleniumTestExample
 {
-    [TestClass]
     public class ProgressSampleTestsEdge : ProgressSampleBase
     {
-        [ClassInitialize]
-        public static void Setup(TestContext testContext)
+        [OneTimeSetUp]
+        public static void Setup()
         {
-            TestDriver = new ProgressSampleWebDriver(Browser.Edge);
-            //TestDriver.Manage().Window.Maximize();
-            Directory.SetCurrentDirectory(testContext.TestRunResultsDirectory);
+            var options = new EdgeOptions
+            {
+                PageLoadStrategy = PageLoadStrategy.Default
+            };
+            TestDriver = new ProgressSampleWebDriver(Browser.Edge, options);
+
+            SetupTestOutputFolder();
+
+            Directory.SetCurrentDirectory(TestOutputFolder);
         }
 
-        [ClassCleanup]
+        [OneTimeTearDown]
         public static void TearDown()
         {
+            TearDownTestOutputFolder();
+
             TestDriver.TearDown();
             TestDriver = null;
         }

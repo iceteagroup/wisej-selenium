@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.IO;
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using Wisej.Web.Ext.Selenium;
 
@@ -7,12 +10,14 @@ namespace Wisej.SeleniumTestExample
     /// <summary>
     /// The base class for the ProgressSample tests.
     /// </summary>
-    public abstract class ProgressSampleBase
+    [TestFixture]
+    [NonParallelizable]
+    public abstract partial class ProgressSampleBase
     {
         protected static ProgressSampleWebDriver TestDriver;
 
-        [TestMethod]
-        public void A0_StartStopBackgroundTask()
+        [Test, Order(1)]
+        public void T1_StartStopBackgroundTask()
         {
             TestDriver.Window1.Restore();
             TestDriver.Window1.FindWidget("panel1.buttonStart").Click();
@@ -21,27 +26,31 @@ namespace Wisej.SeleniumTestExample
             Assert.IsTrue(TestDriver.LabelStep.Text.StartsWith("Executing Step "));
 
             TestDriver.Window1.FindWidget("panel1.buttonCancel").Click();
-            TestDriver.SaveScreenshot("A0_StartStopBackgroundTask.jpg", ScreenshotImageFormat.Jpeg);
+            TestDriver.SaveScreenshot("T1_StartStopBackgroundTask.jpg", ScreenshotImageFormat.Jpeg);
 
             TestDriver.Sleep(1000);
             Assert.AreEqual("", TestDriver.LabelStep.Text);
             Assert.AreEqual(true, TestDriver.Window1.FindWidget("panel1.buttonStart").Enabled);
         }
 
-        [TestMethod]
-        public void A1_MinimizeWindow()
+        [Test, Order(2)]
+        public void T2_MinimizeWindow()
         {
             TestDriver.Window1.Minimize();
-            TestDriver.SaveScreenshot("A1_MinimizeWindow.jpg", ScreenshotImageFormat.Jpeg);
+            TestDriver.SaveScreenshot("T2_MinimizeWindow.jpg", ScreenshotImageFormat.Jpeg);
+
+            TestDriver.Sleep(1000);
 
             Assert.AreEqual(false, TestDriver.Window1.Displayed);
         }
 
-        [TestMethod]
-        public void A2_RestoreWindow()
+        [Test, Order(3)]
+        public void T3_RestoreWindow()
         {
             TestDriver.Window1.Restore();
-            TestDriver.SaveScreenshot("A2_RestoreWindow.jpg", ScreenshotImageFormat.Jpeg);
+            TestDriver.SaveScreenshot("T3_RestoreWindow.jpg", ScreenshotImageFormat.Jpeg);
+
+            TestDriver.Sleep(1000);
 
             Assert.AreEqual(true, TestDriver.Window1.Displayed);
         }

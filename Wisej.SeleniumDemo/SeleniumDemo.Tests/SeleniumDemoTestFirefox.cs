@@ -1,29 +1,37 @@
-﻿using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Drawing;
+using System.IO;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 
 namespace SeleniumDemo.Tests
 {
-    [TestClass]
     public class SeleniumDemoTestFirefox : SeleniumDemoBase
     {
-        [ClassInitialize]
-        public static void Setup(TestContext testContext)
+        [OneTimeSetUp]
+        public static void Setup()
         {
             var options = new FirefoxOptions
             {
-                PageLoadStrategy = PageLoadStrategy.Eager
+                PageLoadStrategy = PageLoadStrategy.Default
             };
             CurrentBrowser = Browser.Firefox;
             TestDriver = new SeleniumDemoWebDriver(CurrentBrowser, options);
-            Directory.SetCurrentDirectory(testContext.TestRunResultsDirectory);
-            Waiter.BrowserUpdate = 1500;
+            TestDriver.Manage().Window.Size = new Size(1280, 768);
+            TestDriver.Manage().Window.Position = new Point(0, 0);
+
+            Waiter.BrowserUpdate = 2000;
+
+            SetupTestOutputFolder();
+
+            Directory.SetCurrentDirectory(TestOutputFolder);
         }
 
-        [ClassCleanup]
+        [OneTimeTearDown]
         public static void TearDown()
         {
+            TearDownTestOutputFolder();
+
             TestDriver.TearDown();
             TestDriver = null;
         }

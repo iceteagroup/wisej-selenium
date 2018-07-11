@@ -343,6 +343,16 @@ namespace Wisej.Web.Ext.Selenium
         }
 
         /// <summary>
+        /// Sleep and flush
+        /// </summary>
+        /// <param name="milliseconds">The number milliseconds to sleep before flushing.</param>
+        public void Flush(int milliseconds = 500)
+        {
+            System.Threading.Thread.Sleep(milliseconds);
+            JsExecutor.ExecuteScript("qx.ui.core.queue.Manager.flush();");
+        }
+
+        /// <summary>
         /// Removes the <see cref="IWidget"/> from the cache.
         /// </summary>
         /// <param name="path">The path string.</param>

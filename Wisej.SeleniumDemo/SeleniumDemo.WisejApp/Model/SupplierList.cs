@@ -36,13 +36,13 @@ namespace SeleniumDemo.WisejApp.Model
                 new Supplier(3, "Big Marylou").Save();
                 new Supplier(4, "Big Anne").Save();
                 new Supplier(5, "Patricia").Save();
-                new Supplier(11, "Small John 1", 1).Save();
-                new Supplier(12, "Small John 2", 1).Save();
+                new Supplier(11, "Small John Silver", 1).Save();
+                new Supplier(12, "Small John John", 1).Save();
                 new Supplier(21, "Small Larry", 2).Save();
                 new Supplier(31, "Small Marylou", 3).Save();
                 new Supplier(41, "Small Anne", 4).Save();
-                new Supplier(121, "Baby John 1", 12).Save();
-                new Supplier(122, "Baby John 2", 12).Save();
+                new Supplier(121, "Baby John Johnny", 12).Save();
+                new Supplier(122, "Baby John Jonathan", 12).Save();
             }
         }
 
